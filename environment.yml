@@ -1,0 +1,13 @@
+name: movingml
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - geopandas-base
+  - matplotlib-base
+  - fiona
+  - geopy
+  - rtree
+  - pytest
+  - pytest-cov
+  - movingpandas
