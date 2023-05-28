@@ -1,5 +1,5 @@
 from os.path import exists, splitext
-from datetime import datetime, timedelta
+from datetime import datetime
 from shapely import Point
 import pandas as pd 
 import geopandas as gpd 
@@ -30,6 +30,7 @@ def val_or_none(xy, idx):
         return xy[idx]
     except:
         return None 
+
 
 def get_x_from_xy(df, xycol=COORDS) -> pd.Series:
     return df[xycol].apply(lambda xy: val_or_none(xy, 0))
@@ -134,7 +135,7 @@ class Dataset():
 
     def datashade(self, *args, **kwargs):
         import datashader as ds
-        from hvplot import pandas  # required for df.hvplot
+        from hvplot import pandas
         from holoviews import opts
         from holoviews.element import tiles
         opts.defaults(opts.Overlay(active_tools=['wheel_zoom']))
@@ -150,89 +151,5 @@ class Dataset():
         return BG_TILES * plot 
 
 
-class MovebankGulls(Dataset):
-    name = "Movebank Migrating Gulls"
-    file_name = "gulls.gpkg"
-    source_url = "https://github.com/movingpandas/movingpandas-examples/blob/main/data/gulls.gpkg"
-    traj_id = 'individual-local-identifier'
-    mover_id = 'individual-local-identifier'
-    crs = 4326
-
-    def __init__(self, path, drop_extra_cols=True, *args, **kwargs) -> None:
-        super().__init__(path, *args, **kwargs)
-        self.df.rename(columns={'timestamp': TIMESTAMP}) 
-        if drop_extra_cols:
-            self.df.drop(columns=["individual-taxon-canonical-name", "study-name", 
-                "location-long", "location-lat", "event-id", "visible"], inplace=True)
-        print(f"Loaded Dataframe with {len(self.df)} rows.")
 
 
-class BrestAIS(Dataset):
-    name = "Brest AIS"
-    file_name = "nari_dynamic_sar.csv or nari_dynamic.csv"
-    source_url = "https://zenodo.org/record/1167595/files/%5BP1%5D%20AIS%20Data.zip?download=1"
-    traj_id = 'sourcemmsi'
-    mover_id = 'sourcemmsi'
-    crs = 4326
-
-    def __init__(self, path, *args, **kwargs) -> None:
-        super().__init__(path, *args, **kwargs)
-        self.df.rename(columns={
-            'ts': 't', 'lon':'x', 'lat': 'y', 'speedoverground': SPEED}, 
-            inplace=True)
-        self.df[TIMESTAMP] = pd.to_datetime(self.df['t'], unit='s')
-        self.df.drop(columns=['t'], inplace=True)
-        print(f"Loaded Dataframe with {len(self.df)} rows.")
-
-
-class CopenhagenCyclists(Dataset):
-    name = "Copenhagen Cyclists"
-    file_name = "df_bike.pickle"
-    source_url = "https://zenodo.org/record/7288616"
-    traj_id = 'id'
-    mover_id = None
-    crs = None
-
-    def __init__(self, path, drop_extra_cols=True, *args, **kwargs) -> None:
-        super().__init__(path, *args, **kwargs)
-
-        def _compute_datetime(row) -> datetime:
-            # some educated guessing going on here: 
-            # the paper states that the video covers 2021-06-09 07:00-08:00
-            t0 = datetime(2021,6,9,7,0,0)
-            offset = (row['frame_in'] + row[ROWNUM]) * timedelta(seconds=2)
-            return t0 + offset 
-
-        self.merge_xcol_and_ycol_to_xycol('xs_640x360', 'ys_640x360')
-        self.explode_coordinate_list()
-        self.df[TIMESTAMP] = self.df.apply(_compute_datetime, axis=1)
-        self.df.drop(columns=['frame_in'], inplace=True)
-        if drop_extra_cols:
-            self.df.drop(columns=["frame_out", "num_frames", "time_on_screen_s",
-                "x_start_640x360", "x_end_640x360", "y_start_640x360", "y_end_640x360", 
-                "class"], inplace=True)
-        print(f"Loaded Dataframe with {len(self.df)} rows.")
-
-
-class PortoTaxis(Dataset):
-    name = "Porto Taxi"
-    file_name = "train.csv or test.csv"
-    source_url = "https://www.kaggle.com/competitions/pkdd-15-predict-taxi-service-trajectory-i/data"
-    traj_id = "TRIP_ID"
-    mover_id = "TAXI_ID"
-    crs = 4326
-
-    def __init__(self, path, *args, **kwargs) -> None:
-        super().__init__(path, *args, **kwargs)
-
-        def _compute_datetime(row):
-            t0 = unixtime_to_datetime(row['TIMESTAMP'])
-            offset = row[ROWNUM] * timedelta(seconds=15)
-            return t0 + offset
-
-        self.df.POLYLINE = self.df.POLYLINE.apply(eval)  # string to list
-        self.df.rename(columns={'POLYLINE': COORDS}, inplace=True)
-        self.explode_coordinate_list()
-        self.df[TIMESTAMP] = self.df.apply(_compute_datetime, axis=1)
-        self.df.drop(columns=['TIMESTAMP'], inplace=True)
-        print(f"Loaded Dataframe with {len(self.df)} rows.")

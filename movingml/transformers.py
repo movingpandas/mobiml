@@ -1,5 +1,5 @@
 from datetime import timedelta
-from .datasets import Dataset, TIMESTAMP, SPEED, TRAJ_ID
+from .datasets._dataset import Dataset, TIMESTAMP, SPEED, TRAJ_ID
 import movingpandas as mpd
 
 class AISTripExtractor():
