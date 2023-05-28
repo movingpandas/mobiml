@@ -11,6 +11,8 @@ MOVER_ID = 'mover_id'
 TIMESTAMP = 'timestamp'
 COORDS = 'coordinates'
 ROWNUM = 'running_number'
+SPEED = 'speed'
+
 
 def unixtime_to_datetime(unix_time) -> datetime:
     return datetime.fromtimestamp(unix_time)
@@ -23,12 +25,18 @@ def create_point(xy) -> Point:
         return None
     
 
+def val_or_none(xy, idx):
+    try:
+        return xy[idx]
+    except:
+        return None 
+
 def get_x_from_xy(df, xycol=COORDS) -> pd.Series:
-    return df[xycol].apply(lambda xy: xy[0])
+    return df[xycol].apply(lambda xy: val_or_none(xy, 0))
 
 
 def get_y_from_xy(df, xycol=COORDS) -> pd.Series:
-    return df[xycol].apply(lambda xy: xy[1])
+    return df[xycol].apply(lambda xy: val_or_none(xy, 1))
 
 
 def get_point_from_xy(df, xycol=COORDS) -> pd.Series:
@@ -40,6 +48,13 @@ def get_point_from_x_y(df, xcol='x', ycol='y') -> pd.Series:
 
 
 class Dataset():
+    name = None
+    file_name = None
+    source_url = None
+    traj_id = None
+    mover_id = None
+    speed = None
+    crs = None 
     running_number_added = False
 
     def __init__(self, path, *args, **kwargs) -> None:
@@ -66,6 +81,7 @@ class Dataset():
                 df[MOVER_ID] = df[TRAJ_ID]
             else:
                 df.rename(columns={self.mover_id: MOVER_ID}, inplace=True)
+
         self.df = df
 
     def merge_xcol_and_ycol_to_xycol(self, xcol, ycol) -> None:
@@ -81,9 +97,9 @@ class Dataset():
     def to_df(self) -> pd.DataFrame:
         df = self.df.copy()
         if type(df) == gpd.GeoDataFrame:
-            df['x'] = df.geometry.x()
-            df['y'] = df.geometry.y()
-        elif not ('x' in df.columns) and ('y' in df.columns):
+            df['x'] = df.geometry.x
+            df['y'] = df.geometry.y
+        elif not ('x' in df.columns) and not ('y' in df.columns):
             df['x'] = get_x_from_xy(df) 
             df['y'] = get_y_from_xy(df) 
             df.drop(columns=[COORDS], inplace=True)
@@ -112,6 +128,27 @@ class Dataset():
             gdf, traj_id_col=TRAJ_ID, obj_id_col=MOVER_ID, t=TIMESTAMP, crs=self.crs)
         return trajs
 
+    def plot(self, *args, **kwargs):
+        df = self.to_df()
+        return df.plot.scatter(x='x', y='y', *args, **kwargs)
+
+    def datashade(self, *args, **kwargs):
+        import datashader as ds
+        from hvplot import pandas  # required for df.hvplot
+        from holoviews import opts
+        from holoviews.element import tiles
+        opts.defaults(opts.Overlay(active_tools=['wheel_zoom']))
+        BG_TILES = tiles.CartoLight()
+        df = self.to_df()
+        if self.crs is None:
+            return df.hvplot.scatter(x='x', y='y', datashade=True, *args, **kwargs)
+        if self.crs != 4326:
+            # TODO: reproject
+            pass
+        df.loc[:, 'x'], df.loc[:, 'y'] = ds.utils.lnglat_to_meters(df.x, df.y)
+        plot = df.hvplot.scatter(x='x', y='y', datashade=True, *args, **kwargs)
+        return BG_TILES * plot 
+
 
 class MovebankGulls(Dataset):
     name = "Movebank Migrating Gulls"
@@ -127,6 +164,7 @@ class MovebankGulls(Dataset):
         if drop_extra_cols:
             self.df.drop(columns=["individual-taxon-canonical-name", "study-name", 
                 "location-long", "location-lat", "event-id", "visible"], inplace=True)
+        print(f"Loaded Dataframe with {len(self.df)} rows.")
 
 
 class BrestAIS(Dataset):
@@ -139,9 +177,12 @@ class BrestAIS(Dataset):
 
     def __init__(self, path, *args, **kwargs) -> None:
         super().__init__(path, *args, **kwargs)
-        self.df.rename(columns={'ts': 't', 'lon':'x', 'lat': 'y'}, inplace=True)
+        self.df.rename(columns={
+            'ts': 't', 'lon':'x', 'lat': 'y', 'speedoverground': SPEED}, 
+            inplace=True)
         self.df[TIMESTAMP] = pd.to_datetime(self.df['t'], unit='s')
         self.df.drop(columns=['t'], inplace=True)
+        print(f"Loaded Dataframe with {len(self.df)} rows.")
 
 
 class CopenhagenCyclists(Dataset):
@@ -170,6 +211,7 @@ class CopenhagenCyclists(Dataset):
             self.df.drop(columns=["frame_out", "num_frames", "time_on_screen_s",
                 "x_start_640x360", "x_end_640x360", "y_start_640x360", "y_end_640x360", 
                 "class"], inplace=True)
+        print(f"Loaded Dataframe with {len(self.df)} rows.")
 
 
 class PortoTaxis(Dataset):
@@ -193,4 +235,4 @@ class PortoTaxis(Dataset):
         self.explode_coordinate_list()
         self.df[TIMESTAMP] = self.df.apply(_compute_datetime, axis=1)
         self.df.drop(columns=['TIMESTAMP'], inplace=True)
-
+        print(f"Loaded Dataframe with {len(self.df)} rows.")

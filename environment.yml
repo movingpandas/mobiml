@@ -3,6 +3,8 @@ channels:
   - conda-forge
 dependencies:
   - python=3.10
+  - bokeh<3.0
+  - numpy=1.23.4
   - geopandas-base
   - matplotlib-base
   - fiona
@@ -11,3 +13,6 @@ dependencies:
   - pytest
   - pytest-cov
   - movingpandas
+  - geoviews
+  - hvplot
+  - jupyter_bokeh
