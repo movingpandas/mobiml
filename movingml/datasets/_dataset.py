@@ -74,7 +74,7 @@ class Dataset():
         elif ext == ".csv":
             df = pd.read_csv(path, *args, **kwargs)
         else:
-            df = gpd.read_file(path)
+            df = gpd.read_file(path, *args, **kwargs)
         
         df.rename(columns={self.traj_id: TRAJ_ID}, inplace=True)
         if self.mover_id:
@@ -106,7 +106,7 @@ class Dataset():
             df.drop(columns=[COORDS], inplace=True)
         if self.running_number_added:
             df.drop(columns=[ROWNUM], inplace=True)
-        return df
+        return pd.DataFrame(df)
 
     def to_gdf(self) -> gpd.GeoDataFrame:
         df = self.df.copy()
@@ -130,8 +130,21 @@ class Dataset():
         return trajs
 
     def plot(self, *args, **kwargs):
+        title = kwargs.pop('title', None)
         df = self.to_df()
-        return df.plot.scatter(x='x', y='y', *args, **kwargs)
+        ax = df.plot.scatter(x='x', y='y', *args, **kwargs)
+        if title:
+            ax.set_title(title)
+        return ax
+    
+    def hvplot(self, *args, **kwargs):
+        from hvplot import pandas
+        from holoviews import opts
+        from holoviews.element import tiles
+        opts.defaults(opts.Overlay(active_tools=['wheel_zoom']))
+        BG_TILES = tiles.CartoLight()
+        gdf = self.to_gdf()
+        return BG_TILES * gdf.hvplot(geo=True, *args, **kwargs)
 
     def datashade(self, *args, **kwargs):
         import datashader as ds
