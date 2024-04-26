@@ -1,4 +1,4 @@
-from movingml.datasets._dataset import SPEED, TIMESTAMP, Dataset
+from mobiml.datasets._dataset import SPEED, TIMESTAMP, Dataset
 
 
 import pandas as pd

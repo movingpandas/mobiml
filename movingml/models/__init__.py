@@ -1,0 +1,1 @@
+from .ais_trajectory_classifier import SummarizedAISTrajectoryClassifier

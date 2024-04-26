@@ -12,6 +12,7 @@ TIMESTAMP = 'timestamp'
 COORDS = 'coordinates'
 ROWNUM = 'running_number'
 SPEED = 'speed'
+COURSE = 'cog'
 
 
 def unixtime_to_datetime(unix_time) -> datetime:
@@ -58,7 +59,26 @@ class Dataset():
     crs = None 
     running_number_added = False
 
-    def __init__(self, path, *args, **kwargs) -> None:
+    def __init__(self, path, *args, **kwargs) -> None:       
+        if type(path) == str: 
+            df = self.load_from_path(path, *args, **kwargs)
+        else:
+            df = path
+            self.name = kwargs.pop('name', None) 
+            self.traj_id = kwargs.pop('traj_id', None)
+            self.mover_id = kwargs.pop('mover_id', None)
+            self.crs = kwargs.pop('crs', None)
+
+        df.rename(columns={self.traj_id: TRAJ_ID}, inplace=True)
+        if self.mover_id:
+            if self.traj_id == self.mover_id:
+                df[MOVER_ID] = df[TRAJ_ID]
+            else:
+                df.rename(columns={self.mover_id: MOVER_ID}, inplace=True)
+
+        self.df = df
+
+    def load_from_path(self, path, *args, **kwargs):
         if not exists(path):
             raise ValueError(f"""
             Please specify the path to the {self.name} {self.file_name}
@@ -73,17 +93,16 @@ class Dataset():
                 df = df.head(nrows)
         elif ext == ".csv":
             df = pd.read_csv(path, *args, **kwargs)
+        elif ext == ".feather":
+            df = gpd.read_feather(path, *args, **kwargs)
+        elif ext == ".zip":
+            df = self.load_df_from_zip_archive(path)
         else:
             df = gpd.read_file(path, *args, **kwargs)
-        
-        df.rename(columns={self.traj_id: TRAJ_ID}, inplace=True)
-        if self.mover_id:
-            if self.traj_id == self.mover_id:
-                df[MOVER_ID] = df[TRAJ_ID]
-            else:
-                df.rename(columns={self.mover_id: MOVER_ID}, inplace=True)
+        return df
 
-        self.df = df
+    def copy(self):
+        return Dataset(self.df.copy(), name=self.name, traj_id=self.traj_id, mover_id=self.mover_id, crs=self.crs)
 
     def merge_xcol_and_ycol_to_xycol(self, xcol, ycol) -> None:
         self.df[COORDS] = self.df.apply(
@@ -128,6 +147,9 @@ class Dataset():
         trajs = mpd.TrajectoryCollection(
             gdf, traj_id_col=TRAJ_ID, obj_id_col=MOVER_ID, t=TIMESTAMP, crs=self.crs)
         return trajs
+
+    def to_feather(self, out_path) -> None:
+        self.to_gdf().to_feather(out_path)
 
     def plot(self, *args, **kwargs):
         title = kwargs.pop('title', None)

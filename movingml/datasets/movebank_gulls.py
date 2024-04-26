@@ -1,4 +1,4 @@
-from movingml.datasets._dataset import TIMESTAMP, Dataset
+from mobiml.datasets._dataset import TIMESTAMP, Dataset
 
 
 class MovebankGulls(Dataset):

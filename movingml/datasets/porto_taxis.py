@@ -1,4 +1,4 @@
-from movingml.datasets._dataset import COORDS, ROWNUM, TIMESTAMP, Dataset, unixtime_to_datetime
+from mobiml.datasets._dataset import COORDS, ROWNUM, TIMESTAMP, Dataset, unixtime_to_datetime
 
 
 from datetime import timedelta
