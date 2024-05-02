@@ -16,3 +16,5 @@ dependencies:
   - geoviews
   - hvplot
   - jupyter_bokeh
+  - pip:
+    - flwr
