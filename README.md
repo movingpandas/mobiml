@@ -1,21 +1,10 @@
-# movingml
-
+# mobiml
 
 
 ## Development installation 
 
-
 ```
 mamba env create -f environment.yml
-```
-
-
-### Develop mode
-
-To install MovingPandas in ["develop" or "editable" mode](https://python-packaging-tutorial.readthedocs.io/en/latest/setup_py.html#develop-mode) you may use: 
-
-```
-python setup.py develop
 ```
 
 
@@ -24,8 +13,8 @@ python setup.py develop
 ### Porto Taxi FCD
 
 ```
-import movingml
-taxis = movingml.PortoTaxis(r"H:\Geodata\Kaggle\PortoTaxis\train.csv", nrows=100)
+import mobiml
+taxis = mobiml.PortoTaxis(r"H:\Geodata\Kaggle\PortoTaxis\train.csv", nrows=100)
 taxis.to_df()
 taxis.to_gdf()
 taxis.to_trajs()
@@ -34,26 +23,23 @@ taxis.to_trajs()
 ### Copenhagen Cyclists Desirelines 
 
 ```
-import movingml
-cy = movingml.CopenhagenCyclists(r"F:\Documents\GitHub\SimonBreum\desirelines\data\interim\df_bike.pickle", nrows=10)
+cy = mobiml.CopenhagenCyclists(r"F:\Documents\GitHub\SimonBreum\desirelines\data\interim\df_bike.pickle", nrows=10)
 cy.to_trajs()
 ```
 
 ### Brest Vessels AIS
 
 ```
-import movingml
-ais = movingml.BrestAIS(r"H:\Geodata\Zenodo\Integrated Maritime\nari_dynamic_sar.csv")
+ais = mobiml.BrestAIS(r"H:\Geodata\Zenodo\Integrated Maritime\nari_dynamic_sar.csv")
 ais.to_trajs()
-ex = movingml.AISTripExtractor(ais)
+ex = mobiml.AISTripExtractor(ais)
 ais_trips = ex.get_trips()
 ```
 
 ### Movebank Migrating Gulls
 
 ```
-import movingml
-gulls = movingml.MovebankGulls(r"F:\Documents\GitHub\movingpandas\movingpandas-examples\data\gulls.gpkg")
+gulls = mobiml.MovebankGulls(r"F:\Documents\GitHub\movingpandas\movingpandas-examples\data\gulls.gpkg")
 gulls.to_trajs()
 
 ```
