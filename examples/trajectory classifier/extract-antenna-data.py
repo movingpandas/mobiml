@@ -7,7 +7,7 @@ import pandas as pd
 import geopandas as gpd
 from datetime import datetime
 from mobiml.datasets import AISDK
-from mobiml.transformers import StationaryClientExtractor
+from mobiml.transforms import StationaryClientExtractor
 
 warnings.filterwarnings('ignore')
 

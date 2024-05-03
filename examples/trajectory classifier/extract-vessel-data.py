@@ -6,7 +6,7 @@ import warnings
 from copy import deepcopy
 from datetime import datetime
 from mobiml.datasets import AISDK
-from mobiml.transformers import MobileClientExtractor
+from mobiml.transforms import MobileClientExtractor
 
 #warnings.filterwarnings('ignore')
 
