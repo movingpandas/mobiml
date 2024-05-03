@@ -4,6 +4,7 @@ from shapely import Point
 import pandas as pd 
 import geopandas as gpd 
 import movingpandas as mpd
+from zipfile import ZipFile
 
 
 TRAJ_ID = 'traj_id'
@@ -55,20 +56,24 @@ class Dataset():
     source_url = None
     traj_id = None
     mover_id = None
+    timestamp = None
     speed = None
     crs = None 
     running_number_added = False
 
-    def __init__(self, path, *args, **kwargs) -> None:       
-        if type(path) == str: 
-            df = self.load_from_path(path, *args, **kwargs)
-        else:
-            df = path
-            self.name = kwargs.pop('name', None) 
-            self.traj_id = kwargs.pop('traj_id', None)
-            self.mover_id = kwargs.pop('mover_id', None)
-            self.crs = kwargs.pop('crs', None)
+    def __init__(self, data, *args, **kwargs) -> None:    
+        self.name = kwargs.pop('name', self.name) 
+        self.timestamp = kwargs.pop('timestamp', self.timestamp)
+        self.traj_id = kwargs.pop('traj_id', self.traj_id)
+        self.mover_id = kwargs.pop('mover_id', self.mover_id)
+        self.crs = kwargs.pop('crs', self.crs)   
 
+        if type(data) == str: 
+            df = self.load_from_path(data, *args, **kwargs)
+        else:
+            df = data
+
+        df.rename(columns={self.timestamp: TIMESTAMP}, inplace=True)
         df.rename(columns={self.traj_id: TRAJ_ID}, inplace=True)
         if self.mover_id:
             if self.traj_id == self.mover_id:
@@ -104,7 +109,19 @@ class Dataset():
 
     def copy(self):
         return Dataset(self.df.copy(), name=self.name, traj_id=self.traj_id, mover_id=self.mover_id, crs=self.crs)
-
+    
+    def load_df_from_zip_archive(self, path) -> pd.DataFrame:
+        def load_single_csv(csv_name) -> pd.DataFrame:
+            print(f"{datetime.now()} Loading {csv_name} ...")
+            tmp_df = pd.read_csv(ZipFile(path).open(csv_name)) 
+            return tmp_df
+         
+        df = pd.concat(
+            [load_single_csv(csv_name) for csv_name in ZipFile(path).namelist()],
+            ignore_index=True
+        )
+        return df
+    
     def merge_xcol_and_ycol_to_xycol(self, xcol, ycol) -> None:
         self.df[COORDS] = self.df.apply(
             lambda row: list(zip(row[xcol], row[ycol])), axis=1)
