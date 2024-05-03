@@ -7,7 +7,7 @@ import geopandas as gpd
 import movingpandas as mpd
 from datetime import datetime, timedelta
 from utils import create_dir_if_not_exists
-from mobiml.transformers import AISTripExtractor, TrajectoryAggregator
+from mobiml.transforms import AISTripExtractor, TrajectoryAggregator
 from mobiml.datasets._dataset import MOVER_ID
 
 import warnings
