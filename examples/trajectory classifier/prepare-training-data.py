@@ -48,7 +48,7 @@ def main():
     vessels = create_vessel_list(gdf)
 
     print(f"{datetime.now()} Extracting trips ...")
-    trajs = AISTripExtractor(gdf).get_trips(stop_duration=timedelta(minutes=60))  # create_trajs(gdf)
+    trajs = AISTripExtractor(gdf).get_trips(gap_duration=timedelta(minutes=60))  # create_trajs(gdf)
 
     print(f"{datetime.now()} Computing trajectory features ...")
     trajs = TrajectoryAggregator(trajs, vessels).aggregate_trajs(h3_resolution)    

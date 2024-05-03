@@ -1,0 +1,79 @@
+stages:
+  extract-antenna-data:  # stationary clients
+    cmd: python src/extract-antenna-data.py /mnt/fsdss/AIS_DK/2018/aisdk-2018-02.zip data/ais-extracted-stationary/ais-antenna.feather
+    params:
+    - extract.antennas
+    - extract.antenna_radius_meters
+    deps:
+    - src/extract-antenna-data.py
+    - src/mobiml/datasets/aisdk.py
+    - src/mobiml/transformers/stationary_client_extractor.py
+    outs:
+    - data/ais-extracted-stationary
+  extract-vessel-data:  # mobile clients
+    cmd: python src/extract-vessel-data.py /mnt/fsdss/AIS_DK/2018/aisdk-2018-02.zip data/ais-extracted-mobile/ais-vessels.feather
+    params:
+    - extract.vessels
+    - extract.vessels_radius_meters
+    deps:
+    - src/extract-vessel-data.py
+    - src/mobiml/datasets/aisdk.py
+    - src/mobiml/transformers/mobile_client_extractor.py
+    outs:
+    - data/ais-extracted-mobile   
+  prepare-training-data-stationary:  # stationary clients
+    cmd: python src/prepare-training-data.py data/ais-extracted-stationary/ais-antenna.feather data/prepared/training-data-stationary.pickle
+    deps:
+    - src/prepare-training-data.py
+    - src/mobiml/transformers/ais_trip_extractor.py
+    - src/mobiml/transformers/traj_aggregator.py
+    - data/ais-extracted-stationary/ais-antenna.feather
+    params:
+    - traj_feature_engineering.h3_resolution
+    outs:
+    - data/prepared/training-data-stationary.pickle
+    - data/prepared/vessels-stationary.pickle
+  prepare-training-data-mobile:  # mobile clients
+    cmd: python src/prepare-training-data.py data/ais-extracted-mobile/ais-vessels.feather data/prepared/training-data-mobile.pickle
+    deps:
+    - src/prepare-training-data.py
+    - src/mobiml/transformers/ais_trip_extractor.py
+    - src/mobiml/transformers/traj_aggregator.py
+    - data/ais-extracted-mobile/ais-vessels.feather
+    params:
+    - traj_feature_engineering.h3_resolution
+    outs:
+    - data/prepared/training-data-mobile.pickle
+    - data/prepared/vessels-mobile.pickle
+  train-fl-model-stationary: 
+    cmd: python src/server.py data/prepared/training-data-stationary.pickle & python src/client.py 1 data/prepared/training-data-stationary.pickle & python src/client.py 2 data/prepared/training-data-stationary.pickle
+    deps:
+    - src/server.py
+    - src/client.py
+    - src/ml_utils.py
+    - src/mobiml/models/ais_trajectory_classifier.py
+    - src/mobiml/loaders/ais_loader.py
+    - src/mobiml/loaders/mover_splitter.py
+    - data/prepared/training-data-stationary.pickle
+    params:
+    - base_model.vessel_types
+    - base_model.traj_features
+    - base_model.n_features
+    metrics:
+    - output/fl-global-metrics-stationary.json
+  train-fl-model-mobile: 
+    cmd: python src/server.py data/prepared/training-data-mobile.pickle & python src/client.py 236111925 data/prepared/training-data-mobile.pickle & python src/client.py 219012959 data/prepared/training-data-mobile.pickle
+    deps:
+    - src/server.py
+    - src/client.py
+    - src/ml_utils.py
+    - src/mobiml/models/ais_trajectory_classifier.py
+    - src/mobiml/loaders/ais_loader.py
+    - src/mobiml/loaders/mover_splitter.py
+    - data/prepared/training-data-mobile.pickle
+    params:
+    - base_model.vessel_types
+    - base_model.traj_features
+    - base_model.n_features
+    metrics:
+    - output/fl-global-metrics-mobile.json
