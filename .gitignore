@@ -166,3 +166,4 @@ examples/nautilus/window_32_stride_16_crs_2154_dspeed_dcourse.traj_delta_windows
 examples/nautilus/window_32_stride_16_crs_2154_dspeed_dcourse_.pdf
 examples/nautilus/dataset_trajectories_preprocessed.fixed.csv
 examples/nautilus/nautilus.epoch0.pth
+examples/data/nautilus_trajectories_preprocessed.csv
