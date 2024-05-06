@@ -162,3 +162,7 @@ examples/data/ais-extracted-stationary.feather
 examples/data/ais-extracted-trajectories.pickle
 examples/data/ais-extracted-vessels.pickle
 examples/data/aisdk_20180208.zip
+examples/nautilus/window_32_stride_16_crs_2154_dspeed_dcourse.traj_delta_windows.pickle
+examples/nautilus/window_32_stride_16_crs_2154_dspeed_dcourse_.pdf
+examples/nautilus/dataset_trajectories_preprocessed.fixed.csv
+examples/nautilus/nautilus.epoch0.pth
