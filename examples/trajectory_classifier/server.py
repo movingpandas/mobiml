@@ -8,7 +8,7 @@ from sklearn.metrics import log_loss
 from flwr.common import Metrics
 
 import utils
-import examples.ml_utils as ml_utils 
+import examples.trajectory_classifier.ml_utils as ml_utils 
 from mobiml.loaders.ais_loader import AISLoader
 from mobiml.models import SummarizedAISTrajectoryClassifier 
 
