@@ -1,7 +1,7 @@
 import os 
 import pandas as pd
 
-from mobiml.datasets._dataset import Dataset, SPEED, TIMESTAMP, MOVER_ID
+from mobiml.datasets._dataset import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
 
 
 class BrestAIS(Dataset):
@@ -17,7 +17,7 @@ class BrestAIS(Dataset):
 
         super().__init__(path, *args, **kwargs)
         self.df.rename(columns={
-            'ts': 't', 'lon':'x', 'lat': 'y', 'speedoverground': SPEED},
+            'ts': 't', 'lon':'x', 'lat': 'y', 'speedoverground': SPEED, 'courseoverground': DIRECTION},
             inplace=True)
         self.df[TIMESTAMP] = pd.to_datetime(self.df['t'], unit='s')
         self.df.drop(columns=['t'], inplace=True)
@@ -35,3 +35,14 @@ class BrestAIS(Dataset):
                 mid_whitelist.MID.astype(str)
             )
         ].copy()
+
+
+class PreprocessedBrestAIS(Dataset):
+    name = "Brest AIS"
+    file_name = "preprocessed.csv"
+    crs = 4326
+
+    def __init__(self, path, *args, **kwargs) -> None:
+        super().__init__(path, *args, **kwargs)    
+        self.df[TIMESTAMP] = pd.to_datetime(self.df[TIMESTAMP])
+        

@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime
 from zipfile import ZipFile
 
-from mobiml.datasets._dataset import Dataset, SPEED, TIMESTAMP, MOVER_ID, COURSE
+from mobiml.datasets._dataset import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
 
 SHIPTYPE = 'ship_type'
 
@@ -28,7 +28,7 @@ class AISDK(Dataset):
                             (self.df.Longitude >= self.min_lon) & (self.df.Longitude <= self.max_lon)]
         self.df = self.df[self.df.SOG>0]
         self.df.rename(columns={
-            '# Timestamp': 't', 'Longitude':'x', 'Latitude': 'y', 'SOG': SPEED, 'COG': COURSE, 'Navigational status':'nav_status', 'Ship type': SHIPTYPE},
+            '# Timestamp': 't', 'Longitude':'x', 'Latitude': 'y', 'SOG': SPEED, 'COG': DIRECTION, 'Navigational status':'nav_status', 'Ship type': SHIPTYPE},
             inplace=True)
         self.df[TIMESTAMP] = pd.to_datetime(self.df['t'], format=self.TIME_FORMAT)
         self.df.drop(columns=['t'], inplace=True)

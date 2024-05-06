@@ -3,7 +3,7 @@ from datetime import datetime
 from sklearn.preprocessing import MultiLabelBinarizer
 
 from .mover_splitter import MoverSplitter
-from mobiml.datasets._dataset import MOVER_ID
+from mobiml.datasets import MOVER_ID
 from mobiml.datasets.aisdk import SHIPTYPE
 
 

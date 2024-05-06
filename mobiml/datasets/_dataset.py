@@ -13,7 +13,7 @@ TIMESTAMP = 'timestamp'
 COORDS = 'coordinates'
 ROWNUM = 'running_number'
 SPEED = 'speed'
-COURSE = 'cog'
+DIRECTION = 'direction'
 
 
 def unixtime_to_datetime(unix_time) -> datetime:
