@@ -4,9 +4,15 @@ import movingpandas as mpd
 from datetime import datetime, timedelta
 from multiprocessing import Pool
 from itertools import repeat, cycle
-from pymeos import pymeos_initialize, TGeogPointInst, TGeogPointSeq
-from mobiml.datasets import AISDK
-from mobiml.datasets._dataset import SPEED, TIMESTAMP, MOVER_ID
+from mobiml.datasets import AISDK, SPEED, TIMESTAMP, MOVER_ID
+
+try:
+    from pymeos import pymeos_initialize, TGeogPointInst, TGeogPointSeq
+except ImportError as error:
+    raise ImportError(
+        "Missing optional dependencies. To use the MobileClientExtractor please "
+        "install pymeos"
+    ) from error
 
 
 class MobileClientExtractor():

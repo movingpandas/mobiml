@@ -1,7 +1,6 @@
-from mobiml.datasets._dataset import ROWNUM, TIMESTAMP, Dataset
-
-
 from datetime import datetime, timedelta
+
+from mobiml.datasets._dataset import Dataset, SPEED, TIMESTAMP, MOVER_ID
 
 
 class CopenhagenCyclists(Dataset):

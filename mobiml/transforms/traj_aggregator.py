@@ -1,11 +1,18 @@
-import h3pandas as h3
 from datetime import datetime
 from itertools import groupby
 
 import pandas as pd
 
-from mobiml.datasets._dataset import MOVER_ID, SPEED, COURSE
+from mobiml.datasets import MOVER_ID, SPEED, COURSE
 from mobiml.datasets.aisdk import SHIPTYPE
+
+try:
+    import h3pandas as h3
+except ImportError as error:
+    raise ImportError(
+        "Missing optional dependencies. To use the TrajectoryAggregator please "
+        "install h3pandas"
+    ) from error
 
 
 class TrajectoryAggregator():
