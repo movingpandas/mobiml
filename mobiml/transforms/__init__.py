@@ -7,7 +7,4 @@ try:
 except ImportError as error:
     pass
 
-try:
-    from .traj_aggregator import TrajectoryAggregator, traj_to_h3_sequence
-except ImportError as error:
-    pass
+from .traj_aggregator import TrajectoryAggregator, traj_to_h3_sequence

@@ -1,6 +1,12 @@
 from datetime import timedelta
 
-from mobiml.datasets._dataset import Dataset, SPEED, TIMESTAMP, MOVER_ID
+from mobiml.datasets._dataset import (
+    Dataset,
+    TIMESTAMP,
+    COORDS,
+    ROWNUM,
+    unixtime_to_datetime,
+)
 
 
 class PortoTaxis(Dataset):
@@ -15,13 +21,13 @@ class PortoTaxis(Dataset):
         super().__init__(path, *args, **kwargs)
 
         def _compute_datetime(row):
-            t0 = unixtime_to_datetime(row['TIMESTAMP'])
+            t0 = unixtime_to_datetime(row["TIMESTAMP"])
             offset = row[ROWNUM] * timedelta(seconds=15)
             return t0 + offset
 
         self.df.POLYLINE = self.df.POLYLINE.apply(eval)  # string to list
-        self.df.rename(columns={'POLYLINE': COORDS}, inplace=True)
+        self.df.rename(columns={"POLYLINE": COORDS}, inplace=True)
         self.explode_coordinate_list()
         self.df[TIMESTAMP] = self.df.apply(_compute_datetime, axis=1)
-        self.df.drop(columns=['TIMESTAMP'], inplace=True)
+        self.df.drop(columns=["TIMESTAMP"], inplace=True)
         print(f"Loaded Dataframe with {len(self.df)} rows.")
