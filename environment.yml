@@ -1,4 +1,4 @@
-name: movingml
+name: mobiml
 channels:
   - conda-forge
 dependencies:
