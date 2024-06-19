@@ -170,3 +170,4 @@ examples/data/nautilus_trajectories_preprocessed.csv
 examples/data/nautilus.epoch0.model
 examples/data/nautilus.model
 examples/data/traj_delta_windows.pickle
+examples/data/nari_dynamic.csv
