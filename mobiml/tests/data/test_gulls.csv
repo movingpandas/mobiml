@@ -1,0 +1,11 @@
+WKT,fid,event-id,visible,timestamp,location-long,location-lat,sensor-type,individual-taxon-canonical-name,tag-local-identifier,individual-local-identifier,study-name
+"POINT (24.58617 61.24783)",1,1082620685,true,2009-05-27 14:00:00.000,24.58617,61.24783,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.58217 61.23267)",2,1082620686,true,2009-05-27 20:00:00.000,24.58217,61.23267,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.53133 61.18833)",3,1082620687,true,2009-05-28 05:00:00.000,24.53133,61.18833,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.582 61.23283)",4,1082620688,true,2009-05-28 08:00:00.000,24.582,61.23283,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.5825 61.23267)",5,1082620689,true,2009-05-28 14:00:00.000,24.5825,61.23267,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.58617 61.24767)",6,1082620690,true,2009-05-28 20:00:00.000,24.58617,61.24767,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.586 61.24767)",7,1082620691,true,2009-05-29 05:00:00.000,24.586,61.24767,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.58617 61.24767)",8,1082620692,true,2009-05-29 08:00:00.000,24.58617,61.24767,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.5865 61.2475)",9,1082620693,true,2009-05-29 14:00:00.000,24.5865,61.2475,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)
+"POINT (24.56967 61.23883)",10,1082620694,true,2009-05-29 20:00:00.000,24.56967,61.23883,gps,Larus fuscus,91732,91732A,Navigation experiments in lesser black-backed gulls (data from Wikelski et al. 2015)

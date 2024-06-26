@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+import geopandas as gpd
 from movingpandas import TrajectoryCollection
 
 from mobiml.datasets.movebank_gulls import MovebankGulls
@@ -10,9 +10,11 @@ from mobiml.datasets._dataset import TRAJ_ID, MOVER_ID, TIMESTAMP
 class TestMovebankGulls:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
-    def test_data_from_gpkg(self):
-        path = os.path.join(self.test_dir, "data/test_gulls.gpkg")
+    def test_data_from_csv(self):
+        path = os.path.join(self.test_dir, "data/test_gulls.csv")
         data = MovebankGulls(path)
+        g = gpd.GeoSeries.from_wkt(data.df.WKT, crs="EPSG:4326")
+        data.df = gpd.GeoDataFrame(data.df, geometry=g)
         assert isinstance(data, MovebankGulls)
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns
@@ -22,8 +24,10 @@ class TestMovebankGulls:
         assert len(data.df) == 10
 
     def test_drop_extra_cols(self):
-        path = os.path.join(self.test_dir, "data/test_gulls.gpkg")
+        path = os.path.join(self.test_dir, "data/test_gulls.csv")
         data = MovebankGulls(path)
+        g = gpd.GeoSeries.from_wkt(data.df.WKT, crs="EPSG:4326")
+        data.df = gpd.GeoDataFrame(data.df, geometry=g)
         extra_cols = {
             "individual-taxon-canonical-name",
             "study-name",
