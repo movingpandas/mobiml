@@ -1,0 +1,11 @@
+,# Timestamp,Type of mobile,MMSI,Latitude,Longitude,Navigational status,ROT,SOG,COG,Heading,IMO,Callsign,Name,Ship type,Cargo type,Width,Length,Type of position fixing device,Draught,Destination,ETA,Data source type
+60,08/02/2018 00:00:00,Class A,265177000,57.602225,11.644943,Under way using engine,0.0,15.7,61.4,63.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+92,08/02/2018 00:00:00,Class A,244678000,57.549578,11.666492,At anchor,-5.4,0.2,162.7,227.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+95,08/02/2018 00:00:00,Class A,265410000,57.677495,11.805937,Under way using engine,-16.1,16.0,230.9,231.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+110,08/02/2018 00:00:00,Class A,266065000,57.772842,11.61773,Reserved for future amendment [HSC],0.0,0.0,307.8,320.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+129,08/02/2018 00:00:01,Class A,265550210,57.618448,11.762562,Unknown value,0.0,0.0,336.1,211.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+137,08/02/2018 00:00:01,Class A,265650970,57.707272,11.66224,Under way using engine,0.0,0.0,0.0,341.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+144,08/02/2018 00:00:01,Class A,265778450,57.646483,11.858,Engaged in fishing,0.0,0.0,2.1,292.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+161,08/02/2018 00:00:01,Class A,265585590,57.682157,11.871792,Under way using engine,0.0,0.0,344.2,94.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+195,08/02/2018 00:00:01,Class A,266322000,57.684033,11.857333,Unknown value,0.0,8.6,69.6,70.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
+258,08/02/2018 00:00:02,Class A,265547220,57.704668,11.939327,Under way using engine,0.0,0.0,95.5,257.0,Unknown,,,Undefined,,,,Undefined,,,,AIS
