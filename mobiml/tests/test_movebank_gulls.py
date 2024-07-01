@@ -13,8 +13,6 @@ class TestMovebankGulls:
     def test_data_from_csv(self):
         path = os.path.join(self.test_dir, "data/test_gulls.csv")
         data = MovebankGulls(path)
-        g = gpd.GeoSeries.from_wkt(data.df.WKT, crs="EPSG:4326")
-        data.df = gpd.GeoDataFrame(data.df, geometry=g)
         assert isinstance(data, MovebankGulls)
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns
@@ -26,8 +24,6 @@ class TestMovebankGulls:
     def test_drop_extra_cols(self):
         path = os.path.join(self.test_dir, "data/test_gulls.csv")
         data = MovebankGulls(path)
-        g = gpd.GeoSeries.from_wkt(data.df.WKT, crs="EPSG:4326")
-        data.df = gpd.GeoDataFrame(data.df, geometry=g)
         extra_cols = {
             "individual-taxon-canonical-name",
             "study-name",
