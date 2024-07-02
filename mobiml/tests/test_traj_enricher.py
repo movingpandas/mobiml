@@ -2,12 +2,16 @@ import os
 import pandas as pd
 from geopandas import GeoDataFrame
 from datetime import datetime
-from movingpandas import TrajectoryCollection
 from shapely.geometry import Point
 
-from mobiml.preprocessing.utils import trajectorycollection_to_df
-
-from mobiml.datasets._dataset import Dataset, TRAJ_ID, MOVER_ID
+from mobiml.datasets._dataset import (
+    Dataset,
+    TRAJ_ID,
+    MOVER_ID,
+    SPEED,
+    DIRECTION,
+    TIMESTAMP,
+)
 
 from mobiml.preprocessing.traj_enricher import TrajectoryEnricher
 
@@ -26,35 +30,46 @@ class TestTrajectoryEnricher:
                 },
                 {
                     "geometry": Point(6, 0),
-                    "txx": datetime(2018, 1, 1, 12, 6, 0),
+                    "txx": datetime(2018, 1, 1, 12, 0, 1),
                     "tid": 1,
                     "mid": "a",
                 },
                 {
                     "geometry": Point(6, 6),
-                    "txx": datetime(2018, 1, 1, 12, 10, 0),
+                    "txx": datetime(2018, 1, 1, 12, 0, 2),
                     "tid": 1,
                     "mid": "a",
                 },
                 {
-                    "geometry": Point(9, 9),
-                    "txx": datetime(2018, 1, 1, 12, 15, 0),
+                    "geometry": Point(0, 6),
+                    "txx": datetime(2018, 1, 1, 12, 0, 3),
                     "tid": 1,
                     "mid": "a",
                 },
             ]
-        ).set_index("txx")
-        self.df = df
+        )
+        self.gdf = GeoDataFrame(df, crs=31256)
 
     def test_add_speed(self):
-        path = os.path.join(self.test_dir, "data/test_traj_enricher.csv")
-        #data = Dataset(path)
-        #assert isinstance(data, Dataset)
-        data = TrajectoryEnricher(path)
-        assert isinstance(data, TrajectoryEnricher)
-        #trajs = data.to_trajs()
-        #trajs = data.add_speed()
-        #assert isinstance(trajs, TrajectoryCollection)
-        
-        path = os.path.join(self.test_dir, "data/test_traj_enricher_result.csv")
-        data.df.to_csv(path)
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
+        enricher = TrajectoryEnricher(dataset)
+        assert isinstance(enricher, TrajectoryEnricher)
+        data = enricher.add_speed()
+        assert TRAJ_ID in data.df.columns
+        assert MOVER_ID in data.df.columns
+        assert TIMESTAMP in data.df.columns
+        assert SPEED in data.df.columns
+        speed_list = data.df[SPEED].to_list()
+        assert speed_list == [6, 6, 6, 6]
+
+    def test_add_direction(self):
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
+        enricher = TrajectoryEnricher(dataset)
+        assert isinstance(enricher, TrajectoryEnricher)
+        data = enricher.add_direction()
+        assert TRAJ_ID in data.df.columns
+        assert MOVER_ID in data.df.columns
+        assert TIMESTAMP in data.df.columns
+        assert DIRECTION in data.df.columns
+        direction_list = data.df[DIRECTION].to_list()
+        assert direction_list == [90.0, 90.0, 0.0, 270.0]
