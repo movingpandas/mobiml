@@ -2,17 +2,17 @@ from mobiml.datasets._dataset import Dataset, TIMESTAMP, SPEED, TRAJ_ID, MOVER_I
 from tqdm.auto import tqdm
 
 
-class TrajectoryFilter():
-    def __init__(self, data:Dataset) -> None:
+class TrajectoryFilter:
+    def __init__(self, data: Dataset) -> None:
         self.data = data
 
     def filter_min_pts(self, min_pts=10) -> Dataset:
         tqdm.pandas()
-        vessels_points = self.data.df[TRAJ_ID].value_counts() 
+        vessels_points = self.data.df[TRAJ_ID].value_counts()
 
         filtered = self.data.df.loc[
             self.data.df[TRAJ_ID].isin(
-                vessels_points.loc[vessels_points > min_pts].index
+                vessels_points.loc[vessels_points >= min_pts].index
             )
         ].copy()
         self.data.df = filtered
@@ -21,9 +21,9 @@ class TrajectoryFilter():
     def filter_speed(self, min_speed=None, max_speed=None) -> Dataset:
         filtered = self.data.df.drop(
             self.data.df.loc[
-                ~self.data.df[SPEED].between(min_speed, max_speed, inclusive='both')
-                ].index,
-            axis=0
+                ~self.data.df[SPEED].between(min_speed, max_speed, inclusive="both")
+            ].index,
+            axis=0,
         ).copy()
         self.data.df = filtered
         return self.data
