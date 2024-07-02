@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 from movingpandas import TrajectoryCollection
 
 from mobiml.datasets.porto_taxis import PortoTaxis
@@ -11,7 +10,7 @@ class TestPortoTaxis:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test_data_from_csv(self):
-        path = os.path.join(self.test_dir, "data/train_test.csv")
+        path = os.path.join(self.test_dir, "data/test_train.csv")
         data = PortoTaxis(path)
         assert isinstance(data, PortoTaxis)
         assert TRAJ_ID in data.df.columns
@@ -22,4 +21,3 @@ class TestPortoTaxis:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 332
-
