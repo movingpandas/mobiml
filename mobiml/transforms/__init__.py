@@ -5,6 +5,9 @@ from .delta_dataset_creator import DeltaDatasetCreator
 try:
     from .mobile_client_extractor import MobileClientExtractor
 except ImportError as error:
-    pass
+    raise(Warning(error.msg))
 
-from .traj_aggregator import TrajectoryAggregator, traj_to_h3_sequence
+try:
+    from .traj_aggregator import TrajectoryAggregator, traj_to_h3_sequence
+except ImportError as error:
+    raise(Warning(error.msg))

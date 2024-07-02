@@ -2,7 +2,6 @@ import pandas as pd
 from datetime import datetime
 from sklearn.model_selection import train_test_split
 
-from mobiml.datasets.aisdk import SHIPTYPE
 
 class MoverSplitter:
     def __init__(self, trajs, mover_id, mover_class) -> None:
@@ -11,7 +10,7 @@ class MoverSplitter:
         self.mover_class = mover_class 
         self.movers = self.get_labelled_mover_list()  
 
-    def split(self, test_size, features, label_col=SHIPTYPE):
+    def split(self, test_size, features, label_col):
         X_cols = features
         y_col = label_col
 
