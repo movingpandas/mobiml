@@ -1,9 +1,16 @@
 import os
 from movingpandas import TrajectoryCollection
 
-from mobiml.datasets.aisdk import AISDK, PreprocessedAISDK, SHIPTYPE
-
-from mobiml.datasets._dataset import SPEED, TIMESTAMP, TRAJ_ID, MOVER_ID, DIRECTION
+from mobiml.datasets import (
+    AISDK,
+    PreprocessedAISDK,
+    SHIPTYPE,
+    SPEED,
+    TIMESTAMP,
+    TRAJ_ID,
+    MOVER_ID,
+    DIRECTION,
+)
 
 
 class TestAISDK:

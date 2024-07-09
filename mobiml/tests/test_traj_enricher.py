@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
-from mobiml.datasets._dataset import (
+from mobiml.datasets import (
     Dataset,
     TRAJ_ID,
     MOVER_ID,
@@ -13,7 +13,7 @@ from mobiml.datasets._dataset import (
     TIMESTAMP,
 )
 
-from mobiml.preprocessing.traj_enricher import TrajectoryEnricher
+from mobiml.preprocessing import TrajectoryEnricher
 
 
 class TestTrajectoryEnricher:

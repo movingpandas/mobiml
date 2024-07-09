@@ -3,7 +3,7 @@ import geopandas as gpd
 import pandas as pd
 
 
-class StationaryClientExtractor():
+class StationaryClientExtractor:
     def __init__(self, dataset, clients_gdf) -> None:
         print(f"{datetime.now()} Converting to GeoDataFrame ...")
         gdf = dataset.to_gdf()

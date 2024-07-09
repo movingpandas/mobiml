@@ -8,7 +8,7 @@ from shapely.geometry import Point, LineString
 from datetime import datetime, timedelta
 from fiona.crs import from_epsg
 
-from mobiml.datasets._dataset import Dataset, TRAJ_ID, MOVER_ID
+from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID
 
 
 class TestDataset:

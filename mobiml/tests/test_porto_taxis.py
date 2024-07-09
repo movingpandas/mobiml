@@ -1,9 +1,7 @@
 import os
 from movingpandas import TrajectoryCollection
 
-from mobiml.datasets.porto_taxis import PortoTaxis
-
-from mobiml.datasets._dataset import TRAJ_ID, MOVER_ID, TIMESTAMP, COORDS, ROWNUM
+from mobiml.datasets import PortoTaxis, TRAJ_ID, MOVER_ID, TIMESTAMP, COORDS, ROWNUM
 
 
 class TestPortoTaxis:

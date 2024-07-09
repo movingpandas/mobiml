@@ -4,11 +4,11 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
-from mobiml.datasets._dataset import Dataset, TRAJ_ID, MOVER_ID, SPEED, TIMESTAMP
+from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, SPEED, TIMESTAMP
 
-from mobiml.preprocessing.traj_filter import TrajectoryFilter
+from mobiml.preprocessing import TrajectoryFilter
 
-from mobiml.preprocessing.traj_enricher import TrajectoryEnricher
+from mobiml.preprocessing import TrajectoryEnricher
 
 
 class TestTrajectoryFilter:

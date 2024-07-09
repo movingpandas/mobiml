@@ -1,9 +1,7 @@
 import os
 from movingpandas import TrajectoryCollection
 
-from mobiml.datasets.brest_ais import BrestAIS, PreprocessedBrestAIS
-
-from mobiml.datasets._dataset import TRAJ_ID, MOVER_ID, TIMESTAMP, SPEED, DIRECTION
+from mobiml.datasets import BrestAIS, PreprocessedBrestAIS, TRAJ_ID, MOVER_ID, TIMESTAMP, SPEED, DIRECTION
 
 
 class TestBrestAIS:

@@ -5,9 +5,9 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
-from mobiml.datasets.aisdk import AISDK
+from mobiml.datasets import AISDK
 
-from mobiml.transforms.stationary_client_extractor import StationaryClientExtractor
+from mobiml.transforms import StationaryClientExtractor
 
 
 class TestStationaryClientExtractor:
