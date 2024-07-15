@@ -2,9 +2,7 @@ import os
 import pandas as pd
 from movingpandas import TrajectoryCollection
 
-from mobiml.datasets.copenhagen_cyclists import CopenhagenCyclists
-
-from mobiml.datasets._dataset import TRAJ_ID, MOVER_ID, TIMESTAMP, COORDS, ROWNUM
+from mobiml.datasets import CopenhagenCyclists, TRAJ_ID, MOVER_ID, TIMESTAMP, COORDS, ROWNUM
 
 
 class TestCopenhagenCyclists:

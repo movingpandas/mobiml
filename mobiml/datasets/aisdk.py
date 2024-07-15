@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime
 from zipfile import ZipFile
 
-from mobiml.datasets._dataset import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
+from mobiml.datasets import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
 
 SHIPTYPE = 'ship_type'
 

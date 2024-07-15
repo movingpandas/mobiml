@@ -1,5 +1,5 @@
 from movingpandas import ObservationGapSplitter
-from mobiml.datasets._dataset import Dataset, TIMESTAMP, SPEED, TRAJ_ID, MOVER_ID
+from mobiml.datasets import Dataset
 from .utils import trajectorycollection_to_df
 
 class TrajectorySplitter():

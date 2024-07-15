@@ -2,9 +2,7 @@ import os
 import geopandas as gpd
 from movingpandas import TrajectoryCollection
 
-from mobiml.datasets.movebank_gulls import MovebankGulls
-
-from mobiml.datasets._dataset import TRAJ_ID, MOVER_ID, TIMESTAMP
+from mobiml.datasets import MovebankGulls, TRAJ_ID, MOVER_ID, TIMESTAMP
 
 
 class TestMovebankGulls:
