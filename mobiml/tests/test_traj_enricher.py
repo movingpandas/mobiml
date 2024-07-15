@@ -4,6 +4,7 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
+
 from mobiml.datasets import (
     Dataset,
     TRAJ_ID,

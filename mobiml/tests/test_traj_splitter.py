@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from shapely.geometry import Point
 
 from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, TIMESTAMP
-
 from mobiml.preprocessing import TrajectorySplitter
 
 

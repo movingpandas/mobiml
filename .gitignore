@@ -171,3 +171,5 @@ examples/data/nautilus.epoch0.model
 examples/data/nautilus.model
 examples/data/traj_delta_windows.pickle
 mobiml/tests/data/test_aisdk_20180208_sample_result.feather
+examples/data/nari_dynamic.csv
+

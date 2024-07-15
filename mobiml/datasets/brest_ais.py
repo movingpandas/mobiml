@@ -13,7 +13,7 @@ class BrestAIS(Dataset):
     crs = 4326
 
     def __init__(self, path, *args, **kwargs) -> None:
-        apply_mid_filter = kwargs.pop('filter_mid', False)
+        apply_mid_filter = kwargs.pop('filter_invalid_mmsis', False)
 
         super().__init__(path, *args, **kwargs)
         self.df.rename(columns={
