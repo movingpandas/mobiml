@@ -14,6 +14,7 @@ from mobiml.loaders import AISLoader
 
 class AisClient(fl.client.NumPyClient):
     """ Client for FL model """
+
     def get_parameters(self, config):  # type: ignore
         return model.get_model_parameters()
 
@@ -31,11 +32,11 @@ class AisClient(fl.client.NumPyClient):
     def evaluate(self, parameters, config):  # type: ignore
         model.set_model_params(parameters)
         vessel_types = model.classes
-        loss = log_loss(y_test, model.predict_proba(X_test), labels = vessel_types)
+        loss = log_loss(y_test, model.predict_proba(X_test), labels=vessel_types)
         accuracy = model.score(X_test, y_test)
         return loss, len(X_test), {"accuracy": accuracy}
-    
-    
+
+
 if __name__ == "__main__":
     np.random.seed(0)
     client_id = sys.argv[1]
@@ -47,11 +48,13 @@ if __name__ == "__main__":
 
     vessel_types, n_features, traj_features, test_size = utils.get_dvc_params()
 
-    print(f"""
+    print(
+        f"""
     ===========================
        Loading Client {client_id} Data
     ===========================
-    """)
+    """
+    )
 
     data_loader = AISLoader(vessel_types, traj_features, test_size, path=data_path)
     (X_train, y_train), (X_test, y_test) = data_loader.load(client_id=client_id)
@@ -64,13 +67,15 @@ if __name__ == "__main__":
     model = SummarizedAISTrajectoryClassifier(vessel_types, n_features)
 
     # Wait to try to ensure that the server is ready before the clients connect
-    time.sleep(3)  
-    
-    print(f"""
+    time.sleep(3)
+
+    print(
+        f"""
     =======================
        Starting Client {client_id}
     =======================
-    """)
+    """
+    )
 
     # Start Flower client
     fl.client.start_numpy_client(server_address="0.0.0.0:8080", client=AisClient())

@@ -11,8 +11,8 @@ class SummarizedAISTrajectoryClassifier(LogisticRegression):
             penalty="l2",
             max_iter=1,  # local epoch
             warm_start=True,  # prevent refreshing weights when fitting
-            multi_class = "multinomial"
-            )
+            multi_class="multinomial",
+        )
         self.classes = classes
         self.n_classes = len(classes)
         self.n_features = n_features
@@ -52,6 +52,6 @@ class SummarizedAISTrajectoryClassifier(LogisticRegression):
         else:
             params = [
                 self.coef_,
-                #model.classes_,
+                # model.classes_,
             ]
         return params

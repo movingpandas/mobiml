@@ -17,13 +17,11 @@ def save_metrics(predictions, y_test, scenario_name):
     if not os.path.exists("output"):
         os.makedirs("output")
 
-    metrics = {
-        'accuracy': accuracy_score(y_test, predictions)
-    }
+    metrics = {"accuracy": accuracy_score(y_test, predictions)}
 
-    out_path = f'output/fl-global-metrics-{scenario_name}.json'
+    out_path = f"output/fl-global-metrics-{scenario_name}.json"
     print(f"Saving metrics to {out_path}")
-    with open(out_path, 'w') as fd:
+    with open(out_path, "w") as fd:
         json.dump(metrics, fd)
 
 
