@@ -5,6 +5,8 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
+from mobiml.utils import convert_wgs_to_utm
+
 from mobiml.datasets import AISDK
 
 from mobiml.transforms import StationaryClientExtractor
@@ -66,31 +68,45 @@ class TestStationaryClientExtractor:
                 },
             ]
         )
-        self.dataset = GeoDataFrame(data, crs=3857)  # epsg:4326 or epsg:3857?
+        self.dataset = GeoDataFrame(data, crs=4326)
 
     def test_stationary_clients(self):
         antennas = ["Point (3 3)"]
-        antenna_radius_meters = 4
+        epsg_code = convert_wgs_to_utm(3, 3)
+        antenna_radius_meters = 400000
         df = []
         g = gpd.GeoSeries.from_wkt(antennas)
-        buffered_antennas = gpd.GeoDataFrame(
-            df, geometry=g, crs=3857
-        )  # epsg:4326 or epsg:3857?
-        buffered_antennas["geometry"] = buffered_antennas.buffer(antenna_radius_meters)
+        antennas_gdf = gpd.GeoDataFrame(df, geometry=g, crs=4326)
+        antennas_gdf = antennas_gdf.to_crs(epsg_code)
+        buffered_antennas = antennas_gdf
+        buffered_antennas["geometry"] = antennas_gdf.buffer(antenna_radius_meters)
+        buffered_antennas = buffered_antennas.to_crs(4326)
 
         min_lon, min_lat, max_lon, max_lat = buffered_antennas.geometry.total_bounds
-        sample_aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
+        aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
 
-        clients_gdf = StationaryClientExtractor(sample_aisdk, buffered_antennas)
+        clients_gdf = StationaryClientExtractor(aisdk, buffered_antennas)
         assert isinstance(clients_gdf, StationaryClientExtractor)
-
-        out_path = os.path.join(
-            self.test_dir, "data/test_aisdk_20180208_sample_result.feather"
-        )
-        clients_gdf.to_feather(out_path)
-
-        test_points = gpd.read_feather(out_path)
-        assert len(test_points) == 4
+        assert len(clients_gdf.gdf) == 4
 
         geometry = [Point(0, 3), Point(3, 0), Point(3, 4), Point(6, 5)]
-        assert geometry == test_points["geometry"].tolist()
+        assert geometry == clients_gdf.gdf["geometry"].tolist()
+
+    def test_dataset_not_in_range(self):
+        antennas = ["Point (3 3)"]
+        epsg_code = convert_wgs_to_utm(3, 3)
+        antenna_radius_meters = 100000
+        df = []
+        g = gpd.GeoSeries.from_wkt(antennas)
+        antennas_gdf = gpd.GeoDataFrame(df, geometry=g, crs=4326)
+        antennas_gdf = antennas_gdf.to_crs(epsg_code)
+        buffered_antennas = antennas_gdf
+        buffered_antennas["geometry"] = antennas_gdf.buffer(antenna_radius_meters)
+        buffered_antennas = buffered_antennas.to_crs(4326)
+
+        min_lon, min_lat, max_lon, max_lat = buffered_antennas.geometry.total_bounds
+        aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
+
+        clients_gdf = StationaryClientExtractor(aisdk, buffered_antennas)
+        assert isinstance(clients_gdf, StationaryClientExtractor)
+        assert len(clients_gdf.gdf) == 0
