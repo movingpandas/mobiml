@@ -158,3 +158,18 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+examples/data/ais-extracted-stationary.feather
+examples/data/ais-extracted-trajectories.pickle
+examples/data/ais-extracted-vessels.pickle
+examples/data/aisdk_20180208.zip
+examples/nautilus/window_32_stride_16_crs_2154_dspeed_dcourse.traj_delta_windows.pickle
+examples/nautilus/window_32_stride_16_crs_2154_dspeed_dcourse_.pdf
+examples/nautilus/dataset_trajectories_preprocessed.fixed.csv
+examples/nautilus/nautilus.epoch0.pth
+examples/data/nautilus_trajectories_preprocessed.csv
+examples/data/nautilus.epoch0.model
+examples/data/nautilus.model
+examples/data/traj_delta_windows.pickle
+mobiml/tests/data/test_aisdk_20180208_sample_result.feather
+examples/data/nari_dynamic.csv
+

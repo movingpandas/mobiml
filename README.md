@@ -1,59 +1,22 @@
-# movingml
+# mobiml
 
+Framework for machine learning from movement data
+
+Development of this framework was inspired by https://github.com/wherobots/GeoTorchAI
 
 
 ## Development installation 
-
 
 ```
 mamba env create -f environment.yml
 ```
 
 
-### Develop mode
-
-To install MovingPandas in ["develop" or "editable" mode](https://python-packaging-tutorial.readthedocs.io/en/latest/setup_py.html#develop-mode) you may use: 
-
-```
-python setup.py develop
-```
-
-
 ## Usage
 
-### Porto Taxi FCD
+Usage examples are provided in the `examples` directory. 
 
-```
-import movingml
-taxis = movingml.PortoTaxis(r"H:\Geodata\Kaggle\PortoTaxis\train.csv", nrows=100)
-taxis.to_df()
-taxis.to_gdf()
-taxis.to_trajs()
-```
 
-### Copenhagen Cyclists Desirelines 
+## Included Models
 
-```
-import movingml
-cy = movingml.CopenhagenCyclists(r"F:\Documents\GitHub\SimonBreum\desirelines\data\interim\df_bike.pickle", nrows=10)
-cy.to_trajs()
-```
-
-### Brest Vessels AIS
-
-```
-import movingml
-ais = movingml.BrestAIS(r"H:\Geodata\Zenodo\Integrated Maritime\nari_dynamic_sar.csv")
-ais.to_trajs()
-ex = movingml.AISTripExtractor(ais)
-ais_trips = ex.get_trips()
-```
-
-### Movebank Migrating Gulls
-
-```
-import movingml
-gulls = movingml.MovebankGulls(r"F:\Documents\GitHub\movingpandas\movingpandas-examples\data\gulls.gpkg")
-gulls.to_trajs()
-
-```
+* **Nautilus** Vessel Route Forecasting (VRF) -- Based on https://github.com/DataStories-UniPi/Nautilus, as presented in Tritsarolis, A., Pelekis, N., Bereta, K., Zissis, D., & Theodoridis, Y. (2024). On Vessel Location Forecasting and the Effect of Federated Learning. In Proceedings of the 25th Conference on Mobile Data Management (MDM). arXiv preprint arXiv:2405.19870.
