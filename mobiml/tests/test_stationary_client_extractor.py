@@ -6,9 +6,7 @@ from datetime import datetime
 from shapely.geometry import Point
 
 from mobiml.utils import convert_wgs_to_utm
-
 from mobiml.datasets import AISDK
-
 from mobiml.transforms import StationaryClientExtractor
 
 

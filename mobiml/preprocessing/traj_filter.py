@@ -1,4 +1,4 @@
-from mobiml.datasets._dataset import Dataset, TIMESTAMP, SPEED, TRAJ_ID, MOVER_ID
+from mobiml.datasets import Dataset, SPEED, TRAJ_ID
 from tqdm.auto import tqdm
 
 

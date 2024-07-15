@@ -13,7 +13,6 @@ from mobiml.datasets import (
     DIRECTION,
     TIMESTAMP,
 )
-
 from mobiml.preprocessing import TrajectoryEnricher
 
 

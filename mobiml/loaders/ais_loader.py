@@ -3,8 +3,7 @@ from datetime import datetime
 from sklearn.preprocessing import MultiLabelBinarizer
 
 from .mover_splitter import MoverSplitter
-from mobiml.datasets import MOVER_ID
-from mobiml.datasets.aisdk import SHIPTYPE
+from mobiml.datasets import MOVER_ID, SHIPTYPE
 
 
 def _h3_seq_to_onehot(df, h3_cell_list, h3_seq_col='H3_seq'):

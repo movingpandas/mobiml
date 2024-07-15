@@ -1,4 +1,4 @@
-from ._dataset import Dataset, TRAJ_ID, MOVER_ID, TIMESTAMP, COORDS, ROWNUM, SPEED, DIRECTION
+from ._dataset import Dataset, TRAJ_ID, MOVER_ID, TIMESTAMP, COORDS, ROWNUM, SPEED, DIRECTION, unixtime_to_datetime
 from .aisdk import AISDK, PreprocessedAISDK, SHIPTYPE
 from .brest_ais import BrestAIS, PreprocessedBrestAIS
 from .copenhagen_cyclists import CopenhagenCyclists

@@ -5,7 +5,6 @@ from shapely.geometry import Point
 from datetime import datetime, timedelta
 
 from mobiml.datasets import SPEED
-
 from mobiml.transforms.ais_trip_extractor import AISTripExtractor
 
 

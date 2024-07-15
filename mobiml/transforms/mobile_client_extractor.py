@@ -1,10 +1,6 @@
 import pandas as pd
-import geopandas as gpd
-import movingpandas as mpd
-from datetime import datetime, timedelta
-from multiprocessing import Pool
-from itertools import repeat, cycle
-from mobiml.datasets import AISDK, SPEED, TIMESTAMP, MOVER_ID
+from datetime import datetime
+from mobiml.datasets import AISDK, TIMESTAMP
 
 try:
     from pymeos import pymeos_initialize, TGeogPointInst, TGeogPointSeq

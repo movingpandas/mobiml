@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from mobiml.datasets._dataset import (
+from mobiml.datasets import (
     Dataset,
     TIMESTAMP,
     COORDS,

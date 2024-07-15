@@ -1,5 +1,5 @@
 from pandas import DataFrame, merge, Series
-from mobiml.datasets._dataset import Dataset, TIMESTAMP, SPEED, TRAJ_ID, DIRECTION
+from mobiml.datasets import Dataset, TIMESTAMP, SPEED, TRAJ_ID, DIRECTION
 from mobiml.utils import applyParallel, shapely_coords_numpy
 
 

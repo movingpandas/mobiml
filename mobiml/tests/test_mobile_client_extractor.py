@@ -5,7 +5,6 @@ from datetime import datetime
 from shapely.geometry import Point
 
 from mobiml.datasets import AISDK
-
 from mobiml.transforms import MobileClientExtractor
 
 

@@ -1,7 +1,7 @@
 import geopandas as gpd
 import movingpandas as mpd
 from datetime import timedelta
-from mobiml.datasets._dataset import TIMESTAMP, SPEED, TRAJ_ID
+from mobiml.datasets import TIMESTAMP, SPEED, TRAJ_ID
 
 
 class AISTripExtractor:
