@@ -11,7 +11,6 @@ class MovebankGulls(Dataset):
 
     def __init__(self, path, drop_extra_cols=True, *args, **kwargs) -> None:
         super().__init__(path, *args, **kwargs)
-        self.df.rename(columns={"timestamp": TIMESTAMP})
         if drop_extra_cols:
             self.df.drop(
                 columns=[
