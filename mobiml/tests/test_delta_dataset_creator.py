@@ -1,10 +1,10 @@
 import os
 
-from mobiml.loaders.temporal_splitter import TemporalSplitter
+from mobiml.loaders import TemporalSplitter
 
-from mobiml.datasets.brest_ais import PreprocessedBrestAIS
+from mobiml.datasets import PreprocessedBrestAIS
 
-from mobiml.transforms.delta_dataset_creator import DeltaDatasetCreator
+from mobiml.transforms import DeltaDatasetCreator
 
 
 class TestDeltaDatasetCreator:
