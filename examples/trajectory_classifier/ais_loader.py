@@ -2,7 +2,9 @@ import pandas as pd
 from datetime import datetime
 from sklearn.preprocessing import MultiLabelBinarizer
 
-from .mover_splitter import MoverSplitter
+import sys
+sys.path.append("../mobiml")
+from mobiml.transforms import MoverSplitter
 from mobiml.datasets import MOVER_ID, SHIPTYPE
 
 

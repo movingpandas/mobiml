@@ -6,9 +6,13 @@ import numpy as np
 from sklearn.metrics import log_loss
 
 import utils
-import examples.trajectory_classifier.ml_utils as ml_utils
+import ml_utils
+from ais_loader import AISLoader
+
+
+import sys
+sys.path.append("../mobiml")
 from mobiml.models import SummarizedAISTrajectoryClassifier
-from mobiml.transforms import AISLoader
 
 
 class AisClient(fl.client.NumPyClient):
