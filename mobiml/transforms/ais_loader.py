@@ -30,9 +30,9 @@ class AISLoader:
         self.test_size = test_size
 
     def load(self, client_id=None) -> tuple:
-        """ 
+        """
         Returns train/test values based on pickled trajectories and vessels
-        If client_id is set, the trajectories are filtered by the client id 
+        If client_id is set, the trajectories are filtered by the client id
         """
         if client_id:
             print(f"Client id: {client_id}")

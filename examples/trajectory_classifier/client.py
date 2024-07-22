@@ -4,16 +4,15 @@ import warnings
 import flwr as fl
 import numpy as np
 from sklearn.metrics import log_loss
-import examples.ml_utils as ml_utils
 
 import utils
-import examples.ml_utils as ml_utils
+import examples.trajectory_classifier.ml_utils as ml_utils
 from mobiml.models import SummarizedAISTrajectoryClassifier
-from mobiml.loaders import AISLoader
+from mobiml.transforms import AISLoader
 
 
 class AisClient(fl.client.NumPyClient):
-    """ Client for FL model """
+    """Client for FL model"""
 
     def get_parameters(self, config):  # type: ignore
         return model.get_model_parameters()

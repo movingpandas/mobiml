@@ -7,7 +7,7 @@ stages:
     deps:
     - src/extract-antenna-data.py
     - src/mobiml/datasets/aisdk.py
-    - src/mobiml/transformers/stationary_client_extractor.py
+    - src/mobiml/transforms/stationary_client_extractor.py
     outs:
     - data/ais-extracted-stationary
   extract-vessel-data:  # mobile clients
@@ -18,15 +18,15 @@ stages:
     deps:
     - src/extract-vessel-data.py
     - src/mobiml/datasets/aisdk.py
-    - src/mobiml/transformers/mobile_client_extractor.py
+    - src/mobiml/transforms/mobile_client_extractor.py
     outs:
     - data/ais-extracted-mobile   
   prepare-training-data-stationary:  # stationary clients
     cmd: python src/prepare-training-data.py data/ais-extracted-stationary/ais-antenna.feather data/prepared/training-data-stationary.pickle
     deps:
     - src/prepare-training-data.py
-    - src/mobiml/transformers/ais_trip_extractor.py
-    - src/mobiml/transformers/traj_aggregator.py
+    - src/mobiml/transforms/ais_trip_extractor.py
+    - src/mobiml/transforms/traj_aggregator.py
     - data/ais-extracted-stationary/ais-antenna.feather
     params:
     - traj_feature_engineering.h3_resolution
@@ -37,8 +37,8 @@ stages:
     cmd: python src/prepare-training-data.py data/ais-extracted-mobile/ais-vessels.feather data/prepared/training-data-mobile.pickle
     deps:
     - src/prepare-training-data.py
-    - src/mobiml/transformers/ais_trip_extractor.py
-    - src/mobiml/transformers/traj_aggregator.py
+    - src/mobiml/transforms/ais_trip_extractor.py
+    - src/mobiml/transforms/traj_aggregator.py
     - data/ais-extracted-mobile/ais-vessels.feather
     params:
     - traj_feature_engineering.h3_resolution
@@ -52,8 +52,8 @@ stages:
     - src/client.py
     - src/ml_utils.py
     - src/mobiml/models/ais_trajectory_classifier.py
-    - src/mobiml/loaders/ais_loader.py
-    - src/mobiml/loaders/mover_splitter.py
+    - src/mobiml/transforms/ais_loader.py
+    - src/mobiml/transforms/mover_splitter.py
     - data/prepared/training-data-stationary.pickle
     params:
     - base_model.vessel_types
@@ -68,8 +68,8 @@ stages:
     - src/client.py
     - src/ml_utils.py
     - src/mobiml/models/ais_trajectory_classifier.py
-    - src/mobiml/loaders/ais_loader.py
-    - src/mobiml/loaders/mover_splitter.py
+    - src/mobiml/transforms/ais_loader.py
+    - src/mobiml/transforms/mover_splitter.py
     - data/prepared/training-data-mobile.pickle
     params:
     - base_model.vessel_types
