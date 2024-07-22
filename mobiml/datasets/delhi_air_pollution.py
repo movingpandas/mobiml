@@ -2,7 +2,7 @@ from mobiml.datasets import Dataset, TIMESTAMP
 
 
 class DelhiAirPollution(Dataset):
-    name = "Air Pollution Data Delhi"
+    name = "Delhi Air Pollution"
     file_name = "2021-01-30_all.csv"
     source_url = "http://cse.iitd.ac.in/pollutiondata/delhi/download"
     traj_id = "deviceId"
