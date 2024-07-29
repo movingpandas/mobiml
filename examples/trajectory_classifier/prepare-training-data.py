@@ -7,7 +7,7 @@ import geopandas as gpd
 import movingpandas as mpd
 from datetime import datetime, timedelta
 from utils import create_dir_if_not_exists
-from mobiml.transforms import AISTripExtractor, TrajectoryAggregator
+from mobiml.transforms import TripExtractor, TrajectoryAggregator
 from mobiml.datasets._dataset import MOVER_ID
 
 import warnings
@@ -49,7 +49,7 @@ def main():
     vessels = create_vessel_list(gdf)
 
     print(f"{datetime.now()} Extracting trips ...")
-    trajs = AISTripExtractor(gdf).get_trips(
+    trajs = TripExtractor(gdf).get_trips(
         gap_duration=timedelta(minutes=60)
     )  # create_trajs(gdf)
 

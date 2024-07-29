@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from mobiml.datasets import MOVER_ID
 
-from mobiml.transforms import AISTripExtractor, TrajectoryAggregator
+from mobiml.transforms import TripExtractor, TrajectoryAggregator
 
 
 class TestTrajectoryAggregator:
@@ -66,7 +66,7 @@ class TestTrajectoryAggregator:
     def test_aggregated_trajs(self):
         h3_resolution = 2
         vessels = self.gdf.groupby(MOVER_ID)[["ship_type", "Name"]].agg(pd.Series.mode)
-        trajs = AISTripExtractor(self.gdf).get_trips(gap_duration=timedelta(minutes=10))
+        trajs = TripExtractor(self.gdf).get_trips(gap_duration=timedelta(minutes=10))
         trajs = TrajectoryAggregator(trajs, vessels).aggregate_trajs(h3_resolution)
 
         expected_speed_median = [2, 3]
