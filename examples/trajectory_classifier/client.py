@@ -9,6 +9,7 @@ import utils
 import ml_utils
 from ais_loader import AISLoader
 
+
 import sys
 sys.path.append("../mobiml")
 from mobiml.models import SummarizedAISTrajectoryClassifier
