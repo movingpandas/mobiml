@@ -2,7 +2,9 @@ import pandas as pd
 from datetime import datetime
 from sklearn.preprocessing import MultiLabelBinarizer
 
-from .mover_splitter import MoverSplitter
+import sys
+sys.path.append("../mobiml")
+from mobiml.transforms import MoverSplitter
 from mobiml.datasets import MOVER_ID, SHIPTYPE
 
 
@@ -30,9 +32,9 @@ class AISLoader:
         self.test_size = test_size
 
     def load(self, client_id=None) -> tuple:
-        """ 
+        """
         Returns train/test values based on pickled trajectories and vessels
-        If client_id is set, the trajectories are filtered by the client id 
+        If client_id is set, the trajectories are filtered by the client id
         """
         if client_id:
             print(f"Client id: {client_id}")

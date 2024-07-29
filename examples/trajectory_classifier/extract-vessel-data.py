@@ -5,6 +5,9 @@ import utils
 import warnings
 from copy import deepcopy
 from datetime import datetime
+
+import sys
+sys.path.append("../mobiml")
 from mobiml.datasets import AISDK
 from mobiml.transforms import MobileClientExtractor
 
@@ -15,10 +18,10 @@ def main():
     utils.print_logo()
     print(f"{datetime.now()} Starting data extraction for mobile clients (vessels) ...")
 
-    params = dvc.api.params_show()
-    ship_type = params["extract"]["vessels"]
-    antenna_radius_meters = params["extract"]["vessels_radius_meters"]
-    bbox = params["extract"]["bbox"]
+    #params = dvc.api.params_show()
+    ship_type = 'Towing'  # params["extract"]["vessels"]
+    antenna_radius_meters = 25000  # params["extract"]["vessels_radius_meters"]
+    bbox = [57.273, 11.196, 57.998, 12.223]  # params["extract"]["bbox"]
     min_lat, min_lon, max_lat, max_lon = bbox
 
     out_path = sys.argv[2]

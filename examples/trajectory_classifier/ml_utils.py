@@ -1,15 +1,17 @@
 import json
 import os
 import numpy as np
-import pandas as pd
+from pandas import DataFrame
 from sklearn.metrics import accuracy_score, confusion_matrix
 
+import sys
+sys.path.append("../mobiml")
 from mobiml.utils import XYList
 
 
 def display_confusion_matrix(y_test, predictions, labels):
     cm = confusion_matrix(y_test, predictions, labels=labels)
-    cm_df = pd.DataFrame(cm, index=labels, columns=labels)
+    cm_df = DataFrame(cm, index=labels, columns=labels)
     print(cm_df)
 
 
