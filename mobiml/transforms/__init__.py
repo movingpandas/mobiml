@@ -1,4 +1,4 @@
-from .ais_trip_extractor import AISTripExtractor
+from .trip_extractor import TripExtractor
 from .stationary_client_extractor import StationaryClientExtractor
 from .delta_dataset_creator import DeltaDatasetCreator
 from .mover_splitter import MoverSplitter

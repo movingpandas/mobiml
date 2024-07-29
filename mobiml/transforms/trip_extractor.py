@@ -1,10 +1,10 @@
 import geopandas as gpd
 import movingpandas as mpd
 from datetime import timedelta
-from mobiml.datasets import TIMESTAMP, SPEED, TRAJ_ID
+from mobiml.datasets import Dataset, TIMESTAMP, SPEED, TRAJ_ID
 
 
-class AISTripExtractor:
+class TripExtractor:
     def __init__(self, data, min_length=100) -> None:
         if isinstance(data, gpd.GeoDataFrame):
             gdf = data
@@ -20,6 +20,8 @@ class AISTripExtractor:
             )
         elif isinstance(data, mpd.TrajectoryCollection):
             self.tc = data
+        elif isinstance(data, Dataset):
+            self.tc = data.to_trajs()
         else:
             raise TypeError(f"Invalid input data {data}")
         print(f"   Created: {self.tc}")
