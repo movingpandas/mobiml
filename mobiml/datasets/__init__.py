@@ -14,3 +14,4 @@ from .brest_ais import BrestAIS, PreprocessedBrestAIS
 from .copenhagen_cyclists import CopenhagenCyclists
 from .movebank_gulls import MovebankGulls
 from .porto_taxis import PortoTaxis
+from .delhi_air_pollution import DelhiAirPollution
