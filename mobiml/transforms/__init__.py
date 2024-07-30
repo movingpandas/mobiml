@@ -3,6 +3,7 @@ from .stationary_client_extractor import StationaryClientExtractor
 from .delta_dataset_creator import DeltaDatasetCreator
 from .mover_splitter import MoverSplitter
 from .temporal_splitter import TemporalSplitter
+from .od_aggregator import ODAggregator
 
 try:
     from .mobile_client_extractor import MobileClientExtractor
