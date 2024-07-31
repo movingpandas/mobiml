@@ -140,27 +140,22 @@ class TestMoverSplitter:
         features = ["geometry", "traj_id", "mover_id"]
         test_size = 0.25
 
-        data = splitter.split(test_size, features, label_col)
-        assert len(data) == 4
+        X_train, X_test, y_train, y_test = splitter.split(test_size, features, label_col)
 
-        training_features = data[0]
-        assert len(training_features) == 12
-        assert "geometry" in training_features.columns
-        assert TRAJ_ID in training_features.columns
-        assert MOVER_ID in training_features.columns
+        assert len(X_train) == 12
+        assert "geometry" in X_train.columns
+        assert TRAJ_ID in X_train.columns
+        assert MOVER_ID in X_train.columns
 
-        testing_features = data[1]
-        assert len(testing_features) == 4
-        assert "geometry" in training_features.columns
-        assert TRAJ_ID in training_features.columns
-        assert MOVER_ID in training_features.columns
+        assert len(X_test) == 4
+        assert "geometry" in X_test.columns
+        assert TRAJ_ID in X_test.columns
+        assert MOVER_ID in X_test.columns
 
-        training_labels = data[2]
-        assert len(training_labels) == 12
-        assert "Passenger" in training_labels.values
-        assert "Cargo" in training_labels.values
+        assert len(y_train) == 12
+        assert "Passenger" in y_train.values
+        assert "Cargo" in y_train.values
 
-        testing_labels = data[3]
-        assert len(testing_labels) == 4
-        assert "Passenger" in testing_labels.values
-        assert "Cargo" in testing_labels.values
+        assert len(y_test) == 4
+        assert "Passenger" in y_test.values
+        assert "Cargo" in y_test.values

@@ -11,6 +11,25 @@ class MoverSplitter:
         self.movers = self.get_labelled_mover_list()
 
     def split(self, test_size, features, label_col):
+        """
+        Split dataset ensuring that trajectories of test_size % of the movers are assigned to the test set.
+        The remaining mover trajectories are assigned to the train set. 
+        
+        Parameters
+        ----------
+        test_size : float
+            Share of movers to put in test set (e.g.: 0.25 for 25%)
+        features : list
+            List of DataFrame column names to use as features
+        label_col : string
+            Name of the DataFrame column to use as label
+
+        Returns
+        -------
+        X_train, X_test, y_train, y_test
+            geopandas.GeoDataFrame (X) and pandas.Series (y) for training and test
+        """
+
         X_cols = features
         y_col = label_col
 
