@@ -11,11 +11,6 @@ class MoverSplitter:
         self.movers = self.get_labelled_mover_list()
 
     def split(self, test_size, features, label_col):
-        """
-        Splits dataset ensuring that trajectories of test_size % of the movers are assigned to the test set.
-        The remaining mover trajectories are assigned to the train set. 
-        """
-
         X_cols = features
         y_col = label_col
 
