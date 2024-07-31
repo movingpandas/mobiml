@@ -25,6 +25,13 @@ class TemporalSplitter:
     def split(
         self, dev_size=0.2, test_size=0.1, seed=100, stratify=None, **kwargs
     ) -> Dataset:
+        """
+        Splits dataset temporally into train/dev/test (default: 70% train, 20% dev, 10% test)
+    
+        This split ensures that the first 70% of days are used to train, and the rest are used for dev and test.
+
+        Support for other temporal splits than this date-based split is on our todo list.
+        """
         self.dev_size = dev_size
         self.test_size = test_size
         self.seed = seed
@@ -32,11 +39,13 @@ class TemporalSplitter:
 
         print(f"{datetime.now()} Splitting dataset ...")
 
-        trajectories_dates = self.data.df[TIMESTAMP].sort_values().unique()
+        trajectories_dates = self.data.df[TIMESTAMP].dt.date.sort_values().unique()
+        print(trajectories_dates)
 
         train_indices, dev_indices, test_indices = self._train_test_split(
-            trajectories_dates, **kwargs
+            trajectories_dates, shuffle=False, **kwargs
         )
+        print(f"train:{train_indices}; dev:{dev_indices}; test:{test_indices}")
         train_dates, dev_dates, test_dates = (
             trajectories_dates[train_indices],
             trajectories_dates[dev_indices],
@@ -49,11 +58,12 @@ class TemporalSplitter:
             + f"\nTest @{(min(test_dates), max(test_dates))=}"
         )
 
-        self.data.df.loc[self.data.df[TIMESTAMP].isin(train_dates), "split"] = 1
-        self.data.df.loc[self.data.df[TIMESTAMP].isin(dev_dates), "split"] = 2
-        self.data.df.loc[self.data.df[TIMESTAMP].isin(test_dates), "split"] = 3
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(train_dates), "split"] = 1
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(dev_dates), "split"] = 2
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(test_dates), "split"] = 3
 
         return self.data
+
 
     def _train_test_split(self, dataset, **kwargs):
         # Creating data indices for training and validation splits:
@@ -79,3 +89,4 @@ class TemporalSplitter:
         )
 
         return train_indices, dev_indices, test_indices
+

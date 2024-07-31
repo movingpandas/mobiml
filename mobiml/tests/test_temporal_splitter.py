@@ -17,27 +17,43 @@ class TestTemporalSplitter:
             [
                 {
                     "geometry": Point(0, 0),
-                    "timestamp": datetime(2018, 1, 1, 12, 0, 0),
+                    "timestamp": datetime(2018, 1, 1, 12, 1, 0),
                     "traj_id": 1,
-                    "mover_id": 1,
                 },
                 {
-                    "geometry": Point(6, 0),
-                    "timestamp": datetime(2018, 1, 1, 12, 6, 0),
+                    "geometry": Point(1, 1),
+                    "timestamp": datetime(2018, 1, 1, 12, 2, 0),
                     "traj_id": 1,
-                    "mover_id": 1,
+                },
+                {
+                    "geometry": Point(2, 3),
+                    "timestamp": datetime(2018, 1, 2, 12, 3, 0),
+                    "traj_id": 2,
+                },
+                {
+                    "geometry": Point(3, 3),
+                    "timestamp": datetime(2018, 1, 2, 12, 4, 0),
+                    "traj_id": 2,
+                },
+                {
+                    "geometry": Point(4, 5),
+                    "timestamp": datetime(2018, 1, 3, 12, 5, 0),
+                    "traj_id": 3,
+                },
+                {
+                    "geometry": Point(5, 6),
+                    "timestamp": datetime(2018, 1, 3, 12, 6, 0),
+                    "traj_id": 3,
                 },
                 {
                     "geometry": Point(6, 6),
-                    "timestamp": datetime(2018, 1, 1, 12, 10, 0),
-                    "traj_id": 1,
-                    "mover_id": 1,
+                    "timestamp": datetime(2018, 1, 4, 12, 7, 0),
+                    "traj_id": 4,
                 },
                 {
-                    "geometry": Point(9, 9),
-                    "timestamp": datetime(2018, 1, 1, 12, 15, 0),
-                    "traj_id": 1,
-                    "mover_id": 1,
+                    "geometry": Point(6, 7),
+                    "timestamp": datetime(2018, 1, 4, 12, 8, 0),
+                    "traj_id": 4,
                 },
             ]
         )
@@ -47,10 +63,12 @@ class TestTemporalSplitter:
         dataset = Dataset(self.gdf)
         splitter = TemporalSplitter(dataset)
         assert isinstance(splitter, TemporalSplitter)
-        data = splitter.split()
+        data = splitter.split(dev_size=0.25, test_size=0.25)
         assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
         assert TIMESTAMP in data.df.columns
-        assert len(data.df) == 4
-        split_list = [1, 3, 2, 1]
-        assert data.df.split.tolist() == split_list
+        assert len(data.df) == 8
+        expected = [1, 1, 1, 1, 2, 2, 3, 3]
+        result = data.df['split'].tolist()
+        print(data.df)
+        print(result)
+        assert result == expected
