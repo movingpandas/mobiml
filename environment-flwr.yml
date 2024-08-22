@@ -1,20 +1,26 @@
-name: mobiml
+name: mobiml-flwr
 channels:
   - conda-forge
 dependencies:
   - python=3.10
-  - numpy
+  - bokeh<3.0
+  - numpy=1.23.4
   - geopandas-base
   - matplotlib-base
   - black
+  - fiona
   - geopy
   - h3pandas
-  - h3-py
+  - rtree
   - pymeos
   - pytest
   - pytest-cov
   - movingpandas
+  - geoviews
+  - hvplot
+  - jupyter_bokeh
   - pip
   - pip:
+    - flwr
     - pyarrow
     - torch

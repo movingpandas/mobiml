@@ -7,14 +7,22 @@ Development of this framework was inspired by https://github.com/wherobots/GeoTo
 
 ## Development installation 
 
+To run the tests, use the mobiml environment:
+
 ```
 mamba env create -f environment.yml
 ```
 
+To run the Flower examples, use the mobiml-flwr environment:
+
+```
+mamba env create -f environment-flwr.yml
+```
+
+
 ### Environment notes
 
-As of August 2024, pip installing the current latest Flower version (flwr-1.10.0) installes numpy-1.26.4. There seems to be no numpy 2.0 support in Flower yet. 
-
+As of August 2024, pip installing the current latest Flower version (flwr-1.10.0) requires numpy<2.0.0,>=1.21.0
 
 
 ## MobiML modules
