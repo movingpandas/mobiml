@@ -1,0 +1,60 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, 0.**]
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  Linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: pre-commit/action@v2.0.3
+
+  Test:
+    #needs: Linting
+    name: ${{ matrix.os }}, ${{ matrix.env }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        env:
+          - environment.yml
+        include:
+          - env: environment.yml
+            os: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: ${{ matrix.env }}
+          miniforge-version: latest
+          miniforge-variant: Mambaforge
+          use-mamba: true
+
+      - name: Check and Log Environment
+        run: |
+          python -V
+          conda info
+
+      - name: Test
+        run: |
+          pytest -v -r s --color=yes --cov=mobiml --cov-append --cov-report term-missing --cov-report xml mobiml/
+
+      - uses: codecov/codecov-action@v2
