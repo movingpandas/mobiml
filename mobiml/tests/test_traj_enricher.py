@@ -5,7 +5,14 @@ from datetime import datetime
 from shapely.geometry import Point
 
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, SPEED, DIRECTION, TIMESTAMP
+from mobiml.datasets import (
+    Dataset,
+    TRAJ_ID,
+    MOVER_ID,
+    SPEED,
+    DIRECTION,
+    TIMESTAMP,
+)
 from mobiml.preprocessing import TrajectoryEnricher
 
 
@@ -44,7 +51,9 @@ class TestTrajectoryEnricher:
         self.gdf = GeoDataFrame(df, crs=31256)
 
     def test_add_speed(self):
-        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
+        dataset = Dataset(
+            self.gdf, traj_id="tid", mover_id="mid", timestamp="txx"
+        )
         enricher = TrajectoryEnricher(dataset)
         assert isinstance(enricher, TrajectoryEnricher)
         data = enricher.add_speed()
@@ -56,7 +65,9 @@ class TestTrajectoryEnricher:
         assert speed_list == [6, 6, 6, 6]
 
     def test_add_direction(self):
-        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
+        dataset = Dataset(
+            self.gdf, traj_id="tid", mover_id="mid", timestamp="txx"
+        )
         enricher = TrajectoryEnricher(dataset)
         assert isinstance(enricher, TrajectoryEnricher)
         data = enricher.add_direction()

@@ -105,7 +105,12 @@ class TestTripExtractor:
     def test_input_dataset(self):
         path = os.path.join(self.test_dir, "data/test.csv")
         data = Dataset(
-            path, name="test", traj_id="tid", mover_id="mid", timestamp="t", crs=31256
+            path,
+            name="test",
+            traj_id="tid",
+            mover_id="mid",
+            timestamp="t",
+            crs=31256,
         )
         ex = TripExtractor(data)
         assert isinstance(ex, TripExtractor)

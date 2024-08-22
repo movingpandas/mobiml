@@ -1,6 +1,12 @@
 from datetime import timedelta
 
-from mobiml.datasets import Dataset, TIMESTAMP, COORDS, ROWNUM, unixtime_to_datetime
+from mobiml.datasets import (
+    Dataset,
+    TIMESTAMP,
+    COORDS,
+    ROWNUM,
+    unixtime_to_datetime,
+)
 
 
 class PortoTaxis(Dataset):

@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
-from datetime import datetime
 from copy import deepcopy
-from typing import Dict, List, Tuple
-from pathlib import Path
+from typing import Dict, Tuple
 
 import flwr as fl
 from flwr.common import Metrics
@@ -103,12 +101,16 @@ class AISLoader:
         trajs = self.filter_trajs(filter, trajs)
 
         if "H3_seq" in self.traj_features:
-            self.traj_features, trajs = self.unstack_h3_seq(self.traj_features, trajs)
+            self.traj_features, trajs = self.unstack_h3_seq(
+                self.traj_features, trajs
+            )
 
         self.min_max_normalize_features(self.traj_features, trajs)
         print(f"Available trajectory columns: {trajs.columns}")
 
-        splitter = MoverSplitter(trajs, mover_id=MOVER_ID, mover_class=SHIPTYPE)
+        splitter = MoverSplitter(
+            trajs, mover_id=MOVER_ID, mover_class=SHIPTYPE
+        )
         X_train, X_test, y_train, y_test = splitter.split(
             self.test_size, self.traj_features, label_col=SHIPTYPE
         )

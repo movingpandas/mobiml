@@ -52,7 +52,12 @@ class ODAggregator:
         gdf = gdf[gdf.h3_cell != "0"]
 
         tc = mpd.TrajectoryCollection(
-            gdf, traj_id_col=TRAJ_ID, obj_id_col=MOVER_ID, t=TIMESTAMP, x="x", y="y"
+            gdf,
+            traj_id_col=TRAJ_ID,
+            obj_id_col=MOVER_ID,
+            t=TIMESTAMP,
+            x="x",
+            y="y",
         )
 
         print(f"{datetime.now()} Getting start locations ...")
@@ -83,7 +88,9 @@ class ODAggregator:
         end = end.drop(columns={TRAJ_ID, MOVER_ID, "x", "y"})
 
         end = end.set_index("end_t")
-        df1 = end.groupby([pd.Grouper(freq=freq), "h3_cell_destination"]).count()
+        df1 = end.groupby(
+            [pd.Grouper(freq=freq), "h3_cell_destination"]
+        ).count()
         df1 = df1.destination
         df1 = df1.reset_index()
 

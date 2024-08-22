@@ -21,7 +21,9 @@ class TrajectoryFilter:
     def filter_speed(self, min_speed=None, max_speed=None) -> Dataset:
         filtered = self.data.df.drop(
             self.data.df.loc[
-                ~self.data.df[SPEED].between(min_speed, max_speed, inclusive="both")
+                ~self.data.df[SPEED].between(
+                    min_speed, max_speed, inclusive="both"
+                )
             ].index,
             axis=0,
         ).copy()

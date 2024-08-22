@@ -20,7 +20,11 @@ from sklearn.preprocessing import StandardScaler
 
 import torch
 import torch.nn as nn
-from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence, pad_sequence
+from torch.nn.utils.rnn import (
+    pad_packed_sequence,
+    pack_padded_sequence,
+    pad_sequence,
+)
 from torch.utils.data import Dataset
 
 
@@ -53,7 +57,9 @@ class VRFDataset(Dataset):
 
     def __getitem__(self, item):
         return (
-            torch.tensor(self.scaler.transform(self.samples[item]).astype(self.dtype)),
+            torch.tensor(
+                self.scaler.transform(self.samples[item]).astype(self.dtype)
+            ),
             torch.tensor(self.labels[item].reshape(1, -1).astype(self.dtype)),
             torch.tensor(self.lengths[item]),
         )
@@ -216,7 +222,10 @@ def model_dev_loss(model, device, criterion, dev_loader):
         dev_loss = []
         for xb, yb, lb, *args in (
             pbar := tqdm.tqdm(
-                dev_loader, leave=False, total=len(dev_loader), dynamic_ncols=True
+                dev_loader,
+                leave=False,
+                total=len(dev_loader),
+                dynamic_ncols=True,
             )
         ):
             xb = xb.to(device).float()
@@ -247,7 +256,9 @@ def train_step(model, device, criterion, optimizer, train_loader):
         yb = yb.to(device).float()
         args = (arg.to(device) for arg in args)
 
-        tr_loss = model_backprop(model, xb, yb, criterion, optimizer, lb, *args)
+        tr_loss = model_backprop(
+            model, xb, yb, criterion, optimizer, lb, *args
+        )
         train_loss.append(tr_loss)
         pbar.set_description(f"Train Loss: {tr_loss:.{ROUND_DECIMALS}f}")
 
@@ -305,12 +316,16 @@ def vrf_evaluate_model_singlehead(
             )
         ):
             # print(f'{xb.shape=}\t {yb.shape=}\t {lb.shape=}')
-            xb, yb = xb.to(device), yb.squeeze(dim=-2).to(device)  # Model Inference
+            xb, yb = xb.to(device), yb.squeeze(dim=-2).to(
+                device
+            )  # Model Inference
             args = (arg.to(device) for arg in args)
             y_pred = model(xb.float(), lb, *args).detach()
 
             errs.append(
-                pd.DataFrame({"errs": np.linalg.norm(y_pred.cpu() - yb.cpu(), axis=-1)})
+                pd.DataFrame(
+                    {"errs": np.linalg.norm(y_pred.cpu() - yb.cpu(), axis=-1)}
+                )
             )
             losses.append(eval_loss := criterion(y_pred, yb))
             pbar.set_description(f"{desc}: {eval_loss:.{ROUND_DECIMALS}f}")
@@ -331,7 +346,9 @@ def vrf_evaluate_model_singlehead(
         print(
             f"Loss: {test_loss:.{ROUND_DECIMALS}f} | ",
             f"Accuracy: {avg_disp_err:.{ROUND_DECIMALS}f} |",
-            "; ".join(f"{i:.{ROUND_DECIMALS}f}" for i in ade_bins_cut.values.tolist()),
+            "; ".join(
+                f"{i:.{ROUND_DECIMALS}f}" for i in ade_bins_cut.values.tolist()
+            ),
             "m",
         )
 
@@ -369,7 +386,9 @@ def train_model(
     # training loop
     for i in range(n_epochs):
         t_start = time.process_time()
-        train_loss = train_step(model, device, criterion, optimizer, train_loader)
+        train_loss = train_step(
+            model, device, criterion, optimizer, train_loader
+        )
         dev_loss = model_dev_loss(model, device, criterion, dev_loader)
         t_end = time.process_time() - t_start
 

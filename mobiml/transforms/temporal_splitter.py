@@ -39,7 +39,9 @@ class TemporalSplitter:
 
         print(f"{datetime.now()} Splitting dataset ...")
 
-        trajectories_dates = self.data.df[TIMESTAMP].dt.date.sort_values().unique()
+        trajectories_dates = (
+            self.data.df[TIMESTAMP].dt.date.sort_values().unique()
+        )
         print(trajectories_dates)
 
         train_indices, dev_indices, test_indices = self._train_test_split(
@@ -58,9 +60,15 @@ class TemporalSplitter:
             + f"\nTest @{(min(test_dates), max(test_dates))=}"
         )
 
-        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(train_dates), "split"] = 1
-        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(dev_dates), "split"] = 2
-        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(test_dates), "split"] = 3
+        self.data.df.loc[
+            self.data.df[TIMESTAMP].dt.date.isin(train_dates), "split"
+        ] = 1
+        self.data.df.loc[
+            self.data.df[TIMESTAMP].dt.date.isin(dev_dates), "split"
+        ] = 2
+        self.data.df.loc[
+            self.data.df[TIMESTAMP].dt.date.isin(test_dates), "split"
+        ] = 3
 
         return self.data
 

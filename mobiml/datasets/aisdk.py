@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime
 from zipfile import ZipFile
 
-from mobiml.datasets import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
+from mobiml.datasets import Dataset, SPEED, TIMESTAMP, DIRECTION
 
 SHIPTYPE = "ship_type"
 
@@ -68,7 +68,9 @@ class AISDK(Dataset):
             },
             inplace=True,
         )
-        self.df[TIMESTAMP] = pd.to_datetime(self.df["t"], format=self.TIME_FORMAT)
+        self.df[TIMESTAMP] = pd.to_datetime(
+            self.df["t"], format=self.TIME_FORMAT
+        )
         self.df.drop(columns=["t"], inplace=True)
         print(f"{datetime.now()} Loaded Dataframe with {len(self.df)} rows.")
 
@@ -77,7 +79,9 @@ class AISDK(Dataset):
 
         def load_single_csv(csv_name) -> pd.DataFrame:
             print(f"{datetime.now()} Loading {csv_name} ...")
-            tmp_df = pd.read_csv(ZipFile(path).open(csv_name), usecols=self.COLS)
+            tmp_df = pd.read_csv(
+                ZipFile(path).open(csv_name), usecols=self.COLS
+            )
             if (
                 (self.min_lat is not None)
                 & (self.max_lat is not None)
@@ -94,7 +98,10 @@ class AISDK(Dataset):
             return tmp_df
 
         df = pd.concat(
-            [load_single_csv(csv_name) for csv_name in ZipFile(path).namelist()],
+            [
+                load_single_csv(csv_name)
+                for csv_name in ZipFile(path).namelist()
+            ],
             ignore_index=True,
         )
         return df

@@ -51,6 +51,8 @@ class TestCopenhagenCyclists:
         }
         for col in extra_cols:
             if col in data.df.columns:
-                raise Exception("There is an extra column: {col}".format(col=col))
+                raise Exception(
+                    "There is an extra column: {col}".format(col=col)
+                )
             else:
                 pass

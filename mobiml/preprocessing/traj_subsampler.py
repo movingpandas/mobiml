@@ -13,7 +13,9 @@ class TrajectorySubsampler:
         df_clean = (
             self.data.df.sort_values(TIMESTAMP, kind="mergesort")
             .groupby(TRAJ_ID)
-            .progress_apply(lambda l: self._subsample_trajectory(l.copy(), min_dt_sec))
+            .progress_apply(
+                lambda l: self._subsample_trajectory(l.copy(), min_dt_sec)
+            )
             .reset_index(level=0, drop=True)
         )
         self.data.df = df_clean
@@ -23,7 +25,9 @@ class TrajectorySubsampler:
         self, traj_df: pd.DataFrame, min_dt_sec=10
     ) -> pd.DataFrame:
         # Based on: https://stackoverflow.com/a/56904899
-        sumlm = np.frompyfunc(lambda a, b: a + b if a < min_dt_sec else b, 2, 1)
+        sumlm = np.frompyfunc(
+            lambda a, b: a + b if a < min_dt_sec else b, 2, 1
+        )
 
         traj_dt = traj_df[TIMESTAMP].diff().dt.total_seconds()
 
@@ -32,4 +36,6 @@ class TrajectorySubsampler:
         with warnings.catch_warnings(record=True):
             traj_dt_sumlm = sumlm.accumulate(traj_dt, dtype=int)
 
-        return traj_df.drop(traj_dt_sumlm.loc[traj_dt_sumlm < min_dt_sec].index)
+        return traj_df.drop(
+            traj_dt_sumlm.loc[traj_dt_sumlm < min_dt_sec].index
+        )

@@ -1,12 +1,9 @@
 import os
-import pytest
 import pandas as pd
-from pandas.testing import assert_frame_equal
 from geopandas import GeoDataFrame
 from movingpandas import TrajectoryCollection
-from shapely.geometry import Point, LineString
-from datetime import datetime, timedelta
-from fiona.crs import from_epsg
+from shapely.geometry import Point
+from datetime import datetime
 
 from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID
 
@@ -59,7 +56,12 @@ class TestDataset:
     def test_dataset_from_csv(self):
         path = os.path.join(self.test_dir, "data/test.csv")
         data = Dataset(
-            path, name="test", traj_id="tid", mover_id="mid", timestamp="t", crs=31256
+            path,
+            name="test",
+            traj_id="tid",
+            mover_id="mid",
+            timestamp="t",
+            crs=31256,
         )
         assert isinstance(data, Dataset)
         assert data.name == "test"
@@ -73,7 +75,12 @@ class TestDataset:
     def test_dataset_from_zipped_csv(self):
         path = os.path.join(self.test_dir, "data/test.zip")
         data = Dataset(
-            path, name="test", traj_id="tid", mover_id="mid", timestamp="t", crs=31256
+            path,
+            name="test",
+            traj_id="tid",
+            mover_id="mid",
+            timestamp="t",
+            crs=31256,
         )
         assert isinstance(data, Dataset)
         assert data.name == "test"

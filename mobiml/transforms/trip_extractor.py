@@ -13,7 +13,9 @@ class TripExtractor:
                 gdf = gdf[gdf[SPEED] > 0]
             except KeyError:
                 pass
-            print(f"   Reduced to: {len(gdf)} rows after removing records with speed=0")
+            print(
+                f"   Reduced to: {len(gdf)} rows after removing records with speed=0"
+            )
             print("Creating TrajectoryCollection ...")
             self.tc = mpd.TrajectoryCollection(
                 gdf, TRAJ_ID, t=TIMESTAMP, min_length=min_length

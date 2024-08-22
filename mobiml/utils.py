@@ -1,4 +1,4 @@
-from typing import Tuple, Union, List
+from typing import Tuple, List
 import numpy as np
 import math
 
@@ -41,7 +41,10 @@ def applyParallel(df_grouped, fun, n_jobs=-1, **kwargs):
 
     df_grouped_names = df_grouped.grouper.names
 
-    _fun = lambda name, group: (fun(group.drop(df_grouped_names, axis=1)), name)
+    _fun = lambda name, group: (
+        fun(group.drop(df_grouped_names, axis=1)),
+        name,
+    )
 
     result, keys = zip(
         *Parallel(n_jobs=n_jobs)(

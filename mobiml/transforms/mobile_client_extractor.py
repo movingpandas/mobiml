@@ -13,7 +13,11 @@ except ImportError as error:
 
 class MobileClientExtractor:
     def __init__(
-        self, dataset: AISDK, clients: AISDK, antenna_radius_meters, n_threads=4
+        self,
+        dataset: AISDK,
+        clients: AISDK,
+        antenna_radius_meters,
+        n_threads=4,
     ) -> None:
         pymeos_initialize()  # Don't remove. Necessary for the correct functioning of PyMEOS
         self.n_threads = n_threads
@@ -22,7 +26,9 @@ class MobileClientExtractor:
         print(f"{datetime.now()} Creating PyMEOS points ...")
         ais = dataset.to_gdf()
         ais["pymeos_pt"] = ais.apply(
-            lambda row: TGeogPointInst(point=row["geometry"], timestamp=row[TIMESTAMP]),
+            lambda row: TGeogPointInst(
+                point=row["geometry"], timestamp=row[TIMESTAMP]
+            ),
             axis=1,
         )
 
@@ -42,7 +48,9 @@ class MobileClientExtractor:
             tmp["dist"] = tmp.apply(
                 lambda row: self.distance_to_traj(row, traj, mmsi), axis=1
             )
-            tmp = tmp[(tmp.dist >= 0) & (tmp.dist < self.antenna_radius_meters)]
+            tmp = tmp[
+                (tmp.dist >= 0) & (tmp.dist < self.antenna_radius_meters)
+            ]
             tmp["client"] = mmsi
             results.append(tmp)
             i = i + 1
@@ -58,7 +66,11 @@ class MobileClientExtractor:
         return pymeos_traj
 
     def extract_wkt_from_traj_vectorized(self, traj):
-        series = traj.df.geometry.to_wkt() + "@" + traj.df.geometry.index.astype(str)
+        series = (
+            traj.df.geometry.to_wkt()
+            + "@"
+            + traj.df.geometry.index.astype(str)
+        )
         wkt = str(list(series)).replace("'", "")
         return wkt
 

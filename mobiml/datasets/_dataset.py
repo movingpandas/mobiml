@@ -123,7 +123,10 @@ class Dataset:
             return tmp_df
 
         df = pd.concat(
-            [load_single_csv(csv_name) for csv_name in ZipFile(path).namelist()],
+            [
+                load_single_csv(csv_name)
+                for csv_name in ZipFile(path).namelist()
+            ],
             ignore_index=True,
         )
         return df
@@ -170,7 +173,11 @@ class Dataset:
     def to_trajs(self) -> mpd.TrajectoryCollection:
         gdf = self.to_gdf()
         trajs = mpd.TrajectoryCollection(
-            gdf, traj_id_col=TRAJ_ID, obj_id_col=MOVER_ID, t=TIMESTAMP, crs=self.crs
+            gdf,
+            traj_id_col=TRAJ_ID,
+            obj_id_col=MOVER_ID,
+            t=TIMESTAMP,
+            crs=self.crs,
         )
         return trajs
 
@@ -186,7 +193,7 @@ class Dataset:
         return ax
 
     def hvplot(self, *args, **kwargs):
-        from hvplot import pandas
+        from hvplot import pandas  # noqa F401
         from holoviews import opts
         from holoviews.element import tiles
 
@@ -197,7 +204,7 @@ class Dataset:
 
     def datashade(self, *args, **kwargs):
         import datashader as ds
-        from hvplot import pandas
+        from hvplot import pandas  # noqa F401
         from holoviews import opts
         from holoviews.element import tiles
 
@@ -205,7 +212,9 @@ class Dataset:
         BG_TILES = tiles.CartoLight()
         df = self.to_df()
         if self.crs is None:
-            return df.hvplot.scatter(x="x", y="y", datashade=True, *args, **kwargs)
+            return df.hvplot.scatter(
+                x="x", y="y", datashade=True, *args, **kwargs
+            )
         if self.crs != 4326:
             # TODO: reproject
             pass

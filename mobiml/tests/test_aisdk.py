@@ -17,7 +17,9 @@ class TestAISDK:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test_data_from_csv(self):
-        path = os.path.join(self.test_dir, "data/test_aisdk_20180208_sample.csv")
+        path = os.path.join(
+            self.test_dir, "data/test_aisdk_20180208_sample.csv"
+        )
         data = AISDK(path)
         assert isinstance(data, AISDK)
         assert TRAJ_ID in data.df.columns
@@ -35,7 +37,9 @@ class TestPreprocessedAISDK:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test_data_from_feather(self):
-        path = os.path.join(self.test_dir, "data/test_ais-extracted-stationary.feather")
+        path = os.path.join(
+            self.test_dir, "data/test_ais-extracted-stationary.feather"
+        )
         data = PreprocessedAISDK(path)
         assert isinstance(data, PreprocessedAISDK)
         assert TRAJ_ID in data.df.columns

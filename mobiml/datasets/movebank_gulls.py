@@ -1,4 +1,4 @@
-from mobiml.datasets import Dataset, SPEED, TIMESTAMP, MOVER_ID
+from mobiml.datasets import Dataset
 
 
 class MovebankGulls(Dataset):

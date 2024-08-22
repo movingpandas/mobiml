@@ -36,7 +36,11 @@ class DeltaDatasetCreator:
         delta_next = delta_curr.shift(-1)
         delta_tau = merge(
             segment[TIMESTAMP].diff().dt.total_seconds().rename("dt_curr"),
-            segment[TIMESTAMP].diff().dt.total_seconds().shift(-1).rename("dt_next"),
+            segment[TIMESTAMP]
+            .diff()
+            .dt.total_seconds()
+            .shift(-1)
+            .rename("dt_next"),
             right_index=True,
             left_index=True,
         )
@@ -93,20 +97,27 @@ class DeltaDatasetCreator:
 
         return traj_delta_windows
 
-    def traj_windowing(self, segment, length_max=1024, length_min=20, stride=512):
+    def traj_windowing(
+        self, segment, length_max=1024, length_min=20, stride=512
+    ):
         traj_inputs, traj_labels = [], []
 
         output_feats_idx = [
-            segment.columns.get_loc(output_feat) for output_feat in self.output_feats
+            segment.columns.get_loc(output_feat)
+            for output_feat in self.output_feats
         ]
 
         for ptr_curr in range(0, len(segment), stride):
-            segment_window = segment.iloc[ptr_curr : ptr_curr + length_max].copy()
+            segment_window = segment.iloc[
+                ptr_curr : ptr_curr + length_max
+            ].copy()
 
             if len(segment_window) < length_min:
                 break
 
             traj_inputs.append(segment_window[self.input_feats].values)
-            traj_labels.append(segment_window.iloc[-1, output_feats_idx].values)
+            traj_labels.append(
+                segment_window.iloc[-1, output_feats_idx].values
+            )
 
         return Series([traj_inputs, traj_labels], index=["samples", "labels"])
