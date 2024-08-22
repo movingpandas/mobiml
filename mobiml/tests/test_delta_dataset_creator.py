@@ -16,7 +16,7 @@ class TestDeltaDatasetCreator:
         dataset = PreprocessedBrestAIS(path)
         split_dataset = TemporalSplitter(dataset).split(
             dev_size=0.25, test_size=0.25
-        )  # TODO: refactor so that DeltaDatasetCreator is not dependent on TemporalSplitter
+        )  # TODO: refactor so that DeltaDatasetCreator is not dependent on TemporalSplitter  # noqa E501
         delta_dataset_creator = DeltaDatasetCreator(split_dataset)
         delta_dataset = delta_dataset_creator.get_delta_dataset("split", njobs=1)
 

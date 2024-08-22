@@ -43,8 +43,8 @@ class TemporalSplitter:
         )
 
         print(
-            f"Train @{(min(train_dates), max(train_dates))=},"
-            + f"\nDev @{(min(dev_dates), max(dev_dates))=},"
+            f"Train @{(min(train_dates), max(train_dates))=}, "
+            + f"\nDev @{(min(dev_dates), max(dev_dates))=}, "
             + f"\nTest @{(min(test_dates), max(test_dates))=}"
         )
 

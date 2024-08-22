@@ -19,7 +19,8 @@ class ODAggregator:
 
     def get_od_for_h3(self, res, freq) -> pd.DataFrame:
         """
-        Extract start and end points (OD) for trajectories from a Dataset and aggregate them in H3.
+        Extract start and end points (OD) for trajectories from a Dataset and aggregate
+        them in H3.
         H3 level and temporal binning are customizable.
 
         Parameters
@@ -27,7 +28,8 @@ class ODAggregator:
         res : int
             Desired number for the H3 resolution
         freq : string
-            Desired frequency for temporal binning, guide: https://pandas.pydata.org/docs/user_guide/timeseries.html#offset-aliases
+            Desired frequency for temporal binning, guide:
+            https://pandas.pydata.org/docs/user_guide/timeseries.html#offset-aliases
 
         Returns
         ----------
@@ -45,7 +47,7 @@ class ODAggregator:
         gdf["y"] = gdf.geometry.y
 
         print(f"{datetime.now()} Identifying h3 cell id ...")
-        # Based on: https://medium.com/@jesse.b.nestler/how-to-convert-h3-cell-boundaries-to-shapely-polygons-in-python-f7558add2f63
+        # Based on: https://medium.com/@jesse.b.nestler/how-to-convert-h3-cell-boundaries-to-shapely-polygons-in-python-f7558add2f63  # noqa E501
         gdf["h3_cell"] = gdf.apply(
             lambda row: str(h3.geo_to_h3(row.y, row.x, res)), axis=1
         )

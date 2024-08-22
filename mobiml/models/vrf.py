@@ -33,7 +33,7 @@ class VRFDataset(Dataset):
         # pdb.set_trace()
         self.samples = data["samples"].values
         self.labels = data["labels"].values.ravel()
-        self.lengths = [len(l) for l in self.samples]
+        self.lengths = [len(sample) for sample in self.samples]
 
         self.dtype = dtype
 
@@ -231,7 +231,7 @@ def model_dev_loss(model, device, criterion, dev_loader):
             _, loss = calc_loss(model, xb, yb, criterion, lb, *args)
             dev_loss.append(loss)
 
-            pbar.set_description(f"Dev Loss: {loss:.{ROUND_DECIMALS}f}")
+            pbar.set_description(f"Dev Loss: {loss: .{ROUND_DECIMALS}f}")
 
     return running_loss(dev_loss, dev_loader)
 
@@ -254,7 +254,7 @@ def train_step(model, device, criterion, optimizer, train_loader):
 
         tr_loss = model_backprop(model, xb, yb, criterion, optimizer, lb, *args)
         train_loss.append(tr_loss)
-        pbar.set_description(f"Train Loss: {tr_loss:.{ROUND_DECIMALS}f}")
+        pbar.set_description(f"Train Loss: {tr_loss: .{ROUND_DECIMALS}f}")
 
     return running_loss(train_loss, train_loader)
 
@@ -318,7 +318,7 @@ def vrf_evaluate_model_singlehead(
                 pd.DataFrame({"errs": np.linalg.norm(y_pred.cpu() - yb.cpu(), axis=-1)})
             )
             losses.append(eval_loss := criterion(y_pred, yb))
-            pbar.set_description(f"{desc}: {eval_loss:.{ROUND_DECIMALS}f}")
+            pbar.set_description(f"{desc}: {eval_loss: .{ROUND_DECIMALS}f}")
 
     # pdb.set_trace()
     errs = pd.concat(errs, ignore_index=True)
@@ -330,13 +330,13 @@ def vrf_evaluate_model_singlehead(
     if display_acc:
         look_bins_cut = pd.cut(errs.look, bins, include_lowest=True)
         ade_bins_cut = errs.groupby(look_bins_cut).errs.mean()
-        # ade_bins_cut = errs.groupby(look_bins_cut).agg({'errs': lambda x: x.mean(skipna=False)}).errs
+        # ade_bins_cut = errs.groupby(look_bins_cut).agg({'errs': lambda x: x.mean(skipna=False)}).errs  # noqa E501
 
-        # Avg. Loss | Avg. Disp. Error (@5 min.; @10 min.; @15 min.; @20 min.; @25 min.; @30 min.; @35 min.)
+        # Avg. Loss | Avg. Disp. Error (@5 min.; @10 min.; @15 min.; @20 min.; @25 min.; @30 min.; @35 min.)  # noqa E501
         print(
-            f"Loss: {test_loss:.{ROUND_DECIMALS}f} | ",
-            f"Accuracy: {avg_disp_err:.{ROUND_DECIMALS}f} |",
-            "; ".join(f"{i:.{ROUND_DECIMALS}f}" for i in ade_bins_cut.values.tolist()),
+            f"Loss: {test_loss: .{ROUND_DECIMALS}f} | ",
+            f"Accuracy: {avg_disp_err: .{ROUND_DECIMALS}f} |",
+            ", ".join(f"{i: .{ROUND_DECIMALS}f}" for i in ade_bins_cut.values.tolist()),
             "m",
         )
 
@@ -419,6 +419,6 @@ def train_model(
             )
 
         if stop:
-            print(f"Training Stopped at Epoch #{i+1}")
+            print(f"Training Stopped at Epoch #{i + 1}")
             break
     return train_losses, dev_losses

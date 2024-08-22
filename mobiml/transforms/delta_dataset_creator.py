@@ -1,9 +1,9 @@
 """
 Based on https://github.com/DataStories-UniPi/Nautilus
 
-As presented in Andreas Tritsarolis, Nikos Pelekis, Konstantina Bereta, Dimitris Zissis, and
-Yannis Theodoridis. 2024. On Vessel Location Forecasting and the Effect of Federated Learning. 
-In Proceedings of the 25th Conference on Mobile Data Management (MDM).
+As presented in Andreas Tritsarolis, Nikos Pelekis, Konstantina Bereta, Dimitris Zissis,
+and Yannis Theodoridis. 2024. On Vessel Location Forecasting and the Effect of Federated
+Learning. In Proceedings of the 25th Conference on Mobile Data Management (MDM).
 """
 
 from pandas import DataFrame, merge, Series
