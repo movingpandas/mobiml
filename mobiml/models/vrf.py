@@ -402,10 +402,10 @@ def train_model(
             save_model(**save_current_params)
 
         print(
-            f"Epoch #{i+1}/{n_epochs} | "
-            f"Train Loss: {train_loss:.{ROUND_DECIMALS}f} | "
-            f"Validation Loss: {dev_loss:.{ROUND_DECIMALS}f} | "
-            f"Time Elapsed: {t_end:.{ROUND_DECIMALS}f}"
+            f"Epoch #{i + 1}/{n_epochs} | "
+            f"Train Loss: {train_loss: .{ROUND_DECIMALS}f} | "
+            f"Validation Loss: {dev_loss: .{ROUND_DECIMALS}f} | "
+            f"Time Elapsed: {t_end: .{ROUND_DECIMALS}f}"
         )
 
         if evaluate_cycle != -1 and i % evaluate_cycle == 0:
