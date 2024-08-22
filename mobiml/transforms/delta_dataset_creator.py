@@ -6,7 +6,6 @@ Yannis Theodoridis. 2024. On Vessel Location Forecasting and the Effect of Feder
 In Proceedings of the 25th Conference on Mobile Data Management (MDM).
 """
 
-
 from pandas import DataFrame, merge, Series
 from mobiml.datasets import Dataset, TIMESTAMP, SPEED, TRAJ_ID, DIRECTION
 from mobiml.utils import applyParallel, shapely_coords_numpy

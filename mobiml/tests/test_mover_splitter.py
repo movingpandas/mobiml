@@ -140,7 +140,9 @@ class TestMoverSplitter:
         features = ["geometry", "traj_id", "mover_id"]
         test_size = 0.25
 
-        X_train, X_test, y_train, y_test = splitter.split(test_size, features, label_col)
+        X_train, X_test, y_train, y_test = splitter.split(
+            test_size, features, label_col
+        )
 
         assert len(X_train) == 12
         assert "geometry" in X_train.columns

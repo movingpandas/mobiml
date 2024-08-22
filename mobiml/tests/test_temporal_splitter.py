@@ -68,7 +68,7 @@ class TestTemporalSplitter:
         assert TIMESTAMP in data.df.columns
         assert len(data.df) == 8
         expected = [1, 1, 1, 1, 2, 2, 3, 3]
-        result = data.df['split'].tolist()
+        result = data.df["split"].tolist()
         print(data.df)
         print(result)
         assert result == expected

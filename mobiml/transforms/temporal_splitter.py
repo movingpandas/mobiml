@@ -27,7 +27,7 @@ class TemporalSplitter:
     ) -> Dataset:
         """
         Splits dataset temporally into train/dev/test (default: 70% train, 20% dev, 10% test)
-    
+
         This split ensures that the first 70% of days are used to train, and the rest are used for dev and test.
 
         Support for other temporal splits than this date-based split is on our todo list.
@@ -64,7 +64,6 @@ class TemporalSplitter:
 
         return self.data
 
-
     def _train_test_split(self, dataset, **kwargs):
         # Creating data indices for training and validation splits:
         dataset_size = len(dataset)
@@ -89,4 +88,3 @@ class TemporalSplitter:
         )
 
         return train_indices, dev_indices, test_indices
-

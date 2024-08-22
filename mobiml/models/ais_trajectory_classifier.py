@@ -17,7 +17,6 @@ from mobiml.datasets import MOVER_ID, SHIPTYPE
 from mobiml.utils import LogRegParams
 
 
-
 def fit_round(server_round: int) -> Dict:
     """Send round number to client."""
     return {"server_round": server_round}
@@ -44,8 +43,8 @@ def get_evaluate_fn(model, data_loader, scenario_name):
         loss = log_loss(y_test, predicted, labels=vessel_types)
         accuracy = model2.score(X_test, y_test)
         predictions = model2.predict(X_test)
-        #ml_utils.save_metrics(y_test, predictions, scenario_name)
-        #ml_utils.display_confusion_matrix(y_test, predictions, vessel_types)
+        # ml_utils.save_metrics(y_test, predictions, scenario_name)
+        # ml_utils.display_confusion_matrix(y_test, predictions, vessel_types)
         print("Accuracy", accuracy)
         return loss, {"accuracy": accuracy}
 
@@ -138,6 +137,7 @@ class AISLoader:
                     trajs = trajs[trajs[key] == value]
                 print(f"... {len(trajs)} found.")
         return trajs
+
 
 class SummarizedAISTrajectoryClassifier(LogisticRegression):
     def __init__(self, classes, n_features) -> None:

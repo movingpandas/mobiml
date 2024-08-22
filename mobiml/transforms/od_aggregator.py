@@ -11,7 +11,7 @@ except ImportError as error:
         "Missing optional dependencies. To use the ODAggregator please "
         "install h3-py using conda install conda-forge::h3-py"
     ) from error
-        
+
 
 class ODAggregator:
     def __init__(self, data: Dataset) -> None:

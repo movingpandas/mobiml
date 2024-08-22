@@ -13,8 +13,8 @@ class MoverSplitter:
     def split(self, test_size, features, label_col):
         """
         Split dataset ensuring that trajectories of test_size % of the movers are assigned to the test set.
-        The remaining mover trajectories are assigned to the train set. 
-        
+        The remaining mover trajectories are assigned to the train set.
+
         Parameters
         ----------
         test_size : float
