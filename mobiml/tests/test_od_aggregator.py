@@ -46,12 +46,12 @@ class TestODAggregator:
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)
-        data = aggregator.get_od_for_h3(7, "1D")
-        assert data.df.origin.sum() == 2
-        assert len(data.df.t.unique()) == 1
-        assert len(data.df.h3_cell.unique()) == 1
-        assert data.df.t[0] == datetime(2018, 1, 1, 0, 0, 0)
-        assert data.df.h3_cell[0] == "87754e64dffffff"
+        od = aggregator.get_od_for_h3(7, "1D")
+        assert od.origin.sum() == 2
+        assert len(od.t.unique()) == 1
+        assert len(od.h3_cell.unique()) == 1
+        assert od.t[0] == datetime(2018, 1, 1, 0, 0, 0)
+        assert od.h3_cell[0] == "87754e64dffffff"
 
     def test_temporal_overlap(self):
         df = pd.DataFrame(
@@ -88,13 +88,13 @@ class TestODAggregator:
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)
-        data = aggregator.get_od_for_h3(7, "1D")
-        assert data.df.origin.sum() == 2
-        assert len(data.df.t.unique()) == 1
-        assert len(data.df.h3_cell.unique()) == 2
-        assert data.df.t[0] == datetime(2018, 1, 1, 0, 0, 0)
+        od = aggregator.get_od_for_h3(7, "1D")
+        assert od.origin.sum() == 2
+        assert len(od.t.unique()) == 1
+        assert len(od.h3_cell.unique()) == 2
+        assert od.t[0] == datetime(2018, 1, 1, 0, 0, 0)
         h3_cell = ["87588a210ffffff", "87754e64dffffff"]
-        assert data.df.h3_cell.tolist() == h3_cell
+        assert od.h3_cell.tolist() == h3_cell
 
     def test_spatial_overlap(self):
         df = pd.DataFrame(
@@ -131,14 +131,13 @@ class TestODAggregator:
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)
-        data = aggregator.get_od_for_h3(7, "1D")
-        assert data.df.origin.sum() == 2
-        print(data.df)
-        assert len(data.df.t.unique()) == 2
-        assert len(data.df.h3_cell.unique()) == 1
+        od = aggregator.get_od_for_h3(7, "1D")
+        assert od.origin.sum() == 2
+        assert len(od.t.unique()) == 2
+        assert len(od.h3_cell.unique()) == 1
         t = [datetime(2018, 1, 1, 0, 0, 0), datetime(2018, 1, 3, 0, 0, 0)]
-        assert data.df.t.tolist() == t
-        assert data.df.h3_cell[0] == "87754e64dffffff"
+        assert od.t.tolist() == t
+        assert od.h3_cell[0] == "87754e64dffffff"
 
     def test_no_overlap(self):
         df = pd.DataFrame(
@@ -175,11 +174,11 @@ class TestODAggregator:
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)
-        data = aggregator.get_od_for_h3(7, "1D")
-        assert data.df.origin.sum() == 2
-        assert len(data.df.t.unique()) == 2
-        assert len(data.df.h3_cell.unique()) == 2
+        od = aggregator.get_od_for_h3(7, "1D")
+        assert od.origin.sum() == 2
+        assert len(od.t.unique()) == 2
+        assert len(od.h3_cell.unique()) == 2
         t = [datetime(2018, 1, 1, 0, 0, 0), datetime(2018, 1, 3, 0, 0, 0)]
-        assert data.df.t.tolist() == t
+        assert od.t.tolist() == t
         h3_cell = ["87754e64dffffff", "87588a210ffffff"]
-        assert data.df.h3_cell.tolist() == h3_cell
+        assert od.h3_cell.tolist() == h3_cell

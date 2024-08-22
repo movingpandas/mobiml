@@ -91,5 +91,4 @@ class ODAggregator:
         combined["destination"] = combined["destination"].fillna(0)
         combined = combined[["t", "h3_cell", "origin", "destination"]]
 
-        self.data.df = combined
-        return self.data
+        return combined
