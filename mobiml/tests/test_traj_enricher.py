@@ -5,7 +5,14 @@ from datetime import datetime
 from shapely.geometry import Point
 
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, SPEED, DIRECTION, TIMESTAMP
+from mobiml.datasets import (
+    Dataset,
+    TRAJ_ID,
+    MOVER_ID,
+    SPEED,
+    DIRECTION,
+    TIMESTAMP,
+)
 from mobiml.preprocessing import TrajectoryEnricher
 
 

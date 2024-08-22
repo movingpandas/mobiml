@@ -30,7 +30,7 @@ def create_point(xy) -> Point:
 def val_or_none(xy, idx):
     try:
         return xy[idx]
-    except:
+    except IndexError:
         return None
 
 
@@ -85,8 +85,11 @@ class Dataset:
 
     def load_from_path(self, path, *args, **kwargs):
         if not exists(path):
-            msg = f"Error reading from {path}:\r\n"
-            msg = f"{msg}Please specify the path to the '{self.name}' file {self.file_name}"
+            msg = (
+                f"Error reading from {path}: \r\n"
+                + f"Please specify the path to the '{self.name}' "
+                + f"file {self.file_name}"
+            )
             if self.source_url:
                 msg = f"{msg}\r\nYou may download this dataset from: {self.source_url}"
             raise ValueError(msg)
@@ -170,7 +173,11 @@ class Dataset:
     def to_trajs(self) -> mpd.TrajectoryCollection:
         gdf = self.to_gdf()
         trajs = mpd.TrajectoryCollection(
-            gdf, traj_id_col=TRAJ_ID, obj_id_col=MOVER_ID, t=TIMESTAMP, crs=self.crs
+            gdf,
+            traj_id_col=TRAJ_ID,
+            obj_id_col=MOVER_ID,
+            t=TIMESTAMP,
+            crs=self.crs,
         )
         return trajs
 
@@ -186,7 +193,7 @@ class Dataset:
         return ax
 
     def hvplot(self, *args, **kwargs):
-        from hvplot import pandas
+        from hvplot import pandas  # noqa F401
         from holoviews import opts
         from holoviews.element import tiles
 
@@ -197,7 +204,7 @@ class Dataset:
 
     def datashade(self, *args, **kwargs):
         import datashader as ds
-        from hvplot import pandas
+        from hvplot import pandas  # noqa F401
         from holoviews import opts
         from holoviews.element import tiles
 

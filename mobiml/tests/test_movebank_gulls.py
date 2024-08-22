@@ -1,5 +1,4 @@
 import os
-import geopandas as gpd
 from movingpandas import TrajectoryCollection
 
 from mobiml.datasets import MovebankGulls, TRAJ_ID, MOVER_ID, TIMESTAMP

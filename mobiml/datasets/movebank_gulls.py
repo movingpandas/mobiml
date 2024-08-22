@@ -1,10 +1,10 @@
-from mobiml.datasets import Dataset, SPEED, TIMESTAMP, MOVER_ID
+from mobiml.datasets import Dataset
 
 
 class MovebankGulls(Dataset):
     name = "Movebank Migrating Gulls"
     file_name = "gulls.gpkg"
-    source_url = "https://github.com/movingpandas/movingpandas-examples/blob/main/data/gulls.gpkg"
+    source_url = "https://github.com/movingpandas/movingpandas-examples/blob/main/data/gulls.gpkg"  # noqa E501
     traj_id = "individual-local-identifier"
     mover_id = "individual-local-identifier"
     crs = 4326

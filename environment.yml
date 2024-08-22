@@ -3,18 +3,18 @@ channels:
   - conda-forge
 dependencies:
   - python=3.10
-  - numpy
+  - numpy>=2.0
+  - tqdm
   - geopandas-base
   - matplotlib-base
   - black
   - geopy
   - h3pandas
   - h3-py
+  - pyarrow
   - pymeos
   - pytest
   - pytest-cov
   - movingpandas
-  - pip
-  - pip:
-    - pyarrow
-    - torch
+  - pytorch
+  - opacus

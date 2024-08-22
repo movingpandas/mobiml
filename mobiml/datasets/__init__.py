@@ -1,4 +1,4 @@
-from ._dataset import (
+from ._dataset import (  # noqa F401
     Dataset,
     TRAJ_ID,
     MOVER_ID,
@@ -9,9 +9,9 @@ from ._dataset import (
     DIRECTION,
     unixtime_to_datetime,
 )
-from .aisdk import AISDK, PreprocessedAISDK, SHIPTYPE
-from .brest_ais import BrestAIS, PreprocessedBrestAIS
-from .copenhagen_cyclists import CopenhagenCyclists
-from .movebank_gulls import MovebankGulls
-from .porto_taxis import PortoTaxis
-from .delhi_air_pollution import DelhiAirPollution
+from .aisdk import AISDK, PreprocessedAISDK, SHIPTYPE  # noqa F401
+from .brest_ais import BrestAIS, PreprocessedBrestAIS  # noqa F401
+from .copenhagen_cyclists import CopenhagenCyclists  # noqa F401
+from .movebank_gulls import MovebankGulls  # noqa F401
+from .porto_taxis import PortoTaxis  # noqa F401
+from .delhi_air_pollution import DelhiAirPollution  # noqa F401

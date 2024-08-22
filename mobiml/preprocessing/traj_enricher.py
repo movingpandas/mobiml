@@ -42,7 +42,9 @@ class TrajectoryEnricher:
         if acceleration:
             print("Adding acceleration ...")
             trajs.add_acceleration(
-                units=acceleration_units, overwrite=overwrite, n_threads=n_threads
+                units=acceleration_units,
+                overwrite=overwrite,
+                n_threads=n_threads,
             )
         df = trajectorycollection_to_df(trajs)
         self.data.df = df

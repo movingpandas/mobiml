@@ -7,11 +7,11 @@ from mobiml.datasets import MOVER_ID, SPEED, DIRECTION
 from mobiml.datasets.aisdk import SHIPTYPE
 
 try:
-    import h3pandas as h3
+    import h3pandas as h3  # noqa F401
 except ImportError as error:
     raise ImportError(
-        "Missing optional dependencies. To use the TrajectoryAggregator please "
-        "install h3pandas"
+        "Missing optional dependencies. To use the TrajectoryAggregator "
+        "please install h3pandas"
     ) from error
 
 

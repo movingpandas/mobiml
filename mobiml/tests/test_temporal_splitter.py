@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, TIMESTAMP
+from mobiml.datasets import Dataset, TRAJ_ID, TIMESTAMP
 
 from mobiml.transforms.temporal_splitter import TemporalSplitter
 
@@ -68,7 +68,7 @@ class TestTemporalSplitter:
         assert TIMESTAMP in data.df.columns
         assert len(data.df) == 8
         expected = [1, 1, 1, 1, 2, 2, 3, 3]
-        result = data.df['split'].tolist()
+        result = data.df["split"].tolist()
         print(data.df)
         print(result)
         assert result == expected

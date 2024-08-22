@@ -12,9 +12,10 @@ class MoverSplitter:
 
     def split(self, test_size, features, label_col):
         """
-        Split dataset ensuring that trajectories of test_size % of the movers are assigned to the test set.
-        The remaining mover trajectories are assigned to the train set. 
-        
+        Split dataset ensuring that trajectories of test_size % of the movers are
+        assigned to the test set.
+        The remaining mover trajectories are assigned to the train set.
+
         Parameters
         ----------
         test_size : float
@@ -45,7 +46,8 @@ class MoverSplitter:
         )
 
         print(
-            f"Using {len(movers_train.index)} movers for training and {len(movers_test.index)} for testing ..."
+            f"Using {len(movers_train.index)} movers for training and "
+            + f"{len(movers_test.index)} for testing ..."
         )
 
         tmp = self.trajs.sample(frac=1).reset_index(drop=True)
@@ -53,7 +55,8 @@ class MoverSplitter:
         trajs_train = tmp[tmp[self.mover_id].isin(movers_train)]
         trajs_test = tmp[tmp[self.mover_id].isin(movers_test)]
         print(
-            f"({len(trajs_train.index)} trajectories for training and {len(trajs_test.index)} for testing)"
+            f"({len(trajs_train.index)} trajectories for training and "
+            + f"{len(trajs_test.index)} for testing)"
         )
 
         X_train = trajs_train[X_cols]

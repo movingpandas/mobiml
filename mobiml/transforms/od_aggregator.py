@@ -11,7 +11,7 @@ except ImportError as error:
         "Missing optional dependencies. To use the ODAggregator please "
         "install h3-py using conda install conda-forge::h3-py"
     ) from error
-        
+
 
 class ODAggregator:
     def __init__(self, data: Dataset) -> None:
@@ -19,7 +19,8 @@ class ODAggregator:
 
     def get_od_for_h3(self, res, freq) -> pd.DataFrame:
         """
-        Extract start and end points (OD) for trajectories from a Dataset and aggregate them in H3.
+        Extract start and end points (OD) for trajectories from a Dataset and aggregate
+        them in H3.
         H3 level and temporal binning are customizable.
 
         Parameters
@@ -27,7 +28,8 @@ class ODAggregator:
         res : int
             Desired number for the H3 resolution
         freq : string
-            Desired frequency for temporal binning, guide: https://pandas.pydata.org/docs/user_guide/timeseries.html#offset-aliases
+            Desired frequency for temporal binning, guide:
+            https://pandas.pydata.org/docs/user_guide/timeseries.html#offset-aliases
 
         Returns
         ----------
@@ -45,14 +47,19 @@ class ODAggregator:
         gdf["y"] = gdf.geometry.y
 
         print(f"{datetime.now()} Identifying h3 cell id ...")
-        # Based on: https://medium.com/@jesse.b.nestler/how-to-convert-h3-cell-boundaries-to-shapely-polygons-in-python-f7558add2f63
+        # Based on: https://medium.com/@jesse.b.nestler/how-to-convert-h3-cell-boundaries-to-shapely-polygons-in-python-f7558add2f63  # noqa E501
         gdf["h3_cell"] = gdf.apply(
             lambda row: str(h3.geo_to_h3(row.y, row.x, res)), axis=1
         )
         gdf = gdf[gdf.h3_cell != "0"]
 
         tc = mpd.TrajectoryCollection(
-            gdf, traj_id_col=TRAJ_ID, obj_id_col=MOVER_ID, t=TIMESTAMP, x="x", y="y"
+            gdf,
+            traj_id_col=TRAJ_ID,
+            obj_id_col=MOVER_ID,
+            t=TIMESTAMP,
+            x="x",
+            y="y",
         )
 
         print(f"{datetime.now()} Getting start locations ...")

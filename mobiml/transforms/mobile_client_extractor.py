@@ -13,9 +13,13 @@ except ImportError as error:
 
 class MobileClientExtractor:
     def __init__(
-        self, dataset: AISDK, clients: AISDK, antenna_radius_meters, n_threads=4
+        self,
+        dataset: AISDK,
+        clients: AISDK,
+        antenna_radius_meters,
+        n_threads=4,
     ) -> None:
-        pymeos_initialize()  # Don't remove. Necessary for the correct functioning of PyMEOS
+        pymeos_initialize()  # Don't remove. Necessary for the correct functioning of PyMEOS  # noqa E501
         self.n_threads = n_threads
         self.antenna_radius_meters = antenna_radius_meters
 
