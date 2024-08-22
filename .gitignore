@@ -175,3 +175,11 @@ examples/data/nari_dynamic.csv
 
 examples/data/aisdk-2018-02.zip
 /examples/temp
+examples/data/train.csv
+examples/data/df_bike.pickle
+examples/data/intersection2.png
+examples/data/gulls.gpkg
+examples/data/gulls.gpkg-shm
+examples/data/2021-01-30_all.csv
+examples/rendered MobiML notebooks.lnk
+examples/data/nari_static.csv
