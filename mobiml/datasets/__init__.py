@@ -1,4 +1,4 @@
-from ._dataset import (
+from ._dataset import (  # noqa F401
     Dataset,
     TRAJ_ID,
     MOVER_ID,
@@ -8,8 +8,8 @@ from ._dataset import (
     SPEED,
     DIRECTION,
     unixtime_to_datetime,
-)  # noqa F401
-from .aisdk import AISDK, PreprocessedAISDK  # noqa F401
+)
+from .aisdk import AISDK, PreprocessedAISDK, SHIPTYPE  # noqa F401
 from .brest_ais import BrestAIS, PreprocessedBrestAIS  # noqa F401
 from .copenhagen_cyclists import CopenhagenCyclists  # noqa F401
 from .movebank_gulls import MovebankGulls  # noqa F401

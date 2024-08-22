@@ -30,7 +30,7 @@ def create_point(xy) -> Point:
 def val_or_none(xy, idx):
     try:
         return xy[idx]
-    except:
+    except IndexError:
         return None
 
 
@@ -85,7 +85,7 @@ class Dataset:
 
     def load_from_path(self, path, *args, **kwargs):
         if not exists(path):
-            msg = f"Error reading from {path}:\r\n"
+            msg = f"Error reading from {path}: \r\n"
             msg = f"{msg}Please specify the path to the '{self.name}' file {self.file_name}"
             if self.source_url:
                 msg = f"{msg}\r\nYou may download this dataset from: {self.source_url}"
