@@ -30,8 +30,7 @@ class TrajectoryAggregator:
             inplace=True,
         )
         traj_gdf["H3_seq"] = [
-            traj_to_h3_sequence(traj, h3_resolution)
-            for traj in self.trajs.trajectories
+            traj_to_h3_sequence(traj, h3_resolution) for traj in self.trajs.trajectories
         ]
 
         start_locations = self.trajs.get_start_locations()

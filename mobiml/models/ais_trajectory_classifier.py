@@ -33,14 +33,15 @@ def get_evaluate_fn(model, data_loader, scenario_name):
         vessel_types = model.classes
 
         # deep copy to calcuate accuracy using real class names.
-        # (FL aggregation for class names does not work since only numpy values are supported. )
+        # (FL aggregation for class names does not work since only numpy
+        # values are supported. )
         model2 = deepcopy(model)
         model2.classes_ = vessel_types
 
         predicted = model.predict_proba(X_test)
         loss = log_loss(y_test, predicted, labels=vessel_types)
         accuracy = model2.score(X_test, y_test)
-        predictions = model2.predict(X_test)
+        # predictions = model2.predict(X_test)
         # ml_utils.save_metrics(y_test, predictions, scenario_name)
         # ml_utils.display_confusion_matrix(y_test, predictions, vessel_types)
         print("Accuracy", accuracy)
@@ -101,16 +102,12 @@ class AISLoader:
         trajs = self.filter_trajs(filter, trajs)
 
         if "H3_seq" in self.traj_features:
-            self.traj_features, trajs = self.unstack_h3_seq(
-                self.traj_features, trajs
-            )
+            self.traj_features, trajs = self.unstack_h3_seq(self.traj_features, trajs)
 
         self.min_max_normalize_features(self.traj_features, trajs)
         print(f"Available trajectory columns: {trajs.columns}")
 
-        splitter = MoverSplitter(
-            trajs, mover_id=MOVER_ID, mover_class=SHIPTYPE
-        )
+        splitter = MoverSplitter(trajs, mover_id=MOVER_ID, mover_class=SHIPTYPE)
         X_train, X_test, y_train, y_test = splitter.split(
             self.test_size, self.traj_features, label_col=SHIPTYPE
         )

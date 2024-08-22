@@ -35,9 +35,7 @@ class TrajectoryEnricher:
         trajs = self.data.to_trajs()
         if speed:
             print("Adding speed ...")
-            trajs.add_speed(
-                units=speed_units, overwrite=overwrite, n_threads=n_threads
-            )
+            trajs.add_speed(units=speed_units, overwrite=overwrite, n_threads=n_threads)
         if direction:
             print("Adding direction ...")
             trajs.add_direction(overwrite=overwrite, n_threads=n_threads)

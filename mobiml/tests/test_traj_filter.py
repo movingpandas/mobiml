@@ -68,9 +68,7 @@ class TestTrajectoryFilter:
         self.gdf = GeoDataFrame(df, crs=31256)
 
     def test_filter_min_pts(self):
-        dataset = Dataset(
-            self.gdf, traj_id="tid", mover_id="mid", timestamp="txx"
-        )
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         assert len(dataset.to_trajs()) == 3
         filter = TrajectoryFilter(dataset)
         assert isinstance(filter, TrajectoryFilter)
@@ -81,9 +79,7 @@ class TestTrajectoryFilter:
         assert len(data.to_trajs()) == 1
 
     def test_filter_speed(self):
-        dataset = Dataset(
-            self.gdf, traj_id="tid", mover_id="mid", timestamp="txx"
-        )
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         assert len(dataset.to_trajs()) == 3
         filter = TrajectoryFilter(dataset)
         assert isinstance(filter, TrajectoryFilter)
@@ -95,9 +91,7 @@ class TestTrajectoryFilter:
         assert len(data.to_trajs()) == 2
 
     def test_filter_speed_with_TrajectoryEnricher(self):
-        dataset = Dataset(
-            self.gdf, traj_id="tid", mover_id="mid", timestamp="txx"
-        )
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         assert len(dataset.to_trajs()) == 3
         enricher = TrajectoryEnricher(dataset)
         assert isinstance(enricher, TrajectoryEnricher)

@@ -7,8 +7,6 @@ def trajectorycollection_to_df(trajs):
     gdf["x"] = gdf.geometry.x
     gdf["y"] = gdf.geometry.y
     gdf[TIMESTAMP] = gdf.index
-    df = DataFrame(gdf.drop(columns="geometry")).reset_index(
-        level=0, drop=True
-    )
+    df = DataFrame(gdf.drop(columns="geometry")).reset_index(level=0, drop=True)
 
     return df

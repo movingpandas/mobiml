@@ -12,7 +12,7 @@ from mobiml.datasets import (
 class PortoTaxis(Dataset):
     name = "Porto Taxi"
     file_name = "train.csv or test.csv"
-    source_url = "https://www.kaggle.com/competitions/pkdd-15-predict-taxi-service-trajectory-i/data"
+    source_url = "https://www.kaggle.com/competitions/pkdd-15-predict-taxi-service-trajectory-i/data"  # noqa E501
     traj_id = "TRIP_ID"
     mover_id = "TAXI_ID"
     crs = 4326

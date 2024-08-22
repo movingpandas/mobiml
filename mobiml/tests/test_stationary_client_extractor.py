@@ -77,14 +77,10 @@ class TestStationaryClientExtractor:
         antennas_gdf = gpd.GeoDataFrame(df, geometry=g, crs=4326)
         antennas_gdf = antennas_gdf.to_crs(epsg_code)
         buffered_antennas = antennas_gdf
-        buffered_antennas["geometry"] = antennas_gdf.buffer(
-            antenna_radius_meters
-        )
+        buffered_antennas["geometry"] = antennas_gdf.buffer(antenna_radius_meters)
         buffered_antennas = buffered_antennas.to_crs(4326)
 
-        min_lon, min_lat, max_lon, max_lat = (
-            buffered_antennas.geometry.total_bounds
-        )
+        min_lon, min_lat, max_lon, max_lat = buffered_antennas.geometry.total_bounds
         aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
 
         clients_gdf = StationaryClientExtractor(aisdk, buffered_antennas)
@@ -103,14 +99,10 @@ class TestStationaryClientExtractor:
         antennas_gdf = gpd.GeoDataFrame(df, geometry=g, crs=4326)
         antennas_gdf = antennas_gdf.to_crs(epsg_code)
         buffered_antennas = antennas_gdf
-        buffered_antennas["geometry"] = antennas_gdf.buffer(
-            antenna_radius_meters
-        )
+        buffered_antennas["geometry"] = antennas_gdf.buffer(antenna_radius_meters)
         buffered_antennas = buffered_antennas.to_crs(4326)
 
-        min_lon, min_lat, max_lon, max_lat = (
-            buffered_antennas.geometry.total_bounds
-        )
+        min_lon, min_lat, max_lon, max_lat = buffered_antennas.geometry.total_bounds
         aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
 
         clients_gdf = StationaryClientExtractor(aisdk, buffered_antennas)

@@ -55,9 +55,7 @@ class TestTrajectorySplitter:
         self.gdf = GeoDataFrame(df, crs=31256)
 
     def test_split(self):
-        dataset = Dataset(
-            self.gdf, traj_id="tid", mover_id="mid", timestamp="txx"
-        )
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         splitter = TrajectorySplitter(dataset)
         assert isinstance(splitter, TrajectorySplitter)
         data = splitter.split(observation_gap=timedelta(hours=10))

@@ -7,7 +7,7 @@ from mobiml.datasets import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
 class BrestAIS(Dataset):
     name = "Brest AIS"
     file_name = "nari_dynamic_sar.csv or nari_dynamic.csv"
-    source_url = "https://zenodo.org/record/1167595/files/%5BP1%5D%20AIS%20Data.zip?download=1"
+    source_url = "https://zenodo.org/record/1167595/files/%5BP1%5D%20AIS%20Data.zip?download=1"  # noqa E501
     traj_id = "sourcemmsi"
     mover_id = "sourcemmsi"
     crs = 4326

@@ -4,7 +4,8 @@ import math
 
 
 # Get the coordinates of a Shapely Geometry (e.g. Point, Polygon, etc.) as NumPy array
-shapely_coords_numpy = lambda l: np.array(*list(l.coords))
+def shapely_coords_numpy(l): 
+    return np.array(*list(l.coords))
 
 
 class XY(Tuple):
@@ -41,10 +42,11 @@ def applyParallel(df_grouped, fun, n_jobs=-1, **kwargs):
 
     df_grouped_names = df_grouped.grouper.names
 
-    _fun = lambda name, group: (
-        fun(group.drop(df_grouped_names, axis=1)),
-        name,
-    )
+    def _fun(name,group): 
+        return (
+            fun(group.drop(df_grouped_names, axis=1)),
+            name,
+        )
 
     result, keys = zip(
         *Parallel(n_jobs=n_jobs)(

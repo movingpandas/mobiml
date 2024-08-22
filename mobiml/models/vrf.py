@@ -3,10 +3,9 @@ Nautilus -- Vessel Route Forecasting
 
 Based on https://github.com/DataStories-UniPi/Nautilus
 
-As presented in Andreas Tritsarolis, Nikos Pelekis, Konstantina Bereta, Dimitris Zissis, and
-Yannis Theodoridis. 2024. On Vessel Location Forecasting and the Effect of Federated Learning. 
-In Proceedings of the 25th Conference on Mobile Data Management (MDM).
-
+As presented in Andreas Tritsarolis, Nikos Pelekis, Konstantina Bereta, Dimitris Zissis,
+and Yannis Theodoridis. 2024. On Vessel Location Forecasting and the Effect of Federated
+Learning. In Proceedings of the 25th Conference on Mobile Data Management (MDM).
 """
 
 import tqdm
@@ -15,13 +14,11 @@ import pandas as pd
 import numpy as np
 import warnings
 
-from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 
 import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import (
-    pad_packed_sequence,
     pack_padded_sequence,
     pad_sequence,
 )
@@ -57,9 +54,7 @@ class VRFDataset(Dataset):
 
     def __getitem__(self, item):
         return (
-            torch.tensor(
-                self.scaler.transform(self.samples[item]).astype(self.dtype)
-            ),
+            torch.tensor(self.scaler.transform(self.samples[item]).astype(self.dtype)),
             torch.tensor(self.labels[item].reshape(1, -1).astype(self.dtype)),
             torch.tensor(self.lengths[item]),
         )
@@ -125,7 +120,8 @@ class VesselRouteForecasting(nn.Module):
             self.mu, self.sigma = self.scale["mu"], self.scale["sigma"]
         else:
             warnings.warn(
-                "Instantiated instance without standardization. This may lead to wrong results..."
+                "Instantiated instance without standardization. "
+                "This may lead to wrong results..."
             )
 
     def forward_rnn_cell(self, x, lengths):
@@ -139,8 +135,8 @@ class VesselRouteForecasting(nn.Module):
         )
 
         # Initialize ```hidden state``` and ```cell state``` with zeros
-        # h0, c0 = torch.zeros(2*self.num_layers if self.bidirectional else self.num_layers, x.size(0), self.hidden_size).to(x.device),\
-        #          torch.zeros(2*self.num_layers if self.bidirectional else self.num_layers, x.size(0), self.hidden_size).to(x.device)
+        # h0, c0 = torch.zeros(2*self.num_layers if self.bidirectional else self.num_layers, x.size(0), self.hidden_size).to(x.device),\  # noqa E501
+        #          torch.zeros(2*self.num_layers if self.bidirectional else self.num_layers, x.size(0), self.hidden_size).to(x.device)  # noqa E501
 
         # Forward propagate packed sequences through LSTM
         # packed_out, (h_n, c_n) = self.rnn_cell(packed_x, (h0, c0))
@@ -256,9 +252,7 @@ def train_step(model, device, criterion, optimizer, train_loader):
         yb = yb.to(device).float()
         args = (arg.to(device) for arg in args)
 
-        tr_loss = model_backprop(
-            model, xb, yb, criterion, optimizer, lb, *args
-        )
+        tr_loss = model_backprop(model, xb, yb, criterion, optimizer, lb, *args)
         train_loss.append(tr_loss)
         pbar.set_description(f"Train Loss: {tr_loss:.{ROUND_DECIMALS}f}")
 
@@ -277,7 +271,7 @@ def early_stopping(
     if (min_loss - curr_loss) > min_delta:
         if save_best:
             print(
-                f'Loss Decreased ({min_loss:.{ROUND_DECIMALS}f} -> {curr_loss:.{ROUND_DECIMALS}f}). Saving Model to {kwargs["path"]}... ',
+                f'Loss Decreased ({min_loss:.{ROUND_DECIMALS}f} -> {curr_loss:.{ROUND_DECIMALS}f}). Saving Model to {kwargs["path"]}... ',  # noqa E501
                 end=" ",
             )
             save_model(**kwargs)
@@ -286,7 +280,7 @@ def early_stopping(
         return 0, curr_loss, False
 
     print(
-        f"Loss Increased ({min_loss:.{ROUND_DECIMALS}f} -> {curr_loss:.{ROUND_DECIMALS}f})."
+        f"Loss Increased ({min_loss:.{ROUND_DECIMALS}f} -> {curr_loss:.{ROUND_DECIMALS}f})."  # noqa E501
     )
     n_epochs_stop_ = n_epochs_stop + 1
     return n_epochs_stop_, min_loss, n_epochs_stop_ == patience
@@ -316,16 +310,12 @@ def vrf_evaluate_model_singlehead(
             )
         ):
             # print(f'{xb.shape=}\t {yb.shape=}\t {lb.shape=}')
-            xb, yb = xb.to(device), yb.squeeze(dim=-2).to(
-                device
-            )  # Model Inference
+            xb, yb = xb.to(device), yb.squeeze(dim=-2).to(device)  # Model Inference
             args = (arg.to(device) for arg in args)
             y_pred = model(xb.float(), lb, *args).detach()
 
             errs.append(
-                pd.DataFrame(
-                    {"errs": np.linalg.norm(y_pred.cpu() - yb.cpu(), axis=-1)}
-                )
+                pd.DataFrame({"errs": np.linalg.norm(y_pred.cpu() - yb.cpu(), axis=-1)})
             )
             losses.append(eval_loss := criterion(y_pred, yb))
             pbar.set_description(f"{desc}: {eval_loss:.{ROUND_DECIMALS}f}")
@@ -346,9 +336,7 @@ def vrf_evaluate_model_singlehead(
         print(
             f"Loss: {test_loss:.{ROUND_DECIMALS}f} | ",
             f"Accuracy: {avg_disp_err:.{ROUND_DECIMALS}f} |",
-            "; ".join(
-                f"{i:.{ROUND_DECIMALS}f}" for i in ade_bins_cut.values.tolist()
-            ),
+            "; ".join(f"{i:.{ROUND_DECIMALS}f}" for i in ade_bins_cut.values.tolist()),
             "m",
         )
 
@@ -386,9 +374,7 @@ def train_model(
     # training loop
     for i in range(n_epochs):
         t_start = time.process_time()
-        train_loss = train_step(
-            model, device, criterion, optimizer, train_loader
-        )
+        train_loss = train_step(model, device, criterion, optimizer, train_loader)
         dev_loss = model_dev_loss(model, device, criterion, dev_loader)
         t_end = time.process_time() - t_start
 

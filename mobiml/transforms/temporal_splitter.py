@@ -29,15 +29,13 @@ class TemporalSplitter:
 
         print(f"{datetime.now()} Splitting dataset ...")
 
-        trajectories_dates = (
-            self.data.df[TIMESTAMP].dt.date.sort_values().unique()
-        )
+        trajectories_dates = self.data.df[TIMESTAMP].dt.date.sort_values().unique()
         print(trajectories_dates)
 
         train_indices, dev_indices, test_indices = self._train_test_split(
             trajectories_dates, shuffle=False, **kwargs
         )
-        print(f"train:{train_indices}; dev:{dev_indices}; test:{test_indices}")
+        print(f"train: {train_indices}, dev: {dev_indices}, test: {test_indices}")
         train_dates, dev_dates, test_dates = (
             trajectories_dates[train_indices],
             trajectories_dates[dev_indices],
@@ -45,20 +43,14 @@ class TemporalSplitter:
         )
 
         print(
-            f"Train @{(min(train_dates), max(train_dates))=};"
-            + f"\nDev @{(min(dev_dates), max(dev_dates))=};"
+            f"Train @{(min(train_dates), max(train_dates))=},"
+            + f"\nDev @{(min(dev_dates), max(dev_dates))=},"
             + f"\nTest @{(min(test_dates), max(test_dates))=}"
         )
 
-        self.data.df.loc[
-            self.data.df[TIMESTAMP].dt.date.isin(train_dates), "split"
-        ] = 1
-        self.data.df.loc[
-            self.data.df[TIMESTAMP].dt.date.isin(dev_dates), "split"
-        ] = 2
-        self.data.df.loc[
-            self.data.df[TIMESTAMP].dt.date.isin(test_dates), "split"
-        ] = 3
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(train_dates), "split"] = 1
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(dev_dates), "split"] = 2
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.date.isin(test_dates), "split"] = 3
 
         return self.data
 

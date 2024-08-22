@@ -18,9 +18,7 @@ class TestDeltaDatasetCreator:
             dev_size=0.25, test_size=0.25
         )  # TODO: refactor so that DeltaDatasetCreator is not dependent on TemporalSplitter
         delta_dataset_creator = DeltaDatasetCreator(split_dataset)
-        delta_dataset = delta_dataset_creator.get_delta_dataset(
-            "split", njobs=1
-        )
+        delta_dataset = delta_dataset_creator.get_delta_dataset("split", njobs=1)
 
         expected_dt_curr = [259, 80, 91]
         dt_curr = delta_dataset.dt_curr.tolist()
@@ -32,9 +30,7 @@ class TestDeltaDatasetCreator:
             "data/test_nautilus_trajectories_preprocessed_100.csv",
         )
         dataset = PreprocessedBrestAIS(path)
-        split_dataset = TemporalSplitter(dataset).split(
-            dev_size=0.25, test_size=0.25
-        )
+        split_dataset = TemporalSplitter(dataset).split(dev_size=0.25, test_size=0.25)
         delta_dataset_creator = DeltaDatasetCreator(split_dataset)
         windowed_dataset = delta_dataset_creator.get_windowed_dataset("split")
         assert len(windowed_dataset) == 1
@@ -50,22 +46,14 @@ class TestDeltaDatasetCreator:
             "data/test_nautilus_trajectories_preprocessed_100.csv",
         )
         dataset = PreprocessedBrestAIS(path)
-        split_dataset = TemporalSplitter(dataset).split(
-            dev_size=0.25, test_size=0.25
-        )
+        split_dataset = TemporalSplitter(dataset).split(dev_size=0.25, test_size=0.25)
         delta_dataset_creator = DeltaDatasetCreator(split_dataset)
-        delta_dataset = delta_dataset_creator.get_delta_dataset(
-            "split", njobs=1
-        )
-        samples, labels = delta_dataset_creator.traj_windowing(
-            delta_dataset, 10, 2, 30
-        )
+        delta_dataset = delta_dataset_creator.get_delta_dataset("split", njobs=1)
+        samples, labels = delta_dataset_creator.traj_windowing(delta_dataset, 10, 2, 30)
         assert len(samples) == len(labels) == 4
         samples, labels = delta_dataset_creator.traj_windowing(
             delta_dataset, 10, 2, 100
         )
         assert len(samples) == len(labels) == 1
-        samples, labels = delta_dataset_creator.traj_windowing(
-            delta_dataset, 10, 2, 10
-        )
+        samples, labels = delta_dataset_creator.traj_windowing(delta_dataset, 10, 2, 10)
         assert len(samples) == len(labels) == 10
