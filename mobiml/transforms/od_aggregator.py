@@ -1,10 +1,17 @@
-import h3
 import pandas as pd
 import movingpandas as mpd
 from datetime import datetime
 
 from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, TIMESTAMP
 
+try:
+    import h3
+except ImportError as error:
+    raise ImportError(
+        "Missing optional dependencies. To use the ODAggregator please "
+        "install h3-py using conda install conda-forge::h3-py"
+    ) from error
+        
 
 class ODAggregator:
     def __init__(self, data: Dataset) -> None:

@@ -11,6 +11,12 @@ Development of this framework was inspired by https://github.com/wherobots/GeoTo
 mamba env create -f environment.yml
 ```
 
+### Environment notes
+
+As of August 2024, pip installing the current latest Flower version (flwr-1.10.0) installes numpy-1.26.4. There seems to be no numpy 2.0 support in Flower yet. 
+
+
+
 ## MobiML modules
 
 MobiML contains various modules for learning and data preprocessing for movement data. 
