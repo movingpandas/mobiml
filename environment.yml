@@ -17,3 +17,4 @@ dependencies:
   - movingpandas
   - pytorch
   - opacus
+  - scikit-learn
