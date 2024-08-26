@@ -52,6 +52,19 @@ jobs:
         run: |
           python -V
           conda info
+          conda list,
+
+
+
+
+
+
+
+
+
+
+
+          
 
       - name: Test
         run: |
