@@ -5,14 +5,13 @@ dependencies:
   - python=3.10
   - bokeh<3.0
   - numpy=1.23.4
+  - scikit-learn
   - geopandas-base
   - matplotlib-base
-  - black
-  - fiona
   - geopy
   - h3-py
-  - rtree
   - pymeos
+  - pyproj
   - pytest
   - pytest-cov
   - movingpandas
