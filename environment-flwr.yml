@@ -10,7 +10,7 @@ dependencies:
   - black
   - fiona
   - geopy
-  - h3pandas
+  - h3-py
   - rtree
   - pymeos
   - pytest

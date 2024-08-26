@@ -9,7 +9,6 @@ dependencies:
   - matplotlib-base
   - black
   - geopy
-  - h3pandas
   - h3-py
   - pyarrow
   - pymeos
