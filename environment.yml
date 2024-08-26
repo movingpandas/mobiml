@@ -13,6 +13,7 @@ dependencies:
   - h3-py
   - pyarrow
   - pymeos
+  - pyproj
   - pytest
   - pytest-cov
   - movingpandas
