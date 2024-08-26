@@ -7,11 +7,11 @@ from mobiml.datasets import MOVER_ID, SPEED, DIRECTION
 from mobiml.datasets.aisdk import SHIPTYPE
 
 try:
-    import h3pandas as h3  # noqa F401
+    import h3  # noqa F401
 except ImportError as error:
     raise ImportError(
         "Missing optional dependencies. To use the TrajectoryAggregator "
-        "please install h3pandas"
+        "please install h3-py"
     ) from error
 
 
@@ -60,6 +60,11 @@ class TrajectoryAggregator:
 def traj_to_h3_sequence(my_traj, h3_resolution):
     df = my_traj.df.copy()
     df["t"] = df.index
-    df["h3_cell"] = df.h3.geo_to_h3(resolution=h3_resolution).index
+    df["h3_cell"] = df.apply(
+        lambda row: str(
+            h3.geo_to_h3(row.geometry.y, row.geometry.x, resolution=h3_resolution)
+        ),
+        axis=1,
+    ).index
     h3_sequence = [key for key, _ in groupby(df.h3_cell.values.tolist())]
     return h3_sequence
