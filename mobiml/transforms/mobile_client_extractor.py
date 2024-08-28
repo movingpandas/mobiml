@@ -41,7 +41,7 @@ class MobileClientExtractor:
         i = 1
         for traj_id, traj in client_trajs.items():
             print(f"{i}/{n}: {traj_id}")
-            mmsi = int(traj_id.split("_")[0])
+            mmsi = traj_id if type(traj_id) is int else int(traj_id.split("_")[0])
             tmp = ais.copy()
             tmp["dist"] = tmp.apply(
                 lambda row: self.distance_to_traj(row, traj, mmsi), axis=1
