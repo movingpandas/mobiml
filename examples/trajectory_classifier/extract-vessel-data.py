@@ -7,9 +7,10 @@ from copy import deepcopy
 from datetime import datetime
 
 import sys
+
 sys.path.append("../mobiml")
 from mobiml.datasets import AISDK
-from mobiml.transforms import MobileClientExtractor
+from mobiml.preprocessing import MobileClientExtractor
 
 # warnings.filterwarnings('ignore')
 
@@ -18,8 +19,8 @@ def main():
     utils.print_logo()
     print(f"{datetime.now()} Starting data extraction for mobile clients (vessels) ...")
 
-    #params = dvc.api.params_show()
-    ship_type = 'Towing'  # params["extract"]["vessels"]
+    # params = dvc.api.params_show()
+    ship_type = "Towing"  # params["extract"]["vessels"]
     antenna_radius_meters = 25000  # params["extract"]["vessels_radius_meters"]
     bbox = [57.273, 11.196, 57.998, 12.223]  # params["extract"]["bbox"]
     min_lat, min_lon, max_lat, max_lon = bbox
@@ -40,10 +41,10 @@ def main():
     vessels.df = vessels.df[vessels.df.ship_type == ship_type]
 
     print(f"{datetime.now()} Extracting client data ...")
-    client_gdf = MobileClientExtractor(aisdk, vessels, antenna_radius_meters)
+    client_data = MobileClientExtractor(aisdk).extract(vessels, antenna_radius_meters)
 
     print(f"{datetime.now()} Writing output to {out_path}")
-    client_gdf.to_feather(out_path)
+    client_data.to_feather(out_path)
 
 
 if __name__ == "__main__":

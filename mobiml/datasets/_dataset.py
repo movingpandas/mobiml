@@ -5,6 +5,7 @@ import pandas as pd
 import geopandas as gpd
 import movingpandas as mpd
 from zipfile import ZipFile
+from copy import deepcopy
 
 
 TRAJ_ID = "traj_id"
@@ -111,13 +112,7 @@ class Dataset:
         return df
 
     def copy(self):
-        return Dataset(
-            self.df.copy(),
-            name=self.name,
-            traj_id=self.traj_id,
-            mover_id=self.mover_id,
-            crs=self.crs,
-        )
+        return deepcopy(self)
 
     def load_df_from_zip_archive(self, path) -> pd.DataFrame:
         def load_single_csv(csv_name) -> pd.DataFrame:
