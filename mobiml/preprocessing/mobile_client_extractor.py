@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from mobiml.datasets import AISDK, TIMESTAMP
+from mobiml.datasets import Dataset, AISDK, TIMESTAMP
 
 try:
     from pymeos import pymeos_initialize, TGeogPointInst, TGeogPointSeq
@@ -12,19 +12,16 @@ except ImportError as error:
 
 
 class MobileClientExtractor:
-    def __init__(
-        self,
-        dataset: AISDK,
-        clients: AISDK,
-        antenna_radius_meters,
-        n_threads=4,
-    ) -> None:
+    def __init__(self, data: Dataset) -> None:
+        self.data = data
+
+    def extract(self, clients: AISDK, antenna_radius_meters, n_threads=4) -> Dataset:
         pymeos_initialize()  # Don't remove. Necessary for the correct functioning of PyMEOS  # noqa E501
         self.n_threads = n_threads
         self.antenna_radius_meters = antenna_radius_meters
 
         print(f"{datetime.now()} Creating PyMEOS points ...")
-        ais = dataset.to_gdf()
+        ais = self.data.to_gdf()
         ais["pymeos_pt"] = ais.apply(
             lambda row: TGeogPointInst(point=row["geometry"], timestamp=row[TIMESTAMP]),
             axis=1,
@@ -52,6 +49,9 @@ class MobileClientExtractor:
             i = i + 1
 
         self.gdf = pd.concat(results)
+        dataset = self.data.copy()
+        dataset.df = self.gdf
+        return dataset
 
     def create_pymeos_trajectories(self, tc):
         print(f"{datetime.now()} Creating PyMEOS trajectories ...")

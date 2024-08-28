@@ -5,7 +5,7 @@ from datetime import datetime
 from shapely.geometry import Point
 
 from mobiml.datasets import AISDK
-from mobiml.transforms import MobileClientExtractor
+from mobiml.preprocessing import MobileClientExtractor
 
 
 class TestMobileClientExtractor:
@@ -75,10 +75,11 @@ class TestMobileClientExtractor:
 
         antenna_radius_meters = 6000
         expected_pt_count = 2
-        extractor = MobileClientExtractor(
-            self.aisdk, self.clients, antenna_radius_meters
-        )
-        assert len(extractor.gdf) == expected_pt_count
+        extractor = MobileClientExtractor(self.aisdk)
+        assert isinstance(extractor, MobileClientExtractor)
+        client_data = extractor.extract(self.clients, antenna_radius_meters)
+        assert isinstance(client_data, AISDK)
+        assert len(client_data.df) == expected_pt_count
 
     def test_one_matching_point(self):
         clients = pd.DataFrame(
@@ -101,10 +102,11 @@ class TestMobileClientExtractor:
 
         antenna_radius_meters = 3
         expected_pt_count = 1
-        extractor = MobileClientExtractor(
-            self.aisdk, self.clients, antenna_radius_meters
-        )
-        assert len(extractor.gdf) == expected_pt_count
+        extractor = MobileClientExtractor(self.aisdk)
+        assert isinstance(extractor, MobileClientExtractor)
+        client_data = extractor.extract(self.clients, antenna_radius_meters)
+        assert isinstance(client_data, AISDK)
+        assert len(client_data.df) == expected_pt_count
 
     def test_no_match(self):
         clients = pd.DataFrame(
@@ -127,10 +129,11 @@ class TestMobileClientExtractor:
 
         antenna_radius_meters = 3
         expected_pt_count = 0
-        extractor = MobileClientExtractor(
-            self.aisdk, self.clients, antenna_radius_meters
-        )
-        assert len(extractor.gdf) == expected_pt_count
+        extractor = MobileClientExtractor(self.aisdk)
+        assert isinstance(extractor, MobileClientExtractor)
+        client_data = extractor.extract(self.clients, antenna_radius_meters)
+        assert isinstance(client_data, AISDK)
+        assert len(client_data.df) == expected_pt_count
 
     def test_no_spatial_match(self):
         clients = pd.DataFrame(
@@ -153,10 +156,11 @@ class TestMobileClientExtractor:
 
         antenna_radius_meters = 3
         expected_pt_count = 0
-        extractor = MobileClientExtractor(
-            self.aisdk, self.clients, antenna_radius_meters
-        )
-        assert len(extractor.gdf) == expected_pt_count
+        extractor = MobileClientExtractor(self.aisdk)
+        assert isinstance(extractor, MobileClientExtractor)
+        client_data = extractor.extract(self.clients, antenna_radius_meters)
+        assert isinstance(client_data, AISDK)
+        assert len(client_data.df) == expected_pt_count
 
     def test_no_temporal_match(self):
         clients = pd.DataFrame(
@@ -179,7 +183,8 @@ class TestMobileClientExtractor:
 
         antenna_radius_meters = 3
         expected_pt_count = 0
-        extractor = MobileClientExtractor(
-            self.aisdk, self.clients, antenna_radius_meters
-        )
-        assert len(extractor.gdf) == expected_pt_count
+        extractor = MobileClientExtractor(self.aisdk)
+        assert isinstance(extractor, MobileClientExtractor)
+        client_data = extractor.extract(self.clients, antenna_radius_meters)
+        assert isinstance(client_data, AISDK)
+        assert len(client_data.df) == expected_pt_count

@@ -7,7 +7,7 @@ import pandas as pd
 import geopandas as gpd
 from datetime import datetime
 from mobiml.datasets import AISDK
-from mobiml.transforms import StationaryClientExtractor
+from mobiml.preprocessing import StationaryClientExtractor
 
 warnings.filterwarnings("ignore")
 
@@ -47,10 +47,10 @@ def main():
     aisdk = AISDK(path, min_lon, min_lat, max_lon, max_lat)
 
     print(f"{datetime.now()} Extracting client data ...")
-    client_gdf = StationaryClientExtractor(aisdk, buffered_antennas)
+    client_data = StationaryClientExtractor(aisdk).extract(buffered_antennas)
 
     print(f"{datetime.now()} Writing output to {out_path}")
-    client_gdf.to_feather(out_path)
+    client_data.to_feather(out_path)
 
 
 if __name__ == "__main__":
