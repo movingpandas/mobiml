@@ -20,6 +20,6 @@ dependencies:
   - jupyter_bokeh
   - pip
   - pip:
-    - flwr
+    - flwr=1.9.0
     - pyarrow
     - torch
