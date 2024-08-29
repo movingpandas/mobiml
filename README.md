@@ -13,10 +13,16 @@ To run the tests, use the mobiml environment:
 mamba env create -f environment.yml
 ```
 
-To run the Flower examples, use the mobiml-flwr environment:
+To run the Flower examples, first create the mobiml-flwr environment:
 
 ```
 mamba env create -f environment-flwr.yml
+```
+
+Then activate the environment and install mobiml [in editable mode](https://pip-python3.readthedocs.io/en/latest/reference/pip_install.html#editable-installs)
+
+```shell
+pip install -e .
 ```
 
 
