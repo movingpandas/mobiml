@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from mobiml.datasets import Dataset, AISDK, TIMESTAMP
+from mobiml.datasets import Dataset, TIMESTAMP
 
 try:
     from pymeos import pymeos_initialize, TGeogPointInst, TGeogPointSeq
