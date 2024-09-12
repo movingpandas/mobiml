@@ -7,7 +7,7 @@ from shapely.geometry import Point
 
 from mobiml.utils import convert_wgs_to_utm
 from mobiml.datasets import AISDK
-from mobiml.transforms import StationaryClientExtractor
+from mobiml.preprocessing import StationaryClientExtractor
 
 
 class TestStationaryClientExtractor:
@@ -83,12 +83,14 @@ class TestStationaryClientExtractor:
         min_lon, min_lat, max_lon, max_lat = buffered_antennas.geometry.total_bounds
         aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
 
-        clients_gdf = StationaryClientExtractor(aisdk, buffered_antennas)
-        assert isinstance(clients_gdf, StationaryClientExtractor)
-        assert len(clients_gdf.gdf) == 4
+        extractor = StationaryClientExtractor(aisdk)
+        assert isinstance(extractor, StationaryClientExtractor)
+        client_data = extractor.extract(buffered_antennas)
+        assert isinstance(client_data, AISDK)
+        assert len(client_data.df) == 4
 
         geometry = [Point(0, 3), Point(3, 0), Point(3, 4), Point(6, 5)]
-        assert geometry == clients_gdf.gdf["geometry"].tolist()
+        assert geometry == client_data.df["geometry"].tolist()
 
     def test_dataset_not_in_range(self):
         antennas = ["Point (3 3)"]
@@ -105,6 +107,8 @@ class TestStationaryClientExtractor:
         min_lon, min_lat, max_lon, max_lat = buffered_antennas.geometry.total_bounds
         aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
 
-        clients_gdf = StationaryClientExtractor(aisdk, buffered_antennas)
-        assert isinstance(clients_gdf, StationaryClientExtractor)
-        assert len(clients_gdf.gdf) == 0
+        extractor = StationaryClientExtractor(aisdk)
+        assert isinstance(extractor, StationaryClientExtractor)
+        client_data = extractor.extract(buffered_antennas)
+        assert isinstance(client_data, AISDK)
+        assert len(client_data.df) == 0

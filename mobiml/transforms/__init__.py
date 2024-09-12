@@ -1,7 +1,6 @@
 import warnings
 
 from .trip_extractor import TripExtractor  # noqa F401
-from .stationary_client_extractor import StationaryClientExtractor  # noqa F401
 from .delta_dataset_creator import DeltaDatasetCreator  # noqa F401
 from .mover_splitter import MoverSplitter  # noqa F401
 
@@ -9,11 +8,6 @@ try:
     from .temporal_splitter import (  # noqa F401
         TemporalSplitter,
     )  # requires torch
-except ImportError as e:
-    warnings.warn(e.msg, UserWarning)
-
-try:
-    from .mobile_client_extractor import MobileClientExtractor  # noqa F401
 except ImportError as e:
     warnings.warn(e.msg, UserWarning)
 
