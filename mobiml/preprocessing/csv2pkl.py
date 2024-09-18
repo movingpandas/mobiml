@@ -158,18 +158,13 @@ VesselTypes = dict()
 l_mmsi = []
 n_error = 0
 for v_msg in tqdm(m_msg):
-    try:
-        mmsi_ = v_msg[MMSI]
-        type_ = v_msg[SHIPTYPE]
-        if mmsi_ not in l_mmsi:
-            VesselTypes[mmsi_] = [type_]
-            l_mmsi.append(mmsi_)
-        elif type_ not in VesselTypes[mmsi_]:
-            VesselTypes[mmsi_].append(type_)
-    except Exception as e:
-        n_error += 1
-        continue
-# print(n_error)
+    mmsi_ = v_msg[MMSI]
+    type_ = v_msg[SHIPTYPE]
+    if mmsi_ not in l_mmsi:
+        VesselTypes[mmsi_] = [type_]
+        l_mmsi.append(mmsi_)
+    elif type_ not in VesselTypes[mmsi_]:
+        VesselTypes[mmsi_].append(type_)
 
 for mmsi_ in tqdm(list(VesselTypes.keys())):
     VesselTypes[mmsi_] = np.sort(VesselTypes[mmsi_])
