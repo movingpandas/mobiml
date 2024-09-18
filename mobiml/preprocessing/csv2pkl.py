@@ -27,23 +27,13 @@
 A script to merge AIS messages into AIS tracks.
 """
 import numpy as np
-
-# import matplotlib.pyplot as plt
 import os
-import sys
-
-# sys.path.append("..")
-# import utils
 import pickle
-import copy
-import csv
 from datetime import datetime
-import time
-from io import StringIO
-from tqdm import tqdm 
+from tqdm import tqdm
 import pandas as pd
 
-## PARAMS
+# PARAMS
 # ======================================
 # AISDK dataset
 LAT_MIN = 57.0
@@ -131,7 +121,7 @@ cargo_tanker_filename = "aisdk_20180208_cargo_tanker.npy"
 TYPE = "Fishing"
 
 
-## LOADING CSV FILES
+# LOADING CSV FILES
 # ======================================
 l_l_msg = []  # list of AIS messages, each row is a message (list of AIS attributes)
 for csv_filename in l_csv_filename:
@@ -153,7 +143,7 @@ print("Ts min: ", np.min(m_msg[:, TIMESTAMP]), "Ts max: ", np.max(m_msg[:, TIMES
 print("Time min: ", pd.to_datetime((np.min(m_msg[:, TIMESTAMP])), unit="s"))
 print("Time max: ", pd.to_datetime((np.max(m_msg[:, TIMESTAMP])), unit="s"))
 
-## Vessel Type
+# Vessel Type
 # ======================================
 print("Selecting vessel type ...")
 
@@ -176,7 +166,7 @@ for v_msg in tqdm(m_msg):
             l_mmsi.append(mmsi_)
         elif type_ not in VesselTypes[mmsi_]:
             VesselTypes[mmsi_].append(type_)
-    except:
+    except Exception as e:
         n_error += 1
         continue
 # print(n_error)
@@ -204,12 +194,17 @@ np.save(
     ),
     l_shiptype,
 )
-print("Saving vessels' type list with", TYPE, "to: ", cargo_tanker_filename.replace("_cargo_tanker.npy", "_shiptype.npy"))
+print(
+    "Saving vessels' type list with",
+    TYPE,
+    "to: ",
+    cargo_tanker_filename.replace("_cargo_tanker.npy", "_shiptype.npy"),
+)
 
-## FILTERING
+# FILTERING
 # ======================================
 # Selecting AIS messages in the ROI and in the period of interest.
-## LAT LON
+# LAT LON
 m_msg = m_msg[m_msg[:, LAT] >= LAT_MIN]
 m_msg = m_msg[m_msg[:, LAT] <= LAT_MAX]
 m_msg = m_msg[m_msg[:, LON] >= LON_MIN]
@@ -240,7 +235,7 @@ print("Number of msgs in the validation set: ", len(m_msg_valid))
 print("Number of msgs in the test set: ", len(m_msg_test))
 
 
-## MERGING INTO DICT
+# MERGING INTO DICT
 # ======================================
 # Creating AIS tracks from the list of AIS messages.
 # Each AIS track is formatted by a dictionary.
@@ -256,7 +251,7 @@ for v_msg in tqdm(m_msg_train):
         (Vs_train[mmsi], np.expand_dims(v_msg[:10], 0)), axis=0
     )
 for key in tqdm(list(Vs_train.keys())):
-    if CARGO_TANKER_ONLY and (not key in l_cargo_tanker):
+    if CARGO_TANKER_ONLY and (key not in l_cargo_tanker):
         del Vs_train[key]
     else:
         Vs_train[key] = np.array(
@@ -273,7 +268,7 @@ for v_msg in tqdm(m_msg_valid):
         (Vs_valid[mmsi], np.expand_dims(v_msg[:10], 0)), axis=0
     )
 for key in tqdm(list(Vs_valid.keys())):
-    if CARGO_TANKER_ONLY and (not key in l_cargo_tanker):
+    if CARGO_TANKER_ONLY and (key not in l_cargo_tanker):
         del Vs_valid[key]
     else:
         Vs_valid[key] = np.array(
@@ -290,7 +285,7 @@ for v_msg in tqdm(m_msg_test):
         (Vs_test[mmsi], np.expand_dims(v_msg[:10], 0)), axis=0
     )
 for key in tqdm(list(Vs_test.keys())):
-    if CARGO_TANKER_ONLY and (not key in l_cargo_tanker):
+    if CARGO_TANKER_ONLY and (key not in l_cargo_tanker):
         del Vs_test[key]
     else:
         Vs_test[key] = np.array(
@@ -298,7 +293,7 @@ for key in tqdm(list(Vs_test.keys())):
         )
 
 
-## PICKLING
+# PICKLING
 # ======================================
 for filename, filedict in zip(
     [pkl_filename_train, pkl_filename_valid, pkl_filename_test],
