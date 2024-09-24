@@ -5,7 +5,7 @@ from mobiml.datasets import Dataset, TIMESTAMP, SPEED, TRAJ_ID
 
 
 class TripExtractor:
-    def __init__(self, data, min_length=100) -> None:
+    def __init__(self, data, min_length=100, min_duration=timedelta(minutes=0)) -> None:
         if isinstance(data, gpd.GeoDataFrame):
             gdf = data
             print(f"Original Dataframe size: {len(gdf)} rows")
@@ -16,7 +16,7 @@ class TripExtractor:
             print(f"   Reduced to: {len(gdf)} rows after removing records with speed=0")
             print("Creating TrajectoryCollection ...")
             self.tc = mpd.TrajectoryCollection(
-                gdf, TRAJ_ID, t=TIMESTAMP, min_length=min_length
+                gdf, TRAJ_ID, t=TIMESTAMP, min_length=min_length, min_duration=min_duration
             )
         elif isinstance(data, mpd.TrajectoryCollection):
             self.tc = data
