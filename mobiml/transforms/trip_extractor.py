@@ -16,7 +16,8 @@ class TripExtractor:
             print(f"   Reduced to: {len(gdf)} rows after removing records with speed=0")
             print("Creating TrajectoryCollection ...")
             self.tc = mpd.TrajectoryCollection(
-                gdf, TRAJ_ID, t=TIMESTAMP, min_length=min_length, min_duration=min_duration
+                gdf, TRAJ_ID, t=TIMESTAMP, min_length=min_length, 
+                min_duration=min_duration
             )
         elif isinstance(data, mpd.TrajectoryCollection):
             self.tc = data
