@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime
 from zipfile import ZipFile
 
-from mobiml.datasets import Dataset, SPEED, TIMESTAMP, DIRECTION
+from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, SPEED, DIRECTION, TIMESTAMP
 
 SHIPTYPE = "ship_type"
 
@@ -70,6 +70,24 @@ class AISDK(Dataset):
         )
         self.df[TIMESTAMP] = pd.to_datetime(self.df["t"], format=self.TIME_FORMAT)
         self.df.drop(columns=["t"], inplace=True)
+        cols = [
+            TRAJ_ID,
+            MOVER_ID,
+            TIMESTAMP,
+            SPEED,
+            DIRECTION,
+            SHIPTYPE,
+            "x",
+            "y",
+            "nav_status",
+            "Name",
+            "geometry",
+        ]
+        for col in self.df.columns:
+            if col not in cols:
+                del self.df[col]
+            else:
+                pass
         print(f"{datetime.now()} Loaded Dataframe with {len(self.df)} rows.")
 
     def load_df_from_zip_archive(self, path) -> pd.DataFrame:
