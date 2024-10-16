@@ -35,10 +35,10 @@ import scipy.ndimage as ndimage
 import time
 from pyproj import Geod
 import sys
+import shapefile
 
 sys.path.append("..")
 sys.path.append("Data")
-import shapefile
 
 geod = Geod(ellps="WGS84")
 # import dataset

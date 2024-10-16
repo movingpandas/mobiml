@@ -31,7 +31,6 @@ This script is adapted from the original script of FIVO.
 
 import numpy as np
 import sys
-import os
 import pickle
 import tensorflow as tf
 
