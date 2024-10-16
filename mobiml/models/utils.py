@@ -24,23 +24,21 @@
 # ==============================================================================
 
 """
-Utils for MultitaskAIS. 
+Utils for MultitaskAIS.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import os
-from scipy import interpolate
 import scipy.ndimage as ndimage
-from math import radians, cos, sin, asin, sqrt
+import time
+from pyproj import Geod
 import sys
 
 sys.path.append("..")
 sys.path.append("Data")
-# import shapefile
-import time
-from pyproj import Geod
+import shapefile
 
 geod = Geod(ellps="WGS84")
 # import dataset
@@ -232,13 +230,15 @@ def interpolate(t, track):
             course_interp = (track[apos, COG] - track[bpos, COG]) * (
                 dt_interp / dt_full
             ) + track[bpos, COG]
-            # heading_interp = (track[apos,HEADING] - track[bpos,HEADING])*(dt_interp/dt_full) + track[bpos,HEADING]
-            # rot_interp = (track[apos,ROT] - track[bpos,ROT])*(dt_interp/dt_full) + track[bpos,ROT]
+            # heading_interp = (track[apos,HEADING] - track[bpos,HEADING])
+            # *(dt_interp/dt_full) + track[bpos,HEADING]
+            # rot_interp = (track[apos,ROT] - track[bpos,ROT])
+            # *(dt_interp/dt_full) + track[bpos,ROT]
             if dt_interp > (dt_full / 2):
                 nav_interp = track[apos, NAV_STT]
             else:
                 nav_interp = track[bpos, NAV_STT]
-        except:
+        except Exception:
             return None
         return np.array(
             [
@@ -413,7 +413,7 @@ def plot_abnormal_tracks(
         for point in l_coastline_poly:
             poly = np.array(point)
             plt.plot(poly[:, 0], poly[:, 1], color="k", linewidth=0.8)
-    except:
+    except Exception:
         pass
 
     # Plot abnormal tracks
@@ -423,11 +423,11 @@ def plot_abnormal_tracks(
     for D in l_dict_anomaly:
         try:
             c = cmap_anomaly(float(d_i) / (N_anomaly - 1))
-        except:
+        except Exception:
             c = "r"
         d_i += 1
         tmp = D["seq"]
-        m_log_weights_np = D["log_weights"]
+        # m_log_weights_np = D["log_weights"]
         tmp = tmp[12:]
         v_lat = (tmp[:, 0] / float(onehot_lat_bins)) * lat_range + lat_min
         v_lon = (

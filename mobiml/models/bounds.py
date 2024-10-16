@@ -33,7 +33,7 @@ def elbo(
 ):
     batch_size = tf.shape(seq_lengths)[0]
     max_seq_len = tf.reduce_max(seq_lengths)
-    data_dim = tf.shape(inputs[0])[-1]
+    # data_dim = tf.shape(inputs[0])[-1]
     seq_mask = tf.transpose(
         tf.sequence_mask(seq_lengths, maxlen=max_seq_len, dtype=tf.float32), perm=[1, 0]
     )
@@ -126,7 +126,7 @@ def fivo(
     # batch_size represents the number of particle filters running in parallel.
     batch_size = tf.shape(seq_lengths)[0]
     max_seq_len = tf.reduce_max(seq_lengths)
-    data_dim = tf.shape(inputs[0])[-1]
+    # data_dim = tf.shape(inputs[0])[-1]
 
     seq_mask = tf.transpose(
         tf.sequence_mask(seq_lengths, maxlen=max_seq_len, dtype=tf.float32), perm=[1, 0]

@@ -24,7 +24,7 @@
 # ==============================================================================
 
 """
-Distribution utils for MultitaskAIS. 
+Distribution utils for MultitaskAIS.
 """
 
 import tensorflow as tf

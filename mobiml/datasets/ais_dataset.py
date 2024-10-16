@@ -30,13 +30,12 @@ This script is adapted from the original script of FIVO.
 
 
 import numpy as np
-from math import radians, cos, sin, asin, sqrt
 import sys
-
-sys.path.append("..")
 import os
 import pickle
 import tensorflow as tf
+
+sys.path.append("..")
 
 
 LAT, LON, SOG, COG, NAME, SHIPTYPE, NAV_STT, TIMESTAMP, TRAJ_ID = list(range(9))
@@ -98,7 +97,6 @@ def create_AIS_dataset(
         raw_data = pickle.load(f)
 
     num_examples = len(raw_data)
-    dirname = os.path.dirname(dataset_path)
 
     with open(mean_path, "rb") as f:
         mean = pickle.load(f)

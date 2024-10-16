@@ -36,17 +36,12 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-import scipy.ndimage as ndimage
 import pickle
 from tqdm import tqdm
 import logging
 import math
-import scipy.special
 from scipy import stats
-from tqdm import tqdm
 import csv
-from datetime import datetime
 
 import utils
 import contrario_utils
@@ -278,7 +273,7 @@ elif config.mode == "local_logprob":
                 Map_logprob[str(row) + "," + str(col)].append(
                     np.mean(log_weights_np[d_timestep, :])
                 )
-            except:
+            except Exception:
                 continue
 
     # Remove outliers
@@ -399,7 +394,7 @@ elif config.mode == "contrario_detection":
             if len(contrario_utils.nonzero_segments(v_anomalies)) > 0:
                 D["anomaly_idx"] = v_anomalies
                 l_dict_anomaly.append(D)
-        except:
+        except Exception:
             n_error += 1
     print("Number of processed tracks: ", len(l_dict))
     print("Number of abnormal tracks: ", len(l_dict_anomaly))
