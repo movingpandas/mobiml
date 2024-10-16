@@ -50,7 +50,7 @@ Usage examples are provided in the `examples` directory.
 
 * **Nautilus** Vessel Route Forecasting (VRF) -- Based on https://github.com/DataStories-UniPi/Nautilus, as presented in Tritsarolis, A., Pelekis, N., Bereta, K., Zissis, D., & Theodoridis, Y. (2024). On Vessel Location Forecasting and the Effect of Federated Learning. In Proceedings of the 25th Conference on Mobile Data Management (MDM). arXiv preprint arXiv:2405.19870.
 * SummarizedAISTrajectoryClassifier -- A basic example model implementing LogisticRegression for trajectory classification in a federated learning setting.
-
+* GeoTrackNet -- Anomaly detection in maritime traffic patterns. Based on https://github.com/CIA-Oceanix/GeoTrackNet, as presented in Nguyen, D., Vadaine, R., Hajduch, G., Garello, R. (2022). GeoTrackNet - A Maritime Anomaly Detector Using Probabilistic Neural Network Representation of AIS Tracks and A Contrario Detection. In IEEE Transactions on Intelligent Transportation Systems, 23(6). arXiv:1912.00682
 
 ## Acknowledgements
 
