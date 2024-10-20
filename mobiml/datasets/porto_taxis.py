@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from mobiml.datasets import (
-    _Dataset,
+    Dataset,
     TIMESTAMP,
     COORDS,
     ROWNUM,
@@ -9,7 +9,7 @@ from mobiml.datasets import (
 )
 
 
-class PortoTaxis(_Dataset):
+class PortoTaxis(Dataset):
     name = "Porto Taxi"
     file_name = "train.csv or test.csv"
     source_url = "https://www.kaggle.com/competitions/pkdd-15-predict-taxi-service-trajectory-i/data"  # noqa E501

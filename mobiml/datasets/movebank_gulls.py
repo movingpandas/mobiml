@@ -1,7 +1,7 @@
-from mobiml.datasets import _Dataset
+from mobiml.datasets import Dataset
 
 
-class MovebankGulls(_Dataset):
+class MovebankGulls(Dataset):
     name = "Movebank Migrating Gulls"
     file_name = "gulls.gpkg"
     source_url = "https://github.com/movingpandas/movingpandas-examples/blob/main/data/gulls.gpkg"  # noqa E501

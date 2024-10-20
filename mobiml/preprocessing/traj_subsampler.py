@@ -1,15 +1,15 @@
 import pandas as pd
 import numpy as np
 from mobiml.datasets.utils import TIMESTAMP, TRAJ_ID
-from mobiml.datasets._dataset import _Dataset
+from mobiml.datasets._dataset import Dataset
 from tqdm.auto import tqdm
 
 
 class TrajectorySubsampler:
-    def __init__(self, data: _Dataset) -> None:
+    def __init__(self, data: Dataset) -> None:
         self.data = data
 
-    def subsample(self, min_dt_sec=10) -> _Dataset:
+    def subsample(self, min_dt_sec=10) -> Dataset:
         tqdm.pandas()
         df_clean = (
             self.data.df.sort_values(TIMESTAMP, kind="mergesort")

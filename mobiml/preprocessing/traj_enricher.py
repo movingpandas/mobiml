@@ -1,14 +1,14 @@
 from movingpandas.unit_utils import UNITS
 
-from mobiml.datasets import _Dataset
+from mobiml.datasets import Dataset
 from .utils import trajectorycollection_to_df
 
 
 class TrajectoryEnricher:
-    def __init__(self, data: _Dataset) -> None:
+    def __init__(self, data: Dataset) -> None:
         self.data = data
 
-    def add_speed(self, **kwargs) -> _Dataset:
+    def add_speed(self, **kwargs) -> Dataset:
         print("Adding speed ...")
         trajs = self.data.to_trajs()
         trajs.add_speed(**kwargs)
@@ -16,7 +16,7 @@ class TrajectoryEnricher:
         self.data.df = df
         return self.data
 
-    def add_direction(self, **kwargs) -> _Dataset:
+    def add_direction(self, **kwargs) -> Dataset:
         print("Adding direction")
         trajs = self.data.to_trajs()
         trajs.add_direction(**kwargs)
@@ -24,7 +24,7 @@ class TrajectoryEnricher:
         self.data.df = df
         return self.data
 
-    def add_features(self, n_threads=5, **kwargs) -> _Dataset:
+    def add_features(self, n_threads=5, **kwargs) -> Dataset:
         speed = kwargs.pop("speed", False)
         direction = kwargs.pop("direction", False)
         speed_units = kwargs.pop("speed_units", UNITS())

@@ -19,7 +19,7 @@ from mobiml.datasets.utils import (
 )
 
 
-class _Dataset:
+class Dataset:
     name = None
     file_name = None
     source_url = None

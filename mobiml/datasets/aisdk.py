@@ -2,12 +2,12 @@ import pandas as pd
 from datetime import datetime
 from zipfile import ZipFile
 
-from mobiml.datasets import _Dataset, SPEED, DIRECTION, MOVER_ID, TIMESTAMP, TRAJ_ID
+from mobiml.datasets import Dataset, SPEED, DIRECTION, MOVER_ID, TIMESTAMP, TRAJ_ID
 
 SHIPTYPE = "ship_type"
 
 
-class AISDK(_Dataset):
+class AISDK(Dataset):
     name = "Danish AIS (AISDK)"
     file_name = "aisdk-2018-02.zip"
     source_url = "http://web.ais.dk/aisdata/aisdk-2018-02.zip"
@@ -118,7 +118,7 @@ class AISDK(_Dataset):
         return df
 
 
-class PreprocessedAISDK(_Dataset):
+class PreprocessedAISDK(Dataset):
     name = "Danish AIS (AISDK)"
     file_name = "ais-antenna.feather"
     crs = 4326
