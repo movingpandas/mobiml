@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import _Dataset, TIMESTAMP, TRAJ_ID
+from mobiml.datasets import Dataset, TIMESTAMP, TRAJ_ID
 from mobiml.transforms.temporal_splitter import TemporalSplitter
 
 
@@ -59,7 +59,7 @@ class TestTemporalSplitter:
         self.gdf = GeoDataFrame(df, crs=4326)
 
     def test_split(self):
-        dataset = _Dataset(self.gdf)
+        dataset = Dataset(self.gdf)
         splitter = TemporalSplitter(dataset)
         assert isinstance(splitter, TemporalSplitter)
         data = splitter.split(dev_size=0.25, test_size=0.25)

@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import _Dataset
+from mobiml.datasets import Dataset
 from mobiml.transforms.od_aggregator import ODAggregator
 
 
@@ -42,7 +42,7 @@ class TestODAggregator:
         )
         self.gdf = GeoDataFrame(df, crs=4326)
 
-        dataset = _Dataset(self.gdf)
+        dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)
@@ -84,7 +84,7 @@ class TestODAggregator:
         )
         self.gdf = GeoDataFrame(df, crs=4326)
 
-        dataset = _Dataset(self.gdf)
+        dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)
@@ -127,7 +127,7 @@ class TestODAggregator:
         )
         self.gdf = GeoDataFrame(df, crs=4326)
 
-        dataset = _Dataset(self.gdf)
+        dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)
@@ -170,7 +170,7 @@ class TestODAggregator:
         )
         self.gdf = GeoDataFrame(df, crs=4326)
 
-        dataset = _Dataset(self.gdf)
+        dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
         assert isinstance(aggregator, ODAggregator)

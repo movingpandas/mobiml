@@ -2,7 +2,7 @@ import pandas as pd
 import movingpandas as mpd
 from datetime import datetime
 
-from mobiml.datasets import _Dataset, MOVER_ID, TIMESTAMP, TRAJ_ID
+from mobiml.datasets import Dataset, MOVER_ID, TIMESTAMP, TRAJ_ID
 
 try:
     import h3
@@ -14,7 +14,7 @@ except ImportError as error:
 
 
 class ODAggregator:
-    def __init__(self, data: _Dataset) -> None:
+    def __init__(self, data: Dataset) -> None:
         self.data = data
 
     def get_od_for_h3(self, res, freq) -> pd.DataFrame:

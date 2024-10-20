@@ -1,13 +1,13 @@
 from datetime import datetime
 
-from mobiml.datasets import _Dataset
+from mobiml.datasets import Dataset
 
 
 class StationaryClientExtractor:
-    def __init__(self, data: _Dataset) -> None:
+    def __init__(self, data: Dataset) -> None:
         self.data = data
 
-    def extract(self, clients_gdf) -> _Dataset:
+    def extract(self, clients_gdf) -> Dataset:
         print(f"{datetime.now()} Converting to GeoDataFrame ...")
         gdf = self.data.to_gdf()
         print(f"{datetime.now()} Computing overlay ...")
