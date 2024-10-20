@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from datetime import datetime, timedelta
 
-from mobiml.datasets import Dataset, MovebankGulls, SPEED
+from mobiml.datasets import _Dataset, MovebankGulls, SPEED
 from mobiml.transforms.trip_extractor import TripExtractor
 
 
@@ -104,7 +104,7 @@ class TestTripExtractor:
 
     def test_input_dataset(self):
         path = os.path.join(self.test_dir, "data/test.csv")
-        data = Dataset(
+        data = _Dataset(
             path,
             name="test",
             traj_id="tid",

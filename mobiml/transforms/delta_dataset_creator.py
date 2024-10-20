@@ -7,12 +7,12 @@ Learning. In Proceedings of the 25th Conference on Mobile Data Management (MDM).
 """
 
 from pandas import DataFrame, merge, Series
-from mobiml.datasets import Dataset, TIMESTAMP, SPEED, TRAJ_ID, DIRECTION
+from mobiml.datasets import _Dataset, SPEED, DIRECTION, TIMESTAMP, TRAJ_ID
 from mobiml.utils import applyParallel, shapely_coords_numpy
 
 
 class DeltaDatasetCreator:
-    def __init__(self, data: Dataset) -> None:
+    def __init__(self, data: _Dataset) -> None:
         self.data = data
         self.input_feats = ["dx_curr", "dy_curr", "dt_curr", "dt_next"]
         self.output_feats = ["dx_next", "dy_next"]

@@ -5,7 +5,7 @@ from movingpandas import TrajectoryCollection
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID
+from mobiml.datasets import _Dataset, MOVER_ID, TRAJ_ID
 
 
 class TestDataset:
@@ -43,8 +43,8 @@ class TestDataset:
         self.gdf = GeoDataFrame(df, crs=31256)
 
     def test_dataset_from_gdf(self):
-        data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
-        assert isinstance(data, Dataset)
+        data = _Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
+        assert isinstance(data, _Dataset)
         assert data.name == "test"
         assert data.traj_id == "tid"
         assert data.mover_id == "mid"
@@ -55,7 +55,7 @@ class TestDataset:
 
     def test_dataset_from_csv(self):
         path = os.path.join(self.test_dir, "data/test.csv")
-        data = Dataset(
+        data = _Dataset(
             path,
             name="test",
             traj_id="tid",
@@ -63,7 +63,7 @@ class TestDataset:
             timestamp="t",
             crs=31256,
         )
-        assert isinstance(data, Dataset)
+        assert isinstance(data, _Dataset)
         assert data.name == "test"
         assert data.traj_id == "tid"
         assert data.mover_id == "mid"
@@ -74,7 +74,7 @@ class TestDataset:
 
     def test_dataset_from_zipped_csv(self):
         path = os.path.join(self.test_dir, "data/test.zip")
-        data = Dataset(
+        data = _Dataset(
             path,
             name="test",
             traj_id="tid",
@@ -82,7 +82,7 @@ class TestDataset:
             timestamp="t",
             crs=31256,
         )
-        assert isinstance(data, Dataset)
+        assert isinstance(data, _Dataset)
         assert data.name == "test"
         assert data.traj_id == "tid"
         assert data.mover_id == "mid"

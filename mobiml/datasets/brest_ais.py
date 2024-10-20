@@ -1,10 +1,10 @@
 import os
 import pandas as pd
 
-from mobiml.datasets import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
+from mobiml.datasets import _Dataset, SPEED, DIRECTION, MOVER_ID, TIMESTAMP
 
 
-class BrestAIS(Dataset):
+class BrestAIS(_Dataset):
     name = "Brest AIS"
     file_name = "nari_dynamic_sar.csv or nari_dynamic.csv"
     source_url = "https://zenodo.org/record/1167595/files/%5BP1%5D%20AIS%20Data.zip?download=1"  # noqa E501
@@ -46,7 +46,7 @@ class BrestAIS(Dataset):
         ].copy()
 
 
-class PreprocessedBrestAIS(Dataset):
+class PreprocessedBrestAIS(_Dataset):
     name = "Brest AIS"
     file_name = "preprocessed.csv"
     crs = 4326

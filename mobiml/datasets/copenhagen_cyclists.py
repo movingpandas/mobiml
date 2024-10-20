@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 
-from mobiml.datasets import Dataset, TIMESTAMP, ROWNUM
+from mobiml.datasets import _Dataset, ROWNUM, TIMESTAMP
 
 
-class CopenhagenCyclists(Dataset):
+class CopenhagenCyclists(_Dataset):
     name = "Copenhagen Cyclists"
     file_name = "df_bike.pickle"
     source_url = "https://zenodo.org/record/7288616"
