@@ -90,3 +90,10 @@ class TestDataset:
         assert MOVER_ID in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+
+    def test_get_bounds(self):
+        data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
+        assert isinstance(data, Dataset)
+        bounds = data.get_bounds()
+        min_x, min_y, max_x, max_y = 0, 0, 9, 9
+        assert (min_x, min_y, max_x, max_y) == bounds
