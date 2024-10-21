@@ -1,5 +1,5 @@
 from datetime import datetime
-from shapely import Point
+from shapely.geometry import Point
 import pandas as pd
 
 TRAJ_ID = "traj_id"

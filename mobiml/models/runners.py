@@ -23,7 +23,7 @@ import time
 import tensorflow as tf
 
 import bounds
-from mobiml.datasets.ais_dataset import create_AIS_dataset
+from mobiml.models.ais_dataset import create_AIS_dataset
 import vrnn
 import nested_utils as nested
 import distribution_utils as dists

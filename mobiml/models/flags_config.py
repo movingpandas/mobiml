@@ -77,15 +77,15 @@ tf.app.flags.DEFINE_float(
 
 # Dataset flags
 tf.app.flags.DEFINE_string(
-    "dataset_dir", "../data/aisdk_20180208_sample", "Dataset directory"
+    "dataset_dir", "../examples/data/aisdk_20180208_sample", "Dataset directory"
 )
 tf.app.flags.DEFINE_string(
     "trainingset_name",
-    "/aisdk_20180208_train.pkl",
+    "aisdk_20180208_train.pkl",
     "Path to load the trainingset from.",
 )
 tf.app.flags.DEFINE_string(
-    "testset_name", "/aisdk_20180208_test.pkl", "Path to load the testset from."
+    "testset_name", "aisdk_20180208_test.pkl", "Path to load the testset from."
 )
 tf.app.flags.DEFINE_string(
     "split",
@@ -237,8 +237,7 @@ config.n_lon_cells = math.ceil((config.lon_max - config.lon_min) / config.cell_l
 
 # PATH
 if config.mode == "train":
-    # config.testset_name = config.trainingset_name
-    config.testset_name = config.testset_name
+    config.testset_name = config.trainingset_name
 elif config.testset_name == "":
     config.testset_name = config.trainingset_name.replace("_train", "_test")
 config.trainingset_path = os.path.join(config.dataset_dir, config.trainingset_name)
