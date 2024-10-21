@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-from mobiml.datasets._dataset import Dataset, TIMESTAMP, TRAJ_ID
+from mobiml.datasets.utils import TIMESTAMP, TRAJ_ID
+from mobiml.datasets._dataset import Dataset
 from tqdm.auto import tqdm
 
 

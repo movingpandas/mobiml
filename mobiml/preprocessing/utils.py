@@ -1,5 +1,5 @@
 from pandas import DataFrame
-from mobiml.datasets._dataset import TIMESTAMP
+from mobiml.datasets.utils import TIMESTAMP
 
 
 def trajectorycollection_to_df(trajs):

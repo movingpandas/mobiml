@@ -5,7 +5,7 @@ from movingpandas import TrajectoryCollection
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID
+from mobiml.datasets import Dataset, MOVER_ID, TRAJ_ID
 
 
 class TestDataset:

@@ -7,7 +7,7 @@ Learning. In Proceedings of the 25th Conference on Mobile Data Management (MDM).
 """
 
 from pandas import DataFrame, merge, Series
-from mobiml.datasets import Dataset, TIMESTAMP, SPEED, TRAJ_ID, DIRECTION
+from mobiml.datasets import Dataset, SPEED, DIRECTION, TIMESTAMP, TRAJ_ID
 from mobiml.utils import applyParallel, shapely_coords_numpy
 
 

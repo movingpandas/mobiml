@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from mobiml.datasets import Dataset, TIMESTAMP, ROWNUM
+from mobiml.datasets import Dataset, ROWNUM, TIMESTAMP
 
 
 class CopenhagenCyclists(Dataset):

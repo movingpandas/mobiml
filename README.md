@@ -38,7 +38,7 @@ MobiML contains various modules for learning and data preprocessing for movement
 * Datasets: This module contains classes for handling popular movement datasets.
 * Models: This module contains models for a variety of mobility-related ML tasks.
 * Preprocessing: This module contains tools to preprocess movement data to make it ready for ML development. Preprocessing tools always return a mobiml.Dataset object. 
-* Transforms: This module contains various tranformations operations that can be applied to datasets. Transforms convert a mobiml.Dataset into a different data structure. 
+* Transforms: This module contains various transformation operations that can be applied to datasets. Transforms convert a mobiml.Dataset into a different data structure. 
 
 
 ## Documentation

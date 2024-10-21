@@ -11,7 +11,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.linear_model import LogisticRegression
 
 from mobiml.transforms import MoverSplitter
-from mobiml.datasets import MOVER_ID, SHIPTYPE
+from mobiml.datasets import SHIPTYPE, MOVER_ID
 from mobiml.utils import LogRegParams
 
 
