@@ -15,13 +15,13 @@ class TestDataset:
         df = pd.DataFrame(
             [
                 {
-                    "geometry": Point(0, 0),
+                    "geometry": Point(0, 3),
                     "txx": datetime(2018, 1, 1, 12, 0, 0),
                     "tid": 1,
                     "mid": "a",
                 },
                 {
-                    "geometry": Point(6, 0),
+                    "geometry": Point(6, 3),
                     "txx": datetime(2018, 1, 1, 12, 6, 0),
                     "tid": 1,
                     "mid": "a",
@@ -33,7 +33,7 @@ class TestDataset:
                     "mid": "a",
                 },
                 {
-                    "geometry": Point(9, 9),
+                    "geometry": Point(6, 9),
                     "txx": datetime(2018, 1, 1, 12, 15, 0),
                     "tid": 1,
                     "mid": "a",
@@ -95,5 +95,5 @@ class TestDataset:
         data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
         assert isinstance(data, Dataset)
         bounds = data.get_bounds()
-        min_x, min_y, max_x, max_y = 0, 0, 9, 9
+        min_x, min_y, max_x, max_y = 0, 3, 6, 9
         assert (min_x, min_y, max_x, max_y) == bounds
