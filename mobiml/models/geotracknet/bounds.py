@@ -25,7 +25,7 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-import nested_utils as nested
+import mobiml.models.geotracknet.nested_utils as nested
 
 
 def elbo(

@@ -44,10 +44,10 @@ from scipy import stats
 import csv
 
 
-import utils 
-import contrario_utils
-import runners
-from flags_config import config
+import mobiml.models.geotracknet.utils as utils
+import mobiml.models.geotracknet.contrario_utils as contrario_utils
+import mobiml.models.geotracknet.runners as runners
+from mobiml.models.geotracknet.flags_config import config
 
 LAT_RANGE = config.lat_max - config.lat_min
 LON_RANGE = config.lon_max - config.lon_min

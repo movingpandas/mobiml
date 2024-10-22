@@ -185,3 +185,6 @@ examples/rendered MobiML notebooks.lnk
 examples/data/nari_static.csv
 examples/data/aisdk_20180208_sample
 mobiml/models/geotracknet/chkpt
+examples/chkpt/
+examples/results/
+mobiml/models/geotracknet (copy)/

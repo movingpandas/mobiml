@@ -22,11 +22,11 @@ import os
 import time
 import tensorflow as tf
 
-import bounds
-import ais_dataset
-import vrnn
-import nested_utils as nested
-import distribution_utils as dists
+import mobiml.models.geotracknet.bounds as bounds
+import mobiml.models.geotracknet.ais_dataset as ais_dataset
+import mobiml.models.geotracknet.vrnn as vrnn
+import mobiml.models.geotracknet.nested_utils as nested
+import mobiml.models.geotracknet.distribution_utils as dists
 
 
 

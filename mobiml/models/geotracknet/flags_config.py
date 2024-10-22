@@ -33,12 +33,6 @@ import tensorflow as tf
 import math
 
 
-# AISDK dataset
-LAT_MIN = 57.4
-LAT_MAX = 57.9
-LON_MIN = 11.3
-LON_MAX = 12.058843
-
 SPEED_MAX = 30.0  # knots
 FIG_DPI = 150
 
@@ -57,7 +51,7 @@ tf.app.flags.DEFINE_string(
 )
 
 tf.app.flags.DEFINE_integer(
-    "latent_size", 64, "The size of the latent state of the model."
+    "latent_size", 100, "The size of the latent state of the model."
 )
 
 tf.app.flags.DEFINE_string(
@@ -116,10 +110,10 @@ tf.app.flags.DEFINE_float(
 tf.app.flags.DEFINE_integer("min_duration", 4, "Min duration (hour) of a vessel track")
 
 # Four-hot-encoding flags.
-tf.app.flags.DEFINE_float("lat_min", 57.4, "ROI")
-tf.app.flags.DEFINE_float("lat_max", 57.9, "ROI")
-tf.app.flags.DEFINE_float("lon_min", 11.3, "ROI")
-tf.app.flags.DEFINE_float("lon_max", 12.058843, "ROI")
+tf.app.flags.DEFINE_float("lat_min", 57., "ROI")
+tf.app.flags.DEFINE_float("lat_max", 58., "ROI")
+tf.app.flags.DEFINE_float("lon_min", 11., "ROI")
+tf.app.flags.DEFINE_float("lon_max", 13., "ROI")
 tf.app.flags.DEFINE_float(
     "onehot_lat_reso", 0.01, "Resolution of the lat one-hot vector (degree)"
 )
@@ -159,7 +153,7 @@ tf.app.flags.DEFINE_boolean(
 )
 tf.app.flags.DEFINE_float("learning_rate", 0.0003, "The learning rate for ADAM.")
 tf.app.flags.DEFINE_integer(
-    "max_steps", int(40000), "The number of gradient update steps to train for."
+    "max_steps", int(1000), "The number of gradient update steps to train for."
 )
 tf.app.flags.DEFINE_integer(
     "summarize_every", 100, "The number of steps between summaries."
