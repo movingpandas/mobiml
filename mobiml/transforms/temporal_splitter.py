@@ -54,6 +54,48 @@ class TemporalSplitter:
 
         return self.data
 
+    def split_hr(
+        self, dev_size=0.2, test_size=0.1, seed=100, stratify=None, **kwargs
+    ) -> Dataset:
+        """
+        Splits dataset temporally by hours into train/dev/test
+        (default: 70% train, 20% dev, 10% test)
+
+        This split ensures that the first 70% of hours are used to train,
+        and the rest are used for dev and test.
+        """
+        self.dev_size = dev_size
+        self.test_size = test_size
+        self.seed = seed
+        self.stratify = stratify
+
+        print(f"{datetime.now()} Splitting dataset by hours ...")
+
+        trajectories_hr = self.data.df[TIMESTAMP].dt.hour.sort_values().unique()
+        print(trajectories_hr)
+
+        train_indices, dev_indices, test_indices = self._train_test_split(
+            trajectories_hr, shuffle=False, **kwargs
+        )
+        print(f"train: {train_indices}, dev: {dev_indices}, test: {test_indices}")
+        train_hr, dev_hr, test_hr = (
+            trajectories_hr[train_indices],
+            trajectories_hr[dev_indices],
+            trajectories_hr[test_indices],
+        )
+
+        print(
+            f"Train @{(min(train_hr), max(train_hr))=}, "
+            + f"\nDev @{(min(dev_hr), max(dev_hr))=}, "
+            + f"\nTest @{(min(test_hr), max(test_hr))=}"
+        )
+
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.hour.isin(train_hr), "split"] = 1
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.hour.isin(dev_hr), "split"] = 2
+        self.data.df.loc[self.data.df[TIMESTAMP].dt.hour.isin(test_hr), "split"] = 3
+
+        return self.data
+
     def _train_test_split(self, dataset, **kwargs):
         # Creating data indices for training and validation splits:
         dataset_size = len(dataset)

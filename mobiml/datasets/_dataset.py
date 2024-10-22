@@ -184,3 +184,11 @@ class Dataset:
         df.loc[:, "x"], df.loc[:, "y"] = ds.utils.lnglat_to_meters(df.x, df.y)
         plot = df.hvplot.scatter(x="x", y="y", datashade=True, *args, **kwargs)
         return BG_TILES * plot
+
+    def get_bounds(self):
+        df = self.to_df()
+        min_x = df.x.min()
+        min_y = df.y.min()
+        max_x = df.x.max()
+        max_y = df.y.max()
+        return (min_x, min_y, max_x, max_y)

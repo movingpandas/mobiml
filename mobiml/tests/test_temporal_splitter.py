@@ -11,7 +11,7 @@ from mobiml.transforms.temporal_splitter import TemporalSplitter
 class TestTemporalSplitter:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
-    def setup_method(self):
+    def test_split(self):
         df = pd.DataFrame(
             [
                 {
@@ -58,7 +58,6 @@ class TestTemporalSplitter:
         )
         self.gdf = GeoDataFrame(df, crs=4326)
 
-    def test_split(self):
         dataset = Dataset(self.gdf)
         splitter = TemporalSplitter(dataset)
         assert isinstance(splitter, TemporalSplitter)
@@ -68,6 +67,62 @@ class TestTemporalSplitter:
         assert len(data.df) == 8
         expected = [1, 1, 1, 1, 2, 2, 3, 3]
         result = data.df["split"].tolist()
-        print(data.df)
-        print(result)
+        assert result == expected
+
+    def test_split_hr(self):
+        df = pd.DataFrame(
+            [
+                {
+                    "geometry": Point(0, 0),
+                    "timestamp": datetime(2018, 1, 2, 10, 1, 0),
+                    "traj_id": 1,
+                },
+                {
+                    "geometry": Point(1, 1),
+                    "timestamp": datetime(2018, 1, 2, 10, 2, 0),
+                    "traj_id": 1,
+                },
+                {
+                    "geometry": Point(2, 3),
+                    "timestamp": datetime(2018, 1, 2, 11, 3, 0),
+                    "traj_id": 2,
+                },
+                {
+                    "geometry": Point(3, 3),
+                    "timestamp": datetime(2018, 1, 2, 11, 4, 0),
+                    "traj_id": 2,
+                },
+                {
+                    "geometry": Point(4, 5),
+                    "timestamp": datetime(2018, 1, 2, 12, 5, 0),
+                    "traj_id": 3,
+                },
+                {
+                    "geometry": Point(5, 6),
+                    "timestamp": datetime(2018, 1, 2, 12, 6, 0),
+                    "traj_id": 3,
+                },
+                {
+                    "geometry": Point(6, 6),
+                    "timestamp": datetime(2018, 1, 2, 13, 7, 0),
+                    "traj_id": 4,
+                },
+                {
+                    "geometry": Point(6, 7),
+                    "timestamp": datetime(2018, 1, 2, 13, 8, 0),
+                    "traj_id": 4,
+                },
+            ]
+        )
+        self.gdf = GeoDataFrame(df, crs=4326)
+
+        dataset = Dataset(self.gdf)
+        splitter = TemporalSplitter(dataset)
+        assert isinstance(splitter, TemporalSplitter)
+        data = splitter.split_hr(dev_size=0.25, test_size=0.25)
+        assert TRAJ_ID in data.df.columns
+        assert TIMESTAMP in data.df.columns
+        assert len(data.df) == 8
+        expected = [1, 1, 1, 1, 2, 2, 3, 3]
+        result = data.df["split"].tolist()
         assert result == expected
