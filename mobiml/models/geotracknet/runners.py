@@ -29,7 +29,6 @@ import mobiml.models.geotracknet.nested_utils as nested
 import mobiml.models.geotracknet.distribution_utils as dists
 
 
-
 def create_eval_graph(inputs, targets, lengths, model, config):
     parallel_iterations = 30
     swap_memory = True
@@ -232,17 +231,19 @@ def create_eval_graph(inputs, targets, lengths, model, config):
 
 def create_dataset_and_model(config, shuffle, repeat):
 
-    inputs, targets, mmsis, time_starts, time_ends, lengths, mean = ais_dataset.create_AIS_dataset(
-        config.testset_path,
-        os.path.join(os.path.dirname(config.trainingset_path), "mean.pkl"),
-        config.batch_size,
-        config.data_dim,
-        config.onehot_lat_bins,
-        config.onehot_lon_bins,
-        config.onehot_sog_bins,
-        config.onehot_cog_bins,
-        shuffle=shuffle,
-        repeat=repeat,
+    inputs, targets, mmsis, time_starts, time_ends, lengths, mean = (
+        ais_dataset.create_AIS_dataset(
+            config.testset_path,
+            os.path.join(os.path.dirname(config.trainingset_path), "mean.pkl"),
+            config.batch_size,
+            config.data_dim,
+            config.onehot_lat_bins,
+            config.onehot_lon_bins,
+            config.onehot_sog_bins,
+            config.onehot_cog_bins,
+            shuffle=shuffle,
+            repeat=repeat,
+        )
     )
     # Convert the mean of the training set to logit space so it can be used to
     # initialize the bias of the generative distribution.

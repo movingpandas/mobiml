@@ -15,9 +15,7 @@ class MobileClientExtractor:
     def __init__(self, data: Dataset) -> None:
         self.data = data
 
-    def extract(
-        self, clients: Dataset, antenna_radius_meters, n_threads=4
-    ) -> Dataset:
+    def extract(self, clients: Dataset, antenna_radius_meters, n_threads=4) -> Dataset:
         pymeos_initialize()  # Don't remove. Necessary for the correct functioning of PyMEOS  # noqa E501
         self.n_threads = n_threads
         self.antenna_radius_meters = antenna_radius_meters

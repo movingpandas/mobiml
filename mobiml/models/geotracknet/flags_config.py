@@ -110,10 +110,10 @@ tf.app.flags.DEFINE_float(
 tf.app.flags.DEFINE_integer("min_duration", 4, "Min duration (hour) of a vessel track")
 
 # Four-hot-encoding flags.
-tf.app.flags.DEFINE_float("lat_min", 57., "ROI")
-tf.app.flags.DEFINE_float("lat_max", 58., "ROI")
-tf.app.flags.DEFINE_float("lon_min", 11., "ROI")
-tf.app.flags.DEFINE_float("lon_max", 13., "ROI")
+tf.app.flags.DEFINE_float("lat_min", 57.0, "ROI")
+tf.app.flags.DEFINE_float("lat_max", 58.0, "ROI")
+tf.app.flags.DEFINE_float("lon_min", 11.0, "ROI")
+tf.app.flags.DEFINE_float("lon_max", 13.0, "ROI")
 tf.app.flags.DEFINE_float(
     "onehot_lat_reso", 0.01, "Resolution of the lat one-hot vector (degree)"
 )
