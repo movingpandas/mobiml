@@ -184,3 +184,4 @@ examples/data/2021-01-30_all.csv
 examples/rendered MobiML notebooks.lnk
 examples/data/nari_static.csv
 examples/data/aisdk_20180208_sample
+mobiml/models/geotracknet/chkpt

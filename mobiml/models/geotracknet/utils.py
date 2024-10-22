@@ -35,7 +35,6 @@ import scipy.ndimage as ndimage
 import time
 from pyproj import Geod
 import sys
-import shapefile
 
 sys.path.append("..")
 sys.path.append("Data")
@@ -148,47 +147,6 @@ def detectOutlier(track, speed_max=SPEED_MAX):
     o_calcul = trackOutlier(A)
 
     return o_report, o_calcul
-
-
-# ===============================================================================
-# ===============================================================================
-# Creating shape file
-def createShapefile(shp_fname, Vs):
-    """
-    Creating AIS shape files
-    INPUT:
-        shp_fname    : name of the shapefile
-        Vs          : AIS data, each element of the dictionary is an AIS track
-                      whose structure is:
-                      [Timestamp, MMSI, Lat, Lon, SOG, COG, Heading, ROT, NAV_STT]
-    """
-    shp = shapefile.Writer(shapefile.POINT)
-    shp.field("MMSI", "N", 10)
-    shp.field("TIMESTAMP", "N", 12)
-    shp.field("DATETIME", "C", 20)
-    shp.field("LAT", "N", 10, 5)
-    shp.field("LON", "N", 10, 5)
-    shp.field("SOG", "N", 10, 5)
-    shp.field("COG", "N", 10, 5)
-    shp.field("HEADING", "N", 10, 5)
-    shp.field("ROT", "N", 5)
-    shp.field("NAV_STT", "N", 2)
-    for mmsi in list(Vs.keys()):
-        for p in Vs[mmsi]:
-            shp.point(p[LON], p[LAT])
-            shp.record(
-                p[TRAJ_ID],
-                p[TIMESTAMP],
-                time.strftime("%H:%M:%S %d-%m-%Y", time.gmtime(p[TIMESTAMP])),
-                p[LAT],
-                p[LON],
-                p[SOG],
-                p[COG],
-                p[NAME],
-                p[SHIPTYPE],
-                p[NAV_STT],
-            )
-    shp.save(shp_fname)
 
 
 # ===============================================================================

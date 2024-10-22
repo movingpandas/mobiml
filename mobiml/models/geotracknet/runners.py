@@ -23,10 +23,11 @@ import time
 import tensorflow as tf
 
 import bounds
-from mobiml.models.ais_dataset import create_AIS_dataset
+import ais_dataset
 import vrnn
 import nested_utils as nested
 import distribution_utils as dists
+
 
 
 def create_eval_graph(inputs, targets, lengths, model, config):
@@ -231,7 +232,7 @@ def create_eval_graph(inputs, targets, lengths, model, config):
 
 def create_dataset_and_model(config, shuffle, repeat):
 
-    inputs, targets, mmsis, time_starts, time_ends, lengths, mean = create_AIS_dataset(
+    inputs, targets, mmsis, time_starts, time_ends, lengths, mean = ais_dataset.create_AIS_dataset(
         config.testset_path,
         os.path.join(os.path.dirname(config.trainingset_path), "mean.pkl"),
         config.batch_size,
