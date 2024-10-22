@@ -249,10 +249,7 @@ def gaussian_filter_with_nan(U, sigma):
     W = 0 * U.copy() + 1
     W[np.isnan(U)] = 0
     WW = ndimage.gaussian_filter(W, sigma=sigma)
-    try:
-        Z = VV / WW
-    except:
-        Z = 0
+    Z = VV / WW
     return Z
 
 
