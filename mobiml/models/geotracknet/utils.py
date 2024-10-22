@@ -32,7 +32,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import os
 import scipy.ndimage as ndimage
-import time
 from pyproj import Geod
 import sys
 
