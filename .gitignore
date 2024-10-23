@@ -188,3 +188,4 @@ mobiml/models/geotracknet/chkpt
 examples/chkpt/
 examples/results/
 mobiml/models/geotracknet (copy)/
+*.bak
