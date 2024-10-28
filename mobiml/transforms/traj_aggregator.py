@@ -3,7 +3,7 @@ from itertools import groupby
 
 import pandas as pd
 
-from mobiml.datasets import MOVER_ID, SPEED, DIRECTION
+from mobiml.datasets import SPEED, DIRECTION, MOVER_ID
 from mobiml.datasets.aisdk import SHIPTYPE
 
 try:
@@ -62,7 +62,7 @@ def traj_to_h3_sequence(my_traj, h3_resolution):
     df["t"] = df.index
     df["h3_cell"] = df.apply(
         lambda row: str(
-            h3.geo_to_h3(row.geometry.y, row.geometry.x, resolution=h3_resolution)
+            h3.latlng_to_cell(row.geometry.y, row.geometry.x, h3_resolution)
         ),
         axis=1,
     ).index

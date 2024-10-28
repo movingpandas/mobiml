@@ -1,5 +1,7 @@
-from mobiml.datasets import Dataset, SPEED, TRAJ_ID
+from mobiml.datasets import Dataset, SPEED
 from tqdm.auto import tqdm
+
+from mobiml.datasets.utils import TRAJ_ID
 
 
 class TrajectoryFilter:

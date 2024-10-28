@@ -5,7 +5,6 @@ from shapely.geometry import Point
 from datetime import datetime, timedelta
 
 from mobiml.datasets import MOVER_ID
-
 from mobiml.transforms import TripExtractor, TrajectoryAggregator
 
 

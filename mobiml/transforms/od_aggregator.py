@@ -2,7 +2,7 @@ import pandas as pd
 import movingpandas as mpd
 from datetime import datetime
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, TIMESTAMP
+from mobiml.datasets import Dataset, MOVER_ID, TIMESTAMP, TRAJ_ID
 
 try:
     import h3
@@ -47,10 +47,16 @@ class ODAggregator:
         gdf["y"] = gdf.geometry.y
 
         print(f"{datetime.now()} Identifying h3 cell id ...")
-        # Based on: https://medium.com/@jesse.b.nestler/how-to-convert-h3-cell-boundaries-to-shapely-polygons-in-python-f7558add2f63  # noqa E501
-        gdf["h3_cell"] = gdf.apply(
-            lambda row: str(h3.geo_to_h3(row.y, row.x, res)), axis=1
-        )
+
+        def get_cell(row):
+            # Updated for h3 > 4.0 https://github.com/uber/h3-py/issues/100
+            if not row.geometry:
+                cell = None
+            else:
+                cell = h3.latlng_to_cell(row.y, row.x, res)
+            return str(cell)
+
+        gdf["h3_cell"] = gdf.apply(get_cell, axis=1)
         gdf = gdf[gdf.h3_cell != "0"]
 
         tc = mpd.TrajectoryCollection(

@@ -5,7 +5,7 @@ from movingpandas import TrajectoryCollection
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID
+from mobiml.datasets import Dataset, MOVER_ID, TRAJ_ID
 
 
 class TestDataset:
@@ -15,13 +15,13 @@ class TestDataset:
         df = pd.DataFrame(
             [
                 {
-                    "geometry": Point(0, 0),
+                    "geometry": Point(0, 3),
                     "txx": datetime(2018, 1, 1, 12, 0, 0),
                     "tid": 1,
                     "mid": "a",
                 },
                 {
-                    "geometry": Point(6, 0),
+                    "geometry": Point(6, 3),
                     "txx": datetime(2018, 1, 1, 12, 6, 0),
                     "tid": 1,
                     "mid": "a",
@@ -33,7 +33,7 @@ class TestDataset:
                     "mid": "a",
                 },
                 {
-                    "geometry": Point(9, 9),
+                    "geometry": Point(6, 9),
                     "txx": datetime(2018, 1, 1, 12, 15, 0),
                     "tid": 1,
                     "mid": "a",
@@ -90,3 +90,10 @@ class TestDataset:
         assert MOVER_ID in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+
+    def test_get_bounds(self):
+        data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
+        assert isinstance(data, Dataset)
+        bounds = data.get_bounds()
+        min_x, min_y, max_x, max_y = 0, 3, 6, 9
+        assert (min_x, min_y, max_x, max_y) == bounds

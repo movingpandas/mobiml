@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from mobiml.datasets import Dataset, SPEED, TIMESTAMP, MOVER_ID, DIRECTION
+from mobiml.datasets import Dataset, SPEED, DIRECTION, MOVER_ID, TIMESTAMP
 
 
 class BrestAIS(Dataset):

@@ -1,54 +1,22 @@
 from os.path import exists, splitext
-from datetime import datetime
-from shapely import Point
+
 import pandas as pd
 import geopandas as gpd
-import movingpandas as mpd
 from zipfile import ZipFile
 from copy import deepcopy
+from datetime import datetime
 
-
-TRAJ_ID = "traj_id"
-MOVER_ID = "mover_id"
-TIMESTAMP = "timestamp"
-COORDS = "coordinates"
-ROWNUM = "running_number"
-SPEED = "speed"
-DIRECTION = "direction"
-
-
-def unixtime_to_datetime(unix_time) -> datetime:
-    return datetime.fromtimestamp(unix_time)
-
-
-def create_point(xy) -> Point:
-    try:
-        return Point(xy)
-    except TypeError:  # when there are nan values in the input data
-        return None
-
-
-def val_or_none(xy, idx):
-    try:
-        return xy[idx]
-    except IndexError:
-        return None
-
-
-def get_x_from_xy(df, xycol=COORDS) -> pd.Series:
-    return df[xycol].apply(lambda xy: val_or_none(xy, 0))
-
-
-def get_y_from_xy(df, xycol=COORDS) -> pd.Series:
-    return df[xycol].apply(lambda xy: val_or_none(xy, 1))
-
-
-def get_point_from_xy(df, xycol=COORDS) -> pd.Series:
-    return df[xycol].apply(create_point)
-
-
-def get_point_from_x_y(df, xcol="x", ycol="y") -> pd.Series:
-    return df.apply(lambda row: Point(row[xcol], row[ycol]), axis=1)
+from mobiml.datasets.utils import (
+    MOVER_ID,
+    TIMESTAMP,
+    TRAJ_ID,
+    COORDS,
+    ROWNUM,
+    get_x_from_xy,
+    get_y_from_xy,
+    get_point_from_x_y,
+    get_point_from_xy,
+)
 
 
 class Dataset:
@@ -165,7 +133,9 @@ class Dataset:
         gdf = gpd.GeoDataFrame(df, crs=self.crs)
         return gdf
 
-    def to_trajs(self) -> mpd.TrajectoryCollection:
+    def to_trajs(self):  # -> mpd.TrajectoryCollection:
+        import movingpandas as mpd
+
         gdf = self.to_gdf()
         trajs = mpd.TrajectoryCollection(
             gdf,
@@ -214,3 +184,11 @@ class Dataset:
         df.loc[:, "x"], df.loc[:, "y"] = ds.utils.lnglat_to_meters(df.x, df.y)
         plot = df.hvplot.scatter(x="x", y="y", datashade=True, *args, **kwargs)
         return BG_TILES * plot
+
+    def get_bounds(self):
+        df = self.to_df()
+        min_x = df.x.min()
+        min_y = df.y.min()
+        max_x = df.x.max()
+        max_y = df.y.max()
+        return (min_x, min_y, max_x, max_y)

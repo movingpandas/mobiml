@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
-from mobiml.datasets import Dataset, TRAJ_ID, MOVER_ID, TIMESTAMP
+from mobiml.datasets import Dataset, MOVER_ID, TIMESTAMP, TRAJ_ID
 from mobiml.preprocessing import TrajectorySubsampler
 
 

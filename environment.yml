@@ -19,3 +19,5 @@ dependencies:
   - movingpandas
   - pytorch
   - opacus
+  - folium
+  - mapclassify
