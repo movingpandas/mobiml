@@ -129,10 +129,7 @@ class TestRandomTrajSampler:
         with pytest.warns(UserWarning, match=r"Not enough points") as w:
             data = sampler.random_sample(n_cells=2, n_sample=7, random_state=1)
         assert len(w) == 1
-        assert (
-            w[0].message.args[0]
-            == "Not enough points in some cells, all points in these cells used for sampling."
-        )
+        assert w[0].message.args[0] == "Not enough points in some cells."
         assert len(data.df) == 7
         cell = [0, 0, 1, 1, 2, 2, 3]
         assert data.df["cell"].tolist() == cell

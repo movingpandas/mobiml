@@ -122,10 +122,14 @@ class RandomTrajSampler:
                     else:
                         pass
                 warnings.warn(
-                    "Not enough points in some cells, all points in these cells used for sampling.",
+                    "Not enough points in some cells.",
                     UserWarning,
                 )
-                print("Not enough points in", count, "cell(s).")
+                print(
+                    "Not enough points in",
+                    count,
+                    "cell(s). All points used in these cells.",
+                )
 
             df_sample = merged.groupby(
                 ["cell"], as_index=False, group_keys=False
