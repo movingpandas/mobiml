@@ -5,7 +5,7 @@ from shapely.geometry import Point
 from datetime import datetime
 
 from mobiml.datasets import Dataset, TIMESTAMP, TRAJ_ID
-from mobiml.transforms.temporal_splitter import TemporalSplitter
+from mobiml.samplers.temporal_splitter import TemporalSplitter
 
 
 class TestTemporalSplitter:

@@ -5,10 +5,10 @@ from datetime import datetime
 from shapely.geometry import Point
 
 from mobiml.datasets import Dataset, MOVER_ID, TIMESTAMP, TRAJ_ID
-from mobiml.preprocessing import TrajectorySubsampler
+from mobiml.preprocessing import TrajectoryDownsampler
 
 
-class TestTrajectorySubsampler:
+class TestTrajectoryDownsampler:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def setup_method(self):
@@ -63,9 +63,9 @@ class TestTrajectorySubsampler:
     def test_subsample(self):
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         assert len(dataset.to_trajs()) == 3
-        subsampler = TrajectorySubsampler(dataset)
-        assert isinstance(subsampler, TrajectorySubsampler)
-        data = subsampler.subsample(min_dt_sec=10)
+        downsampler = TrajectoryDownsampler(dataset)
+        assert isinstance(downsampler, TrajectoryDownsampler)
+        data = downsampler.subsample(min_dt_sec=10)
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns
         assert TIMESTAMP in data.df.columns
@@ -76,9 +76,9 @@ class TestTrajectorySubsampler:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         assert len(dataset.to_trajs()) == 3
         df = dataset.to_df()
-        subsampler_traj = TrajectorySubsampler(df)
-        assert isinstance(subsampler_traj, TrajectorySubsampler)
-        data = subsampler_traj._subsample_trajectory(traj_df=df, min_dt_sec=10)
+        downsampler = TrajectoryDownsampler(df)
+        assert isinstance(downsampler, TrajectoryDownsampler)
+        data = downsampler._subsample_trajectory(traj_df=df, min_dt_sec=10)
         assert TRAJ_ID in data.columns
         assert MOVER_ID in data.columns
         assert TIMESTAMP in data.columns

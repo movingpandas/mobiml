@@ -7,7 +7,7 @@ import pytest
 
 from mobiml.datasets import Dataset, TRAJ_ID, TIMESTAMP
 
-from mobiml.transforms.dataset_sampler import RandomTrajSampler
+from mobiml.samplers import RandomTrajSampler
 
 
 class TestRandomTrajSampler:
@@ -90,67 +90,52 @@ class TestRandomTrajSampler:
         )
         self.gdf = GeoDataFrame(df, crs=4326)
 
-    def test_random_sample(self):
+    def test_split(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
-        assert isinstance(sampler, RandomTrajSampler)
-        data = sampler.random_sample(n_cells=2, n_sample=4, random_state=1)
+        data = sampler.split(n_cells=2, n_sample=4, random_state=1)
         assert TRAJ_ID in data.df.columns
         assert TIMESTAMP in data.df.columns
-        assert len(data.df) == 7
-        cell = [0, 0, 1, 1, 2, 2, 3]
-        assert data.df["cell"].tolist() == cell
-        split = [2, 1, 2, 1, 2, 1, 2]
+        assert len(data.df) == 7*2
+        assert len(data.df[data.df.split==2])== 4*2
+        split = [2,2, 1,1, 2,2, 1,1, 2,2, 1,1, 2,2]
         assert data.df["split"].tolist() == split
 
-    def test_get_sample_data(self):
+    def test_sample(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
-        assert isinstance(sampler, RandomTrajSampler)
-        data = sampler.get_sample_data(n_cells=2, percent_sample=0.5)
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
-        assert len(data.df) == 4
-        cell = [0, 1, 2, 3]
-        assert data.df["cell"].tolist() == cell
+        data = sampler.sample(n_cells=2, percent_sample=0.5, random_state=1)
+        assert len(data.df) == 4*2
+
+    def test_odd_sample(self):
+        dataset = Dataset(self.gdf)
+        sampler = RandomTrajSampler(dataset)
+        data = sampler.sample(n_cells=2, n_sample=5, random_state=1)
+        assert len(data.df) == 5*2
 
     def test_sample_too_big(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
-        assert isinstance(sampler, RandomTrajSampler)
         with pytest.raises(ValueError) as excinfo:
-            sampler.random_sample(n_cells=2, n_sample=9)
+            sampler.split(n_cells=2, n_sample=9)
         assert str(excinfo.value) == "Sample too big."
 
     def test_not_enough_samples(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
-        assert isinstance(sampler, RandomTrajSampler)
         with pytest.warns(UserWarning, match=r"Not enough points") as w:
-            data = sampler.random_sample(n_cells=2, n_sample=7, random_state=1)
-        assert len(w) == 1
-        assert w[0].message.args[0] == "Not enough points in some cells."
-        assert len(data.df) == 7
-        cell = [0, 0, 1, 1, 2, 2, 3]
-        assert data.df["cell"].tolist() == cell
-        split = [2, 2, 2, 2, 2, 2, 2]
+            data = sampler.split(n_cells=2, n_sample=7, random_state=1)
+        assert len(data.df) == 7*2
+        split = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
         assert data.df["split"].tolist() == split
 
     def test_empty_cells(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
-        assert isinstance(sampler, RandomTrajSampler)
         with pytest.warns(UserWarning, match=r"empty cells") as w:
-            data = sampler.random_sample(n_cells=(4, 2), n_sample=4, random_state=1)
-        assert len(w) == 1
-        assert (
-            w[0].message.args[0]
-            == "There are empty cells that will not be used for sampling."
-        )
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
-        assert len(data.df) == 7
-        cell = [0, 2, 1, 1, 6, 6, 7]
-        assert data.df["cell"].tolist() == cell
-        split = [2, 2, 2, 1, 2, 1, 2]
+            data = sampler.split(n_cells=(4, 2), n_sample=4, random_state=1)
+        assert len(data.df) == 7*2
+        assert len(data.df[data.df.split==2])== 4*2
+        split = [2,2, 2,2, 2,2, 1,1, 1,1, 1,1, 2,2]
+        print(data.df["split"].tolist() )
         assert data.df["split"].tolist() == split
