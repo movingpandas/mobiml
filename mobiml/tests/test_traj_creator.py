@@ -5,10 +5,10 @@ from shapely.geometry import Point
 from datetime import datetime, timedelta
 
 from mobiml.datasets import Dataset, MovebankGulls, SPEED
-from mobiml.transforms.trip_extractor import TripExtractor
+from mobiml.transforms.traj_creator import TrajectoryCreator
 
 
-class TestTripExtractor:
+class TestTrajectoryCreator:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def setup_method(self):
@@ -61,9 +61,9 @@ class TestTripExtractor:
         self.gdf = GeoDataFrame(df, crs=4326)
 
     def test_input_gdf(self):
-        ex = TripExtractor(self.gdf)
-        assert isinstance(ex, TripExtractor)
-        ais_trips = ex.get_trips(
+        ex = TrajectoryCreator(self.gdf)
+        assert isinstance(ex, TrajectoryCreator)
+        ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(minutes=1),
         )
@@ -71,9 +71,9 @@ class TestTripExtractor:
         assert len(ais_trips) == 2
 
     def test_gap_duration(self):
-        ex = TripExtractor(self.gdf)
-        assert isinstance(ex, TripExtractor)
-        ais_trips = ex.get_trips(
+        ex = TrajectoryCreator(self.gdf)
+        assert isinstance(ex, TrajectoryCreator)
+        ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=7),
             generalization_tolerance=timedelta(minutes=1),
         )
@@ -81,9 +81,9 @@ class TestTripExtractor:
         assert len(ais_trips) == 2
 
     def test_generalization_tolerance(self):
-        ex = TripExtractor(self.gdf)
-        assert isinstance(ex, TripExtractor)
-        ais_trips = ex.get_trips(
+        ex = TrajectoryCreator(self.gdf)
+        assert isinstance(ex, TrajectoryCreator)
+        ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(seconds=1),
         )
@@ -93,9 +93,9 @@ class TestTripExtractor:
     def test_no_speed(self):
         data = self.gdf.drop(columns=SPEED)
         assert SPEED not in data.columns
-        ex = TripExtractor(data)
-        assert isinstance(ex, TripExtractor)
-        ais_trips = ex.get_trips(
+        ex = TrajectoryCreator(data)
+        assert isinstance(ex, TrajectoryCreator)
+        ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(minutes=1),
         )
@@ -112,9 +112,9 @@ class TestTripExtractor:
             timestamp="t",
             crs=31256,
         )
-        ex = TripExtractor(data)
-        assert isinstance(ex, TripExtractor)
-        ais_trips = ex.get_trips(
+        ex = TrajectoryCreator(data)
+        assert isinstance(ex, TrajectoryCreator)
+        ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(minutes=1),
         )
@@ -126,9 +126,9 @@ class TestTripExtractor:
         path = os.path.join(self.test_dir, "data/test_gulls.csv")
         data = MovebankGulls(path)
         trajs = data.to_trajs()
-        ex = TripExtractor(trajs)
-        assert isinstance(ex, TripExtractor)
-        ais_trips = ex.get_trips(
+        ex = TrajectoryCreator(trajs)
+        assert isinstance(ex, TrajectoryCreator)
+        ais_trips = ex.get_trajs(
             gap_duration=timedelta(hours=7),
             generalization_tolerance=timedelta(minutes=1),
         )

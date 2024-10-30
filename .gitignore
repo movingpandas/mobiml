@@ -172,7 +172,7 @@ examples/data/nautilus.model
 examples/data/traj_delta_windows.pickle
 mobiml/tests/data/test_aisdk_20180208_sample_result.feather
 examples/data/nari_dynamic.csv
-
+examples/data/nari_dynamic_sar.csv
 examples/data/aisdk-2018-02.zip
 /examples/temp
 examples/data/train.csv
@@ -187,5 +187,5 @@ examples/data/aisdk_20180208_sample
 mobiml/models/geotracknet/chkpt
 examples/chkpt/
 examples/results/
-mobiml/models/geotracknet (copy)/
 *.bak
+

@@ -6,7 +6,7 @@ from datetime import datetime
 
 from mobiml.datasets import TRAJ_ID, MOVER_ID, SHIPTYPE
 
-from mobiml.transforms.mover_splitter import MoverSplitter
+from mobiml.samplers.mover_splitter import MoverSplitter
 
 
 class TestMoverSplitter:

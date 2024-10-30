@@ -5,7 +5,7 @@ from mobiml.datasets._dataset import Dataset
 from tqdm.auto import tqdm
 
 
-class TrajectorySubsampler:
+class TrajectoryDownsampler:
     def __init__(self, data: Dataset) -> None:
         self.data = data
 

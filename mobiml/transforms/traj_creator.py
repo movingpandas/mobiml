@@ -4,7 +4,7 @@ from datetime import timedelta
 from mobiml.datasets import Dataset, SPEED, TIMESTAMP, TRAJ_ID
 
 
-class TripExtractor:
+class TrajectoryCreator:
     def __init__(self, data, min_length=100, min_duration=timedelta(minutes=0)) -> None:
         if isinstance(data, gpd.GeoDataFrame):
             gdf = data
@@ -30,7 +30,7 @@ class TripExtractor:
             raise TypeError(f"Invalid input data {data}")
         print(f"   Created: {self.tc}")
 
-    def get_trips(
+    def get_trajs(
         self,
         gap_duration=timedelta(minutes=15),
         generalization_tolerance=timedelta(minutes=1),
