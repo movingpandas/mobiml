@@ -23,7 +23,8 @@ class RandomTrajSampler:
         Parameters
         ----------
         n_cells : int | (int, int)
-                Desired number of cells per row and column. Square layout if only one value provided.
+                Desired number of cells per row and column.
+                Square layout if only one value provided.
         n_sample : int
                 Desired sample number from dataset.
         percent_sample : float
@@ -38,7 +39,7 @@ class RandomTrajSampler:
         Examples
         ----------
         >>> data = AISDK(r"../examples/data/aisdk_20180208_sample.zip")
-        >>> random_sample = RandomTrajSampler(data).random_sample(n_cells=2, n_sample=100)
+        >>> sample = RandomTrajSampler(data).random_sample(n_cells=2, n_sample=100)
         """
 
         trajs = self.data.to_trajs()
@@ -121,7 +122,7 @@ class RandomTrajSampler:
                     else:
                         pass
                 warnings.warn(
-                    "There are not enough points in some cells, so all points in these cells will be used for sampling.",
+                    "Not enough points in some cells, all points in these cells used for sampling.",
                     UserWarning,
                 )
                 print("Not enough points in", count, "cell(s).")

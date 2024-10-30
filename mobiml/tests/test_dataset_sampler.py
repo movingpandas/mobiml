@@ -4,7 +4,6 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from datetime import datetime
 import pytest
-import warnings
 
 from mobiml.datasets import Dataset, TRAJ_ID, TIMESTAMP
 
@@ -127,12 +126,12 @@ class TestRandomTrajSampler:
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
         assert isinstance(sampler, RandomTrajSampler)
-        with pytest.warns(UserWarning, match=r"not enough points") as w:
+        with pytest.warns(UserWarning, match=r"Not enough points") as w:
             data = sampler.random_sample(n_cells=2, n_sample=7, random_state=1)
         assert len(w) == 1
         assert (
             w[0].message.args[0]
-            == "There are not enough points in some cells, so all points in these cells will be used for sampling."
+            == "Not enough points in some cells, all points in these cells used for sampling."
         )
         assert len(data.df) == 7
         cell = [0, 0, 1, 1, 2, 2, 3]
