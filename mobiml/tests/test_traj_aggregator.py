@@ -65,7 +65,9 @@ class TestTrajectoryAggregator:
     def test_aggregated_trajs(self):
         h3_resolution = 2
         vessels = self.gdf.groupby(MOVER_ID)[["ship_type", "Name"]].agg(pd.Series.mode)
-        trajs = TrajectoryCreator(self.gdf).get_trajs(gap_duration=timedelta(minutes=10))
+        trajs = TrajectoryCreator(self.gdf).get_trajs(
+            gap_duration=timedelta(minutes=10)
+        )
         trajs = TrajectoryAggregator(trajs, vessels).aggregate_trajs(h3_resolution)
 
         expected_speed_median = [2, 3]

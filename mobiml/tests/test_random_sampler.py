@@ -96,22 +96,22 @@ class TestRandomTrajSampler:
         data = sampler.split(n_cells=2, n_sample=4, random_state=1)
         assert TRAJ_ID in data.df.columns
         assert TIMESTAMP in data.df.columns
-        assert len(data.df) == 7*2
-        assert len(data.df[data.df.split==2])== 4*2
-        split = [2,2, 1,1, 2,2, 1,1, 2,2, 1,1, 2,2]
+        assert len(data.df) == 7 * 2
+        assert len(data.df[data.df.split == 2]) == 4 * 2
+        split = [2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2]
         assert data.df["split"].tolist() == split
 
     def test_sample(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
         data = sampler.sample(n_cells=2, percent_sample=0.5, random_state=1)
-        assert len(data.df) == 4*2
+        assert len(data.df) == 4 * 2
 
     def test_odd_sample(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
         data = sampler.sample(n_cells=2, n_sample=5, random_state=1)
-        assert len(data.df) == 5*2
+        assert len(data.df) == 5 * 2
 
     def test_sample_too_big(self):
         dataset = Dataset(self.gdf)
@@ -125,7 +125,7 @@ class TestRandomTrajSampler:
         sampler = RandomTrajSampler(dataset)
         with pytest.warns(UserWarning, match=r"Not enough points") as w:
             data = sampler.split(n_cells=2, n_sample=7, random_state=1)
-        assert len(data.df) == 7*2
+        assert len(data.df) == 7 * 2
         split = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
         assert data.df["split"].tolist() == split
 
@@ -134,8 +134,8 @@ class TestRandomTrajSampler:
         sampler = RandomTrajSampler(dataset)
         with pytest.warns(UserWarning, match=r"empty cells") as w:
             data = sampler.split(n_cells=(4, 2), n_sample=4, random_state=1)
-        assert len(data.df) == 7*2
-        assert len(data.df[data.df.split==2])== 4*2
-        split = [2,2, 2,2, 2,2, 1,1, 1,1, 1,1, 2,2]
-        print(data.df["split"].tolist() )
+        assert len(data.df) == 7 * 2
+        assert len(data.df[data.df.split == 2]) == 4 * 2
+        split = [2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2]
+        print(data.df["split"].tolist())
         assert data.df["split"].tolist() == split

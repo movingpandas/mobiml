@@ -18,7 +18,7 @@ class RandomTrajSampler:
         """
         Randomly samples trajectories, targetting an equal spatial distribution based
         on user-defined grid (i.e. equal number of trajecties per cell, based on traj start points)
-        
+
         Inspired by: https://github.com/microsoft/torchgeo
         and https://james-brennan.github.io/posts/fast_gridding_geopandas/
 
@@ -43,7 +43,6 @@ class RandomTrajSampler:
         >>> data = AISDK(r"../examples/data/aisdk_20180208_sample.zip")
         >>> sample = RandomTrajSampler(data).random_sample(n_cells=2, n_sample=100)
         """
-
 
         trajs = self.data.to_trajs()
         start_pts = trajs.get_start_locations()
@@ -73,23 +72,21 @@ class RandomTrajSampler:
             n_sample = math.ceil(percent_sample * len(joined))
 
         sampled = self._sample_trajs(joined, filled_cells, n_sample, random_state)
-        sampled = sampled[[TRAJ_ID, 'split']]
+        sampled = sampled[[TRAJ_ID, "split"]]
         sampled.set_index(TRAJ_ID, inplace=True)
 
-        if len(sampled[sampled.split==2]) > n_sample:
+        if len(sampled[sampled.split == 2]) > n_sample:
             sampled = sampled.sample(n_sample, random_state=random_state)
-        
+
         result = self.data.to_gdf().copy()
-        result = result.join(sampled, on=TRAJ_ID, rsuffix='r')
-        result['split'] = result['split'].fillna(1)
+        result = result.join(sampled, on=TRAJ_ID, rsuffix="r")
+        result["split"] = result["split"].fillna(1)
         return Dataset(result)
 
     def sample(
         self, n_cells, n_sample=None, percent_sample=None, random_state=None
     ) -> Dataset:
-        data = self.split(
-            n_cells, n_sample, percent_sample, random_state
-        )
+        data = self.split(n_cells, n_sample, percent_sample, random_state)
 
         gdf = data.to_gdf()
 
@@ -104,7 +101,7 @@ class RandomTrajSampler:
         xmin -= buffer
         ymin -= buffer
         xmax += buffer
-        ymax += buffer      
+        ymax += buffer
         cell_size_x, cell_size_y = self._get_cell_size(n_cells, xmin, xmax, ymin, ymax)
 
         grid_cells = []
@@ -125,7 +122,7 @@ class RandomTrajSampler:
             except ValueError:
                 print(
                     f"Your sample of {n_sample} ",
-                    f"cannot be greater than the dataset: {len(merged)}"
+                    f"cannot be greater than the dataset: {len(merged)}",
                 )
                 raise
 
@@ -148,9 +145,7 @@ class RandomTrajSampler:
                 f"Not enough points in {count} cell(s). All points used in these cells.",
             )
 
-        df_sample = merged.groupby(
-            ["cell"], as_index=False, group_keys=False
-        ).apply(
+        df_sample = merged.groupby(["cell"], as_index=False, group_keys=False).apply(
             lambda x: x.sample(min(n_per_cell, len(x)), random_state=random_state),
             include_groups=False,
         )
@@ -159,7 +154,7 @@ class RandomTrajSampler:
         combined = merged.merge(df_sample, how="left")
         combined.loc[combined["split"] != 2, "split"] = 1
         return combined
-    
+
     def _get_cell_size(self, value, xmin, xmax, ymin, ymax):
         if isinstance(value, tuple):
             cell_size_x = (xmax - xmin) / value[0]
@@ -168,5 +163,7 @@ class RandomTrajSampler:
             cell_size_x = (xmax - xmin) / value
             cell_size_y = (ymax - ymin) / value
         else:
-            raise(ValueError("Please provide the number of cells as int or (int, int)."))
+            raise (
+                ValueError("Please provide the number of cells as int or (int, int).")
+            )
         return cell_size_x, cell_size_y
