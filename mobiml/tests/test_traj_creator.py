@@ -8,7 +8,7 @@ from mobiml.datasets import Dataset, MovebankGulls, SPEED
 from mobiml.transforms.traj_creator import TrajectoryCreator
 
 
-class TestTripExtractor:
+class TestTrajectoryCreator:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def setup_method(self):
