@@ -123,7 +123,7 @@ class TestRandomTrajSampler:
     def test_not_enough_samples(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
-        with pytest.warns(UserWarning, match=r"Not enough points") as w:
+        with pytest.warns(UserWarning, match=r"Not enough points"):
             data = sampler.split(n_cells=2, n_sample=7, random_state=1)
         assert len(data.df) == 7 * 2
         split = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
@@ -132,7 +132,7 @@ class TestRandomTrajSampler:
     def test_empty_cells(self):
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
-        with pytest.warns(UserWarning, match=r"empty cells") as w:
+        with pytest.warns(UserWarning, match=r"empty cells"):
             data = sampler.split(n_cells=(4, 2), n_sample=4, random_state=1)
         assert len(data.df) == 7 * 2
         assert len(data.df[data.df.split == 2]) == 4 * 2
