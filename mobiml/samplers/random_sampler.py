@@ -16,8 +16,8 @@ class RandomTrajSampler:
         self, n_cells, n_sample=None, percent_sample=None, random_state=None
     ) -> Dataset:
         """
-        Randomly samples trajectories, targetting an equal spatial distribution 
-        based on user-defined grid (i.e. equal number of trajecties per cell, 
+        Randomly samples trajectories, targetting an equal spatial distribution
+        based on user-defined grid (i.e. equal number of trajecties per cell,
         based on traj start points)
 
         Inspired by: https://github.com/microsoft/torchgeo
@@ -144,7 +144,7 @@ class RandomTrajSampler:
             )
             print(
                 f"Not enough points in {count} cell(s). ",
-                 "All points used in these cells.",
+                "All points used in these cells.",
             )
 
         df_sample = merged.groupby(["cell"], as_index=False, group_keys=False).apply(
