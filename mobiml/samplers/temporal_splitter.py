@@ -1,4 +1,5 @@
-from datetime import datetime
+import pandas as pd
+from datetime import datetime, timedelta
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset
 
@@ -120,3 +121,83 @@ class TemporalSplitter:
         )
 
         return train_indices, dev_indices, test_indices
+
+    def split_at_timestamp(self, timestamp=None, timestamp_2=None, **kwargs) -> Dataset:
+        """
+        Split dataset temporally at timestamp into train/dev,
+        and into train/dev/test if two timestamps are provided.
+        """
+        t_min = self.data.df[TIMESTAMP].min()
+        t_max = self.data.df[TIMESTAMP].max()
+        t_min = pd.to_datetime(t_min)
+        t_max = pd.to_datetime(t_max)
+        t_train_max = timestamp - timedelta(seconds=1)
+
+        if timestamp_2 == None:
+            t_train_min = pd.to_datetime(t_min)
+            t_train_max = pd.to_datetime(t_train_max)
+            t_dev_min = pd.to_datetime(timestamp)
+            t_dev_max = pd.to_datetime(t_max)
+            print(
+                "t_train_min:",
+                t_train_min,
+                "\nt_train_max:",
+                t_train_max,
+                "\nt_dev_min:",
+                t_dev_min,
+                "\nt_dev_max:",
+                t_dev_max,
+            )
+            self.data.df = self.data.df[self.data.df[TIMESTAMP] >= t_min]
+            self.data.df = self.data.df[self.data.df[TIMESTAMP] <= t_max]
+            self.data.df.loc[
+                (self.data.df[TIMESTAMP] >= t_train_min)
+                & (self.data.df[TIMESTAMP] <= t_train_max),
+                "split",
+            ] = 1
+            self.data.df.loc[
+                (self.data.df[TIMESTAMP] >= t_dev_min)
+                & (self.data.df[TIMESTAMP] <= t_dev_max),
+                "split",
+            ] = 2
+        else:
+            t_dev_max = timestamp_2 - timedelta(seconds=1)
+            t_train_min = pd.to_datetime(t_min)
+            t_train_max = pd.to_datetime(t_train_max)
+            t_dev_min = pd.to_datetime(timestamp)
+            t_dev_max = pd.to_datetime(t_dev_max)
+            t_test_min = pd.to_datetime(timestamp_2)
+            t_test_max = pd.to_datetime(t_max)
+            print(
+                "t_train_min:",
+                t_train_min,
+                "\nt_train_max:",
+                t_train_max,
+                "\nt_dev_min:",
+                t_dev_min,
+                "\nt_dev_max:",
+                t_dev_max,
+                "\nt_test_min",
+                t_test_min,
+                "\nt_test_max",
+                t_test_max,
+            )
+            self.data.df = self.data.df[self.data.df[TIMESTAMP] >= t_min]
+            self.data.df = self.data.df[self.data.df[TIMESTAMP] <= t_max]
+            self.data.df.loc[
+                (self.data.df[TIMESTAMP] >= t_train_min)
+                & (self.data.df[TIMESTAMP] <= t_train_max),
+                "split",
+            ] = 1
+            self.data.df.loc[
+                (self.data.df[TIMESTAMP] >= t_dev_min)
+                & (self.data.df[TIMESTAMP] <= t_dev_max),
+                "split",
+            ] = 2
+            self.data.df.loc[
+                (self.data.df[TIMESTAMP] >= t_test_min)
+                & (self.data.df[TIMESTAMP] <= t_test_max),
+                "split",
+            ] = 3
+
+        return self.data
