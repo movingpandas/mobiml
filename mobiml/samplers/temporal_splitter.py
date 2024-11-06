@@ -133,7 +133,7 @@ class TemporalSplitter:
         t_max = pd.to_datetime(t_max)
         t_train_max = timestamp - timedelta(seconds=1)
 
-        if timestamp_2 == None:
+        if timestamp_2 is None:
             t_train_min = pd.to_datetime(t_min)
             t_train_max = pd.to_datetime(t_train_max)
             t_dev_min = pd.to_datetime(timestamp)
