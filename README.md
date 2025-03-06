@@ -53,6 +53,12 @@ Usage examples are provided in the `examples` directory.
 * **Nautilus -- Vessel Route Forecasting (VRF)** based on https://github.com/DataStories-UniPi/Nautilus, as presented in Tritsarolis, A., Pelekis, N., Bereta, K., Zissis, D., & Theodoridis, Y. (2024). On Vessel Location Forecasting and the Effect of Federated Learning. In Proceedings of the 25th Conference on Mobile Data Management (MDM). arXiv:2405.19870.
 * SummarizedAISTrajectoryClassifier -- A basic example model implementing LogisticRegression for trajectory classification in a federated learning setting.
 
+
+## Publications
+
+[0] Graser, A. & Dragaschnig, M. (2015). Learning From Trajectory Data With MobiML. Workshop on Big Mobility Data Analysis (BMDA2025) in conjuction with EDBT/ICDT 2025.
+
+
 ## Acknowledgements
 
 This work was supported in part by the Horizon Framework Programme of the European Union under grant agreement No. 101070279 ([MobiSpaces](https://mobispaces.eu)). 
