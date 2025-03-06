@@ -24,8 +24,6 @@ dependencies = [
     "tqdm>=4.67.1",
 ]
 
-[project.scripts]
-mobiml = "mobiml:main"
 
 [build-system]
 requires = ["hatchling"]
