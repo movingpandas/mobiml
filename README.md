@@ -4,6 +4,9 @@
 
 Development of this framework was inspired by https://github.com/wherobots/GeoTorchAI
 
+## Installation
+
+**Note**: As of today (2025-03-18), one of our main dependencies, pymeos, [is not available on Windows](https://github.com/MobilityDB/PyMEOS/issues/1). Therefore we recommend using MobiML on Linux. 
 
 ## Development installation 
 
