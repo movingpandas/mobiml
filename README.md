@@ -54,7 +54,7 @@ MobiML contains various modules for learning and data preprocessing for movement
 
 ## Documentation
 
-Usage examples are provided in the `examples` directory. 
+Usage examples are provided in the `examples` directory, with [instructions](examples/README.md). 
 
 
 ## Included models
