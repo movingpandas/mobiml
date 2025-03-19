@@ -4,32 +4,42 @@
 
 Development of this framework was inspired by https://github.com/wherobots/GeoTorchAI
 
+## Installation
+
+**Note**: As of today (2025-03-18), one of our main dependencies, pymeos, [is not available on Windows](https://github.com/MobilityDB/PyMEOS/issues/1). Therefore we recommend using MobiML on Linux. 
 
 ## Development installation 
 
-To run the tests, use the mobiml environment:
+[Install uv](https://docs.astral.sh/uv/getting-started/installation/).
 
-```
-mamba env create -f environment.yml
-```
+Clone this repository.
 
-To run the Flower examples, first create the mobiml-flwr environment:
-
-```
-mamba env create -f environment-flwr.yml
-```
-
-Then activate the environment and install mobiml [in editable mode](https://pip-python3.readthedocs.io/en/latest/reference/pip_install.html#editable-installs)
+Set up the project:
 
 ```shell
-pip install -e .
+uv sync
 ```
 
+Run tests:
 
-### Environment notes
+```shell
+uv run pytest
+```
 
-As of August 2024, pip installing the current latest Flower version (flwr-1.10.0) requires numpy<2.0.0,>=1.21.0
+In your application that uses mobiml, add these lines to the `pyproject.toml` file:
 
+```yaml
+[tool.hatch.metadata]
+allow-direct-references = true
+```
+
+and install 
+
+```shell
+uv add  ../my/local/mobiml
+```
+
+For an introduction to uv, see [e.g. the docs](https://docs.astral.sh/uv/getting-started/features/).
 
 ## MobiML modules
 
@@ -56,7 +66,7 @@ Usage examples are provided in the `examples` directory.
 
 ## Publications
 
-[0] Graser, A. & Dragaschnig, M. (2015). Learning From Trajectory Data With MobiML. Workshop on Big Mobility Data Analysis (BMDA2025) in conjuction with EDBT/ICDT 2025.
+[0] Graser, A. & Dragaschnig, M. (2025). Learning From Trajectory Data With MobiML. Workshop on Big Mobility Data Analysis (BMDA2025) in conjuction with EDBT/ICDT 2025.
 
 
 ## Acknowledgements

@@ -1,0 +1,61 @@
+[project]
+name = "mobiml"
+version = "0.1.0dev0"
+description = "MobiML - a library for machine learning with movement data"
+readme = "README.md"
+authors = [
+    { name = "Anita Graser", email = "anitagraser@gmx.at" }
+]
+classifiers = [
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: BSD License",
+        "Operating System :: OS Independent",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "fiona>=1.10.1",
+    "geopandas>=1.0.1",
+    "geopy>=2.4.1",
+    "h3>=4.2.1",
+    "matplotlib>=3.9.4",
+    "movingpandas>=0.21.2",
+    "pyarrow>=19.0.1",
+    "pymeos>=1.2.0",
+    "rtree>=1.4.0",
+    "scikit-learn>=1.6.1",
+    "torch>=2.6.0",
+    "tqdm>=4.67.1",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/movingpandas/mobiml"
+Repository = "https://github.com/movingpandas/mobiml.git"
+Issues = "https://github.com/movingpandas/mobiml/issues"
+
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "flake8>=7.1.2",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu" },
+]
+torchvision = [
+  { index = "pytorch-cpu" },
+]
