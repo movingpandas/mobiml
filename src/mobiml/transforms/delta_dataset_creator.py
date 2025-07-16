@@ -13,6 +13,7 @@ from mobiml.utils import applyParallel, shapely_coords_numpy
 import warnings
 warnings.filterwarnings('ignore')
 
+
 class DeltaDatasetCreator:
     def __init__(self, data: Dataset) -> None:
         self.data = data
