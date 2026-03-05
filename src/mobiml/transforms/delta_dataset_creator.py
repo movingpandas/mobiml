@@ -21,6 +21,26 @@ class DeltaDatasetCreator:
         self.output_feats = ["dx_next", "dy_next"]
 
     def get_delta_dataset(self, col=None, njobs=50) -> DataFrame:
+        """
+        Get a dataset of deltas in x, y, speed, direction, and time for each trajectory segment
+
+        Parameters
+        ----------
+        col : string
+            Optional column name for grouping the trajectories
+        njobs : int
+            Number of parallel jobs to run for dataset creation, default 50
+
+        Returns
+        ----------
+        DataFrame with columns dx_curr, dy_curr, dspeed_curr, dcourse_curr, dt_curr, dt_next, dx_next, dy_next
+
+        Examples
+        ----------
+        >>> ais = PreprocessedBrestAIS('data/nautilus_trajectories_preprocessed.csv')
+        >>> ais = TemporalSplitter(ais).split()
+        >>> traj_delta = DeltaDatasetCreator(ais).get_delta_dataset('split', njobs=4)
+        """        
         traj_delta = applyParallel(
             self.data.to_gdf().groupby([TRAJ_ID, col], group_keys=True),
             lambda l: self.create_delta_dataset(l),

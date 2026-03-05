@@ -21,6 +21,21 @@ class TrajectoryAggregator:
         self.vessels = vessels
 
     def aggregate_trajs(self, h3_resolution) -> pd.DataFrame:
+        """
+        Create a dataset of aggregated trajectory features for each trajectory, 
+        including start and end speed, direction, and location, as well as an H3 
+        sequence representation of the trajectory.
+
+        Parameters
+        ----------
+        h3_resolution : int
+            H3 resolution to use for trajectory aggregation
+
+        Returns
+        -------
+        DataFrame with columns client, MOVER_ID, SPEED_start, DIRECTION_start, 
+        x_start, y_start, SPEED_end, DIRECTION_end, x_end, y_end, H3_seq, SHIPTYPE
+        """
         print(f"{datetime.now()} Enriching trajectories ...")
         traj_gdf = self.trajs.to_traj_gdf(
             agg={"client": "mode", MOVER_ID: "mode", SPEED: ["max", "median"]}
