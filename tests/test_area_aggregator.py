@@ -170,3 +170,40 @@ class TestAreaAggregator:
         avg_dir_c = result.loc[result["area_name"] == "C", "avg_direction"].values[0]
         assert pd.isna(avg_speed_c)
         assert pd.isna(avg_dir_c)
+
+    def test_nan_directions_are_ignored_in_circular_mean(self):
+        import math
+
+        # Point 1 in polygon A: direction NaN (should be ignored)
+        # Point 2 in polygon A: direction 90.0 -> circular mean of valid = 90.0
+        df = pd.DataFrame(
+            [
+                {
+                    "geometry": Point(1, 1),
+                    "timestamp": datetime(2018, 1, 1, 12, 0, 0),
+                    "traj_id": 1,
+                    "mover_id": 1,
+                    "speed": 2.0,
+                    "direction": float("nan"),
+                },
+                {
+                    "geometry": Point(1.5, 1.5),
+                    "timestamp": datetime(2018, 1, 1, 12, 6, 0),
+                    "traj_id": 1,
+                    "mover_id": 1,
+                    "speed": 4.0,
+                    "direction": 90.0,
+                },
+            ]
+        )
+        gdf = GeoDataFrame(df, crs=4326)
+        polygon_a = Polygon([(0, 0), (3, 0), (3, 3), (0, 3)])
+        polygons = GeoDataFrame(
+            [{"area_name": "A", "geometry": polygon_a}], crs=4326
+        )
+
+        result = AreaAggregator(Dataset(gdf)).aggregate(polygons)
+
+        avg_dir = result.loc[result["area_name"] == "A", "avg_direction"].values[0]
+        assert not math.isnan(avg_dir)
+        assert avg_dir == pytest.approx(90.0)

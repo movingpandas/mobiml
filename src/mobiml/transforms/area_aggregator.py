@@ -50,7 +50,7 @@ class AreaAggregator:
         joined = gpd.sjoin(gdf, polygons[["geometry"]], how="inner", predicate="within")
 
         def _circular_mean_degrees(directions):
-            return float(circmean(directions, high=360, low=0))
+            return float(circmean(directions, high=360, low=0, nan_policy="omit"))
 
         stats = joined.groupby("index_right").agg(
             point_count=("geometry", "count"),
