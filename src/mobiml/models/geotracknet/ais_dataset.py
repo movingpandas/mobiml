@@ -36,8 +36,8 @@ import tensorflow as tf
 
 sys.path.append("..")
 
+LAT, LON, SOG, COG, TIMESTAMP, TRAJ_ID, IS_ANOM, ANOM_TYPE = range(8)
 
-LAT, LON, SOG, COG, NAME, SHIPTYPE, NAV_STT, TIMESTAMP, TRAJ_ID = list(range(9))
 
 # The default number of threads used to process data in parallel.
 DEFAULT_PARALLELISM = 12

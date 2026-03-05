@@ -1,0 +1,6 @@
+model_checkpoint_path: "/home/romeo/Documents/Cours/SDIA/PFE/projet/mobiml/examples/data/simulated_sample/runs_geotracknet/model.ckpt-1002"
+all_model_checkpoint_paths: "/home/romeo/Documents/Cours/SDIA/PFE/projet/mobiml/examples/data/simulated_sample/runs_geotracknet/model.ckpt-0"
+all_model_checkpoint_paths: "/home/romeo/Documents/Cours/SDIA/PFE/projet/mobiml/examples/data/simulated_sample/runs_geotracknet/model.ckpt-307"
+all_model_checkpoint_paths: "/home/romeo/Documents/Cours/SDIA/PFE/projet/mobiml/examples/data/simulated_sample/runs_geotracknet/model.ckpt-604"
+all_model_checkpoint_paths: "/home/romeo/Documents/Cours/SDIA/PFE/projet/mobiml/examples/data/simulated_sample/runs_geotracknet/model.ckpt-882"
+all_model_checkpoint_paths: "/home/romeo/Documents/Cours/SDIA/PFE/projet/mobiml/examples/data/simulated_sample/runs_geotracknet/model.ckpt-1002"
