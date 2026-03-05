@@ -1,6 +1,4 @@
-import numpy as np
 import geopandas as gpd
-import pandas as pd
 from scipy.stats import circmean
 
 from mobiml.datasets import Dataset, SPEED, DIRECTION
