@@ -2,6 +2,7 @@ import warnings
 
 from .traj_creator import TrajectoryCreator  # noqa F401
 from .delta_dataset_creator import DeltaDatasetCreator  # noqa F401
+from .area_aggregator import AreaAggregator  # noqa F401
 
 
 try:
