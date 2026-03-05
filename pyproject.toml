@@ -18,7 +18,7 @@ dependencies = [
     "geopy>=2.4.1",
     "h3>=4.2.1",
     "matplotlib>=3.9.4",
-    "movingpandas==0.21.3",
+    "movingpandas==0.22.4",
     "pyarrow>=19.0.1",
     "pymeos>=1.2.0",
     "rtree>=1.4.0",
