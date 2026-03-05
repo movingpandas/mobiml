@@ -37,7 +37,7 @@ class Dataset:
         self.mover_id = kwargs.pop("mover_id", self.mover_id)
         self.crs = kwargs.pop("crs", self.crs)
 
-        if type(data) == str:
+        if isinstance(data, str):
             df = self.load_from_path(data, *args, **kwargs)
         else:
             df = data
@@ -107,7 +107,7 @@ class Dataset:
 
     def to_df(self) -> pd.DataFrame:
         df = self.df.copy()
-        if type(df) == gpd.GeoDataFrame:
+        if isinstance(df, gpd.GeoDataFrame):
             df["x"] = df.geometry.x
             df["y"] = df.geometry.y
         elif not ("x" in df.columns) and not ("y" in df.columns):
@@ -120,7 +120,7 @@ class Dataset:
 
     def to_gdf(self) -> gpd.GeoDataFrame:
         df = self.df.copy()
-        if type(df) == gpd.GeoDataFrame:
+        if isinstance(df, gpd.GeoDataFrame):
             return df
         if COORDS in df.columns:
             df["geometry"] = get_point_from_xy(df)

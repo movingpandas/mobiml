@@ -23,7 +23,7 @@ class DeltaDatasetCreator:
     def get_delta_dataset(self, col=None, njobs=50) -> DataFrame:
         traj_delta = applyParallel(
             self.data.to_gdf().groupby([TRAJ_ID, col], group_keys=True),
-            lambda l: self.create_delta_dataset(l),
+            lambda l: self.create_delta_dataset(l),  # noqa E741
             n_jobs=njobs,
         )
         return traj_delta
@@ -65,7 +65,7 @@ class DeltaDatasetCreator:
         delta_curr = (
             segment.to_crs(crs)
             .geometry.apply(
-                lambda l: Series(shapely_coords_numpy(l), index=["dx", "dy"])
+                lambda l: Series(shapely_coords_numpy(l), index=["dx", "dy"])  # noqa E741
             )
             .diff()
         )
@@ -82,7 +82,7 @@ class DeltaDatasetCreator:
         traj_delta_windows = (
             applyParallel(
                 traj_delta.reset_index().groupby([TRAJ_ID, col]),
-                lambda l: self.traj_windowing(l),
+                lambda l: self.traj_windowing(l),  # noqa E741
                 n_jobs=njobs,
             )
             .reset_index(level=-1)

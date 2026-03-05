@@ -14,7 +14,7 @@ class TrajectoryDownsampler:
         df_clean = (
             self.data.df.sort_values(TIMESTAMP, kind="mergesort")
             .groupby(TRAJ_ID)
-            .progress_apply(lambda l: self._subsample_trajectory(l.copy(), min_dt_sec))
+            .progress_apply(lambda l: self._subsample_trajectory(l.copy(), min_dt_sec))  # noqa E741
             .reset_index(level=0, drop=True)
         )
         self.data.df = df_clean
