@@ -22,18 +22,20 @@ class DeltaDatasetCreator:
 
     def get_delta_dataset(self, col=None, njobs=50) -> DataFrame:
         """
-        Get a dataset of deltas in x, y, speed, direction, and time for each trajectory segment
+        Get a dataset of deltas in x, y, speed, direction, and time for each 
+        trajectory segment
 
         Parameters
         ----------
         col : string
-            Optional column name for grouping the trajectories
+            Column name for grouping the trajectories
         njobs : int
             Number of parallel jobs to run for dataset creation, default 50
 
         Returns
         ----------
-        DataFrame with columns dx_curr, dy_curr, dspeed_curr, dcourse_curr, dt_curr, dt_next, dx_next, dy_next
+        DataFrame with columns dx_curr, dy_curr, dspeed_curr, dcourse_curr, 
+        dt_curr, dt_next, dx_next, dy_next
 
         Examples
         ----------
