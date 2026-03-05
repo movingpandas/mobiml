@@ -130,7 +130,7 @@ class AISLoader:
         if filter:
             for key, value in filter.items():
                 print(f"Filtering {key} to {value} ...")
-                if type(value) == list:
+                if isinstance(value, list):
                     trajs = trajs[trajs[key].isin(value)]
                 else:
                     trajs = trajs[trajs[key] == value]
