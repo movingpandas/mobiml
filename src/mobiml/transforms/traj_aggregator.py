@@ -22,8 +22,8 @@ class TrajectoryAggregator:
 
     def aggregate_trajs(self, h3_resolution) -> pd.DataFrame:
         """
-        Create a dataset of aggregated trajectory features for each trajectory, 
-        including start and end speed, direction, and location, as well as an H3 
+        Create a dataset of aggregated trajectory features for each trajectory,
+        including start and end speed, direction, and location, as well as an H3
         sequence representation of the trajectory.
 
         Parameters
@@ -33,7 +33,7 @@ class TrajectoryAggregator:
 
         Returns
         -------
-        DataFrame with columns client, MOVER_ID, SPEED_start, DIRECTION_start, 
+        DataFrame with columns client, MOVER_ID, SPEED_start, DIRECTION_start,
         x_start, y_start, SPEED_end, DIRECTION_end, x_end, y_end, H3_seq, SHIPTYPE
         """
         print(f"{datetime.now()} Enriching trajectories ...")
