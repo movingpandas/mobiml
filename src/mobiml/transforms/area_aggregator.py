@@ -17,8 +17,7 @@ class AreaAggregator:
 
         For each polygon (and optionally each time bin), computes the density
         of points per unit area, the average movement speed, and the average
-        movement direction (using circular statistics to correctly handle the
-        0°/360° boundary).
+        movement direction.
 
         Parameters
         ----------
@@ -41,8 +40,8 @@ class AreaAggregator:
           result for empty polygon/time-bin combinations in the temporal case.
         - ``point_density``: ``point_count`` divided by polygon area (in CRS
           units). Note: if the CRS is geographic (e.g. EPSG:4326), area is in
-          degrees², which is not physically meaningful. Reproject ``polygons``
-          to a metric CRS for accurate values.
+          square degrees, which is not physically meaningful. Reproject 
+          ``polygons`` to a metric CRS for accurate values.
         - ``avg_speed``: arithmetic mean of point speeds. NaN for empty
           polygons.
         - ``avg_direction``: circular mean of point directions (degrees). NaN
