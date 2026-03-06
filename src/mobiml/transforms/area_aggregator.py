@@ -55,7 +55,7 @@ class AreaAggregator:
         """
         gdf = self.data.to_gdf()
 
-        if gdf.crs != polygons.crs:
+        if gdf.crs and polygons.crs and gdf.crs != polygons.crs:
             gdf = gdf.to_crs(polygons.crs)
 
         joined = gpd.sjoin(gdf, polygons[["geometry"]], how="inner", predicate="within")

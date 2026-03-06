@@ -363,3 +363,47 @@ class TestAreaAggregatorTemporal:
             (result["area_name"] == "B") & (result["t"] == day2)
         ]
         assert len(b_day2) == 0
+
+
+class TestAreaAggregatorNoCRS:
+    """Tests that AreaAggregator works when dataset and/or polygons have no CRS."""
+
+    def setup_method(self):
+        df = pd.DataFrame(
+            [
+                {
+                    "geometry": Point(1, 1),
+                    "timestamp": datetime(2018, 1, 1, 12, 0, 0),
+                    "traj_id": 1,
+                    "mover_id": 1,
+                    "speed": 2.0,
+                    "direction": 30.0,
+                },
+                {
+                    "geometry": Point(6, 6),
+                    "timestamp": datetime(2018, 1, 1, 12, 10, 0),
+                    "traj_id": 2,
+                    "mover_id": 2,
+                    "speed": 6.0,
+                    "direction": 270.0,
+                },
+            ]
+        )
+        self.gdf_no_crs = GeoDataFrame(df)  # no CRS
+
+        polygon_a = Polygon([(0, 0), (3, 0), (3, 3), (0, 3)])
+        polygon_b = Polygon([(5, 5), (8, 5), (8, 8), (5, 8)])
+        self.polygons_no_crs = GeoDataFrame(
+            [
+                {"area_name": "A", "geometry": polygon_a},
+                {"area_name": "B", "geometry": polygon_b},
+            ]
+        )  # no CRS
+
+    def test_aggregate_without_crs(self):
+        result = AreaAggregator(Dataset(self.gdf_no_crs)).aggregate(self.polygons_no_crs)
+
+        assert isinstance(result, GeoDataFrame)
+        assert len(result) == 2
+        assert result.loc[result["area_name"] == "A", "avg_speed"].values[0] == pytest.approx(2.0)
+        assert result.loc[result["area_name"] == "B", "avg_speed"].values[0] == pytest.approx(6.0)
