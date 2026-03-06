@@ -260,10 +260,14 @@ class TestAreaAggregatorTemporal:
 
         assert isinstance(result, GeoDataFrame)
 
-    def test_temporal_result_has_t_column(self):
+    def test_temporal_output_has_expected_columns(self):
         result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
 
         assert "t" in result.columns
+        assert "point_count" in result.columns
+        assert "point_density" in result.columns
+        assert "avg_speed" in result.columns
+        assert "avg_direction" in result.columns
 
     def test_temporal_result_has_one_row_per_polygon_time_bin(self):
         result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
@@ -275,6 +279,26 @@ class TestAreaAggregatorTemporal:
         result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
 
         assert "area_name" in result.columns
+
+    def test_temporal_point_count_per_area_and_time(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        day1 = datetime(2018, 1, 1)
+        day2 = datetime(2018, 1, 2)
+
+        a_day1 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day1), "point_count"
+        ].values[0]
+        a_day2 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day2), "point_count"
+        ].values[0]
+        b_day1 = result.loc[
+            (result["area_name"] == "B") & (result["t"] == day1), "point_count"
+        ].values[0]
+
+        assert a_day1 == 1
+        assert a_day2 == 1
+        assert b_day1 == 1
 
     def test_temporal_average_speed_per_area_and_time(self):
         result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
