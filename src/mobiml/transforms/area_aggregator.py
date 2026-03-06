@@ -40,7 +40,7 @@ class AreaAggregator:
           result for empty polygon/time-bin combinations in the temporal case.
         - ``point_density``: ``point_count`` divided by polygon area (in CRS
           units). Note: if the CRS is geographic (e.g. EPSG:4326), area is in
-          square degrees, which is not physically meaningful. Reproject 
+          square degrees, which is not physically meaningful. Reproject
           ``polygons`` to a metric CRS for accurate values.
         - ``avg_speed``: arithmetic mean of point speeds. NaN for empty
           polygons.
@@ -71,18 +71,18 @@ class AreaAggregator:
         else:
             return self._aggregate_spatiotemporally(polygons, freq, joined, agg_spec)
 
-
     def _aggregate_spatiotemporally(self, polygons, freq, joined, agg_spec):
-        stats = joined.groupby(
-                ["index_right", pd.Grouper(key=TIMESTAMP, freq=freq)]
-            ).agg(**agg_spec).reset_index()
-
+        stats = (
+            joined.groupby(["index_right", pd.Grouper(key=TIMESTAMP, freq=freq)])
+            .agg(**agg_spec)
+            .reset_index()
+        )
         polygon_lookup = polygons.copy()
         polygon_lookup["index_right"] = polygon_lookup.index
         result = gpd.GeoDataFrame(
-                stats.merge(polygon_lookup, on="index_right", how="left"),
-                crs=polygons.crs,
-            )
+            stats.merge(polygon_lookup, on="index_right", how="left"),
+            crs=polygons.crs,
+        )
         result["point_density"] = result["point_count"] / result.geometry.area
         result = result.rename(columns={TIMESTAMP: "t"})
         result = result.drop(columns=["index_right"])
@@ -90,11 +90,9 @@ class AreaAggregator:
 
     def _aggregate_spatially(self, polygons, joined, agg_spec):
         stats = joined.groupby("index_right").agg(**agg_spec)
-
         result = polygons.copy()
         result["point_count"] = result.index.map(stats["point_count"]).fillna(0)
         result["avg_speed"] = result.index.map(stats["avg_speed"])
         result["avg_direction"] = result.index.map(stats["avg_direction"])
         result["point_density"] = result["point_count"] / result.geometry.area
         return result
-    
