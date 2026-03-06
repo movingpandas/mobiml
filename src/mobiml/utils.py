@@ -1,6 +1,12 @@
 from typing import Tuple, List
 import numpy as np
 import math
+from scipy.stats import circmean
+
+
+def circular_mean_degrees(directions) -> float:
+    """Circular mean of compass directions in degrees, ignoring NaN values."""
+    return float(circmean(directions, high=360, low=0, nan_policy="omit"))
 
 
 # Get the coordinates of a Shapely Geometry (e.g. Point, Polygon, etc.) as NumPy array
