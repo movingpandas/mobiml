@@ -207,3 +207,135 @@ class TestAreaAggregator:
         avg_dir = result.loc[result["area_name"] == "A", "avg_direction"].values[0]
         assert not math.isnan(avg_dir)
         assert avg_dir == pytest.approx(90.0)
+
+
+class TestAreaAggregatorTemporal:
+    """Tests for spatiotemporal aggregation via the freq parameter."""
+
+    def setup_method(self):
+        # Polygon A: one point on day 1, one point on day 2
+        # Polygon B: one point on day 1 only
+        df = pd.DataFrame(
+            [
+                {
+                    "geometry": Point(1, 1),
+                    "timestamp": datetime(2018, 1, 1, 12, 0, 0),
+                    "traj_id": 1,
+                    "mover_id": 1,
+                    "speed": 2.0,
+                    "direction": 90.0,
+                },
+                {
+                    "geometry": Point(1.5, 1.5),
+                    "timestamp": datetime(2018, 1, 2, 12, 0, 0),
+                    "traj_id": 1,
+                    "mover_id": 1,
+                    "speed": 4.0,
+                    "direction": 45.0,
+                },
+                {
+                    "geometry": Point(6, 6),
+                    "timestamp": datetime(2018, 1, 1, 12, 0, 0),
+                    "traj_id": 2,
+                    "mover_id": 2,
+                    "speed": 6.0,
+                    "direction": 270.0,
+                },
+            ]
+        )
+        self.gdf = GeoDataFrame(df, crs=4326)
+
+        polygon_a = Polygon([(0, 0), (3, 0), (3, 3), (0, 3)])
+        polygon_b = Polygon([(5, 5), (8, 5), (8, 8), (5, 8)])
+        self.polygons = GeoDataFrame(
+            [
+                {"area_name": "A", "geometry": polygon_a},
+                {"area_name": "B", "geometry": polygon_b},
+            ],
+            crs=4326,
+        )
+
+    def test_temporal_result_is_geodataframe(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        assert isinstance(result, GeoDataFrame)
+
+    def test_temporal_result_has_t_column(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        assert "t" in result.columns
+
+    def test_temporal_result_has_one_row_per_polygon_time_bin(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        # A appears on day 1 and day 2, B appears on day 1 only -> 3 rows
+        assert len(result) == 3
+
+    def test_temporal_result_preserves_polygon_attributes(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        assert "area_name" in result.columns
+
+    def test_temporal_average_speed_per_area_and_time(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        day1 = datetime(2018, 1, 1)
+        day2 = datetime(2018, 1, 2)
+
+        a_day1 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day1), "avg_speed"
+        ].values[0]
+        a_day2 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day2), "avg_speed"
+        ].values[0]
+        b_day1 = result.loc[
+            (result["area_name"] == "B") & (result["t"] == day1), "avg_speed"
+        ].values[0]
+
+        assert a_day1 == pytest.approx(2.0)
+        assert a_day2 == pytest.approx(4.0)
+        assert b_day1 == pytest.approx(6.0)
+
+    def test_temporal_average_direction_per_area_and_time(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        day1 = datetime(2018, 1, 1)
+        day2 = datetime(2018, 1, 2)
+
+        a_day1 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day1), "avg_direction"
+        ].values[0]
+        a_day2 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day2), "avg_direction"
+        ].values[0]
+
+        assert a_day1 == pytest.approx(90.0)
+        assert a_day2 == pytest.approx(45.0)
+
+    def test_temporal_point_density_per_area_and_time(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        day1 = datetime(2018, 1, 1)
+        day2 = datetime(2018, 1, 2)
+
+        # Each polygon is 3x3 = 9 sq units; each bin has 1 point -> density = 1/9
+        a_day1 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day1), "point_density"
+        ].values[0]
+        a_day2 = result.loc[
+            (result["area_name"] == "A") & (result["t"] == day2), "point_density"
+        ].values[0]
+
+        assert a_day1 == pytest.approx(1 / 9, rel=1e-3)
+        assert a_day2 == pytest.approx(1 / 9, rel=1e-3)
+
+    def test_temporal_empty_polygon_time_bins_are_absent(self):
+        result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
+
+        day2 = datetime(2018, 1, 2)
+
+        # Polygon B has no points on day 2, so that row should not appear
+        b_day2 = result.loc[
+            (result["area_name"] == "B") & (result["t"] == day2)
+        ]
+        assert len(b_day2) == 0
