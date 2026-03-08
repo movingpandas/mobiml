@@ -90,7 +90,9 @@ class TestPreprocessedAISDK:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test_data_from_feather(self):
-        path = os.path.join(self.test_dir, "data/test_ais-extracted-stationary.feather")
+        path = os.path.join(
+            self.test_dir, "data/test_ais-extracted-stationary-small.feather"
+        )
         data = PreprocessedAISDK(path)
         assert isinstance(data, PreprocessedAISDK)
         assert TRAJ_ID in data.df.columns
@@ -102,6 +104,6 @@ class TestPreprocessedAISDK:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(trajs) > 0
-        assert len(data.df) == 309813
-        assert data.df.geometry.iloc[0].x == pytest.approx(11.644943)
-        assert data.df.geometry.iloc[0].y == pytest.approx(57.602225)
+        assert len(data.df) == 13
+        assert data.df.geometry.iloc[0].x == pytest.approx(11.936512)
+        assert data.df.geometry.iloc[0].y == pytest.approx(57.70572)
