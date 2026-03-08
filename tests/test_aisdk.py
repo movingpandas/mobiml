@@ -1,4 +1,5 @@
 import os
+import pytest
 import pandas as pd
 from geopandas import GeoDataFrame
 from movingpandas import TrajectoryCollection
@@ -64,10 +65,11 @@ class TestAISDK:
         assert len(data.df.columns) == 5
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 3
 
     def test_data_from_csv(self):
-        path = os.path.join(self.test_dir, "data/test_aisdk_20180208_sample.csv")
+        path = os.path.join(self.test_dir, "data", "test_aisdk_20180208_sample.csv")
         data = AISDK(path)
         assert isinstance(data, AISDK)
         assert TRAJ_ID in data.df.columns
@@ -78,14 +80,19 @@ class TestAISDK:
         assert SHIPTYPE in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
-        assert len(data.df) == 4
+        assert len(trajs) > 0
+        assert len(data.df) == 9
+        assert data.df["x"].iloc[0] == pytest.approx(11.644943)
+        assert data.df["y"].iloc[0] == pytest.approx(57.602225)
 
 
 class TestPreprocessedAISDK:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test_data_from_feather(self):
-        path = os.path.join(self.test_dir, "data/test_ais-extracted-stationary.feather")
+        path = os.path.join(
+            self.test_dir, "data", "test_ais-extracted-stationary.feather"
+        )
         data = PreprocessedAISDK(path)
         assert isinstance(data, PreprocessedAISDK)
         assert TRAJ_ID in data.df.columns
@@ -96,4 +103,7 @@ class TestPreprocessedAISDK:
         assert SHIPTYPE in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
-        assert len(data.df) == 309813
+        assert len(trajs) > 0
+        assert len(data.df) == 13
+        assert data.df.geometry.iloc[0].x == pytest.approx(11.936512)
+        assert data.df.geometry.iloc[0].y == pytest.approx(57.70572)

@@ -1,4 +1,5 @@
 import os
+import pytest
 import pandas as pd
 from geopandas import GeoDataFrame
 from movingpandas import TrajectoryCollection
@@ -42,19 +43,24 @@ class TestDataset:
         ).set_index("txx")
         self.gdf = GeoDataFrame(df, crs=31256)
 
+    def test_dataset_attributes(self):
+        data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
+        assert data.name == "test"
+        assert data.traj_id == "tid"
+        assert data.mover_id == "mid"
+
     def test_dataset_from_gdf(self):
         data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
         assert isinstance(data, Dataset)
-        assert data.name == "test"
-        assert data.traj_id == "tid"
-        assert data.mover_id == "mid"
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
 
-    def test_dataset_from_csv(self):
-        path = os.path.join(self.test_dir, "data/test.csv")
+    @pytest.mark.parametrize("filename", ["test.csv", "test.zip"])
+    def test_dataset_from_file(self, filename):
+        path = os.path.join(self.test_dir, "data", filename)
         data = Dataset(
             path,
             name="test",
@@ -64,32 +70,11 @@ class TestDataset:
             crs=31256,
         )
         assert isinstance(data, Dataset)
-        assert data.name == "test"
-        assert data.traj_id == "tid"
-        assert data.mover_id == "mid"
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
-
-    def test_dataset_from_zipped_csv(self):
-        path = os.path.join(self.test_dir, "data/test.zip")
-        data = Dataset(
-            path,
-            name="test",
-            traj_id="tid",
-            mover_id="mid",
-            timestamp="t",
-            crs=31256,
-        )
-        assert isinstance(data, Dataset)
-        assert data.name == "test"
-        assert data.traj_id == "tid"
-        assert data.mover_id == "mid"
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        trajs = data.to_trajs()
-        assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
+        assert data.df["x"].iloc[0] == pytest.approx(0)
+        assert data.df["y"].iloc[0] == pytest.approx(0)
 
     def test_get_bounds(self):
         data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
