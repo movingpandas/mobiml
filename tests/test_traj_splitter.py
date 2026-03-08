@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 from geopandas import GeoDataFrame
 from datetime import datetime, timedelta
@@ -9,8 +8,6 @@ from mobiml.preprocessing import TrajectorySplitter
 
 
 class TestTrajectorySplitter:
-    test_dir = os.path.dirname(os.path.realpath(__file__))
-
     def setup_method(self):
         df = pd.DataFrame(
             [
@@ -54,13 +51,18 @@ class TestTrajectorySplitter:
         )
         self.gdf = GeoDataFrame(df, crs=31256)
 
-    def test_split(self):
+    def test_split_by_observation_gap(self):
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
-        splitter = TrajectorySplitter(dataset)
-        data = splitter.split(observation_gap=timedelta(hours=10))
-        trajs = data.to_trajs()
-        assert len(trajs) == 2
-        splitter = TrajectorySplitter(data)
-        data = splitter.split(observation_gap=timedelta(hours=2))
-        trajs = data.to_trajs()
-        assert len(trajs) == 3
+        data = TrajectorySplitter(dataset).split(observation_gap=timedelta(hours=10))
+        assert len(data.to_trajs()) == 2
+
+    def test_split_chained(self):
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
+        data = TrajectorySplitter(dataset).split(observation_gap=timedelta(hours=10))
+        data = TrajectorySplitter(data).split(observation_gap=timedelta(hours=2))
+        assert len(data.to_trajs()) == 3
+
+    def test_split_by_day(self):
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
+        data = TrajectorySplitter(dataset).split(temporal_split_mode="day")
+        assert len(data.to_trajs()) == 2
