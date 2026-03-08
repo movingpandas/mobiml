@@ -17,7 +17,7 @@ class TestPortoTaxis:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test_data_from_csv(self):
-        path = os.path.join(self.test_dir, "data/test_train.csv")
+        path = os.path.join(self.test_dir, "data", "test_train.csv")
         data = PortoTaxis(path)
         assert isinstance(data, PortoTaxis)
         assert TRAJ_ID in data.df.columns

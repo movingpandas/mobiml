@@ -69,7 +69,7 @@ class TestAISDK:
         assert len(data.df) == 3
 
     def test_data_from_csv(self):
-        path = os.path.join(self.test_dir, "data/test_aisdk_20180208_sample.csv")
+        path = os.path.join(self.test_dir, "data", "test_aisdk_20180208_sample.csv")
         data = AISDK(path)
         assert isinstance(data, AISDK)
         assert TRAJ_ID in data.df.columns
@@ -91,7 +91,7 @@ class TestPreprocessedAISDK:
 
     def test_data_from_feather(self):
         path = os.path.join(
-            self.test_dir, "data/test_ais-extracted-stationary.feather"
+            self.test_dir, "data", "test_ais-extracted-stationary.feather"
         )
         data = PreprocessedAISDK(path)
         assert isinstance(data, PreprocessedAISDK)

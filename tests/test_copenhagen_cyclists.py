@@ -17,7 +17,7 @@ class TestCopenhagenCyclists:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def setup_method(self):
-        path = os.path.join(self.test_dir, "data/test_bike.pickle")
+        path = os.path.join(self.test_dir, "data", "test_bike.pickle")
         self.data = CopenhagenCyclists(path)
 
     def test_coordinates_are_within_frame_bounds(self):

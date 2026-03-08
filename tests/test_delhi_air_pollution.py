@@ -9,7 +9,7 @@ class TestDelhiAirPollution:
     test_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test_data_from_csv(self):
-        path = os.path.join(self.test_dir, "data/test_2021-01-30_all.csv")
+        path = os.path.join(self.test_dir, "data", "test_2021-01-30_all.csv")
         data = DelhiAirPollution(path)
         assert isinstance(data, DelhiAirPollution)
         assert TRAJ_ID in data.df.columns
