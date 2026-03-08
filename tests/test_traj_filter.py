@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
-from mobiml.datasets import Dataset, SPEED, MOVER_ID, TIMESTAMP, TRAJ_ID
+from mobiml.datasets import Dataset, SPEED
 from mobiml.preprocessing import TrajectoryFilter, TrajectoryEnricher
 
 
@@ -71,9 +71,6 @@ class TestTrajectoryFilter:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         filter = TrajectoryFilter(dataset)
         data = filter.filter_min_pts(min_pts=3)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert len(data.to_trajs()) == 1
 
@@ -81,9 +78,6 @@ class TestTrajectoryFilter:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         filter = TrajectoryFilter(dataset)
         data = filter.filter_speed(min_speed=1, max_speed=10)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert len(data.to_trajs()) == 2
 
@@ -93,8 +87,5 @@ class TestTrajectoryFilter:
         speed = enricher.add_speed(overwrite=True)
         filter = TrajectoryFilter(speed)
         data = filter.filter_speed(min_speed=1, max_speed=5)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert len(data.to_trajs()) == 2

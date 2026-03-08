@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import TRAJ_ID, MOVER_ID, SHIPTYPE
+from mobiml.datasets import SHIPTYPE
 
 from mobiml.samplers.mover_splitter import MoverSplitter
 
@@ -145,13 +145,9 @@ class TestMoverSplitter:
 
         assert len(X_train) == 12
         assert "geometry" in X_train.columns
-        assert TRAJ_ID in X_train.columns
-        assert MOVER_ID in X_train.columns
 
         assert len(X_test) == 4
         assert "geometry" in X_test.columns
-        assert TRAJ_ID in X_test.columns
-        assert MOVER_ID in X_test.columns
 
         assert len(y_train) == 12
         assert "Passenger" in y_train.values

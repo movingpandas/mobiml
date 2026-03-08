@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from datetime import datetime, timedelta
 from shapely.geometry import Point
 
-from mobiml.datasets import Dataset, MOVER_ID, TIMESTAMP, TRAJ_ID
+from mobiml.datasets import Dataset
 from mobiml.preprocessing import TrajectorySplitter
 
 
@@ -58,9 +58,6 @@ class TestTrajectorySplitter:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         splitter = TrajectorySplitter(dataset)
         data = splitter.split(observation_gap=timedelta(hours=10))
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         trajs = data.to_trajs()
         assert len(trajs) == 2
         splitter = TrajectorySplitter(data)

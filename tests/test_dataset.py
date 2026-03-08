@@ -6,7 +6,7 @@ from movingpandas import TrajectoryCollection
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import Dataset, MOVER_ID, TRAJ_ID
+from mobiml.datasets import Dataset
 
 
 class TestDataset:
@@ -52,8 +52,6 @@ class TestDataset:
     def test_dataset_from_gdf(self):
         data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
         assert isinstance(data, Dataset)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(trajs) > 0

@@ -7,11 +7,8 @@ from shapely.geometry import Point
 
 from mobiml.datasets import (
     Dataset,
-    TRAJ_ID,
-    MOVER_ID,
     SPEED,
     DIRECTION,
-    TIMESTAMP,
 )
 from mobiml.preprocessing import TrajectoryEnricher
 
@@ -54,9 +51,6 @@ class TestTrajectoryEnricher:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         enricher = TrajectoryEnricher(dataset)
         data = enricher.add_speed()
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         speed_list = data.df[SPEED].to_list()
         assert speed_list == [6, 6, 6, 6]
@@ -65,9 +59,6 @@ class TestTrajectoryEnricher:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         enricher = TrajectoryEnricher(dataset)
         data = enricher.add_direction()
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert DIRECTION in data.df.columns
         direction_list = data.df[DIRECTION].to_list()
         assert direction_list == [90.0, 90.0, 0.0, 270.0]

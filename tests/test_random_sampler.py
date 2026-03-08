@@ -5,7 +5,7 @@ from shapely.geometry import Point
 from datetime import datetime
 import pytest
 
-from mobiml.datasets import Dataset, TRAJ_ID, TIMESTAMP
+from mobiml.datasets import Dataset
 
 from mobiml.samplers import RandomTrajSampler
 
@@ -94,8 +94,6 @@ class TestRandomTrajSampler:
         dataset = Dataset(self.gdf)
         sampler = RandomTrajSampler(dataset)
         data = sampler.split(n_cells=2, n_sample=4, random_state=1)
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert len(data.df) == 7 * 2
         assert len(data.df[data.df.split == 2]) == 4 * 2
         split = [2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2]

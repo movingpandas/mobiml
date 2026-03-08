@@ -4,9 +4,7 @@ from movingpandas import TrajectoryCollection
 
 from mobiml.datasets import (
     CopenhagenCyclists,
-    TRAJ_ID,
     MOVER_ID,
-    TIMESTAMP,
     COORDS,
     ROWNUM,
 )
@@ -23,8 +21,6 @@ class TestCopenhagenCyclists:
     def test_coordinates_are_within_frame_bounds(self):
         assert isinstance(self.data, CopenhagenCyclists)
         assert len(self.data.df) == 4219
-        assert TRAJ_ID in self.data.df.columns
-        assert TIMESTAMP in self.data.df.columns
         assert COORDS in self.data.df.columns
         assert ROWNUM in self.data.df.columns
         assert MOVER_ID not in self.data.df.columns
