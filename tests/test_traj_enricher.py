@@ -53,7 +53,6 @@ class TestTrajectoryEnricher:
     def test_add_speed(self):
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         enricher = TrajectoryEnricher(dataset)
-        assert isinstance(enricher, TrajectoryEnricher)
         data = enricher.add_speed()
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns
@@ -65,7 +64,6 @@ class TestTrajectoryEnricher:
     def test_add_direction(self):
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         enricher = TrajectoryEnricher(dataset)
-        assert isinstance(enricher, TrajectoryEnricher)
         data = enricher.add_direction()
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns

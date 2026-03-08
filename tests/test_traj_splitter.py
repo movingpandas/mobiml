@@ -57,7 +57,6 @@ class TestTrajectorySplitter:
     def test_split(self):
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         splitter = TrajectorySplitter(dataset)
-        assert isinstance(splitter, TrajectorySplitter)
         data = splitter.split(observation_gap=timedelta(hours=10))
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns

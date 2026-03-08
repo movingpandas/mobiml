@@ -45,7 +45,6 @@ class TestODAggregator:
         dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
-        assert isinstance(aggregator, ODAggregator)
         od = aggregator.get_od_for_h3(7, "1D")
         assert od.origin.sum() == 2
         assert len(od.t.unique()) == 1
@@ -87,7 +86,6 @@ class TestODAggregator:
         dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
-        assert isinstance(aggregator, ODAggregator)
         od = aggregator.get_od_for_h3(7, "1D")
         assert od.origin.sum() == 2
         assert len(od.t.unique()) == 1
@@ -130,7 +128,6 @@ class TestODAggregator:
         dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
-        assert isinstance(aggregator, ODAggregator)
         od = aggregator.get_od_for_h3(7, "1D")
         assert od.origin.sum() == 2
         assert len(od.t.unique()) == 2
@@ -173,7 +170,6 @@ class TestODAggregator:
         dataset = Dataset(self.gdf)
         assert len(dataset.to_trajs()) == 2
         aggregator = ODAggregator(dataset)
-        assert isinstance(aggregator, ODAggregator)
         od = aggregator.get_od_for_h3(7, "1D")
         assert od.origin.sum() == 2
         assert len(od.t.unique()) == 2

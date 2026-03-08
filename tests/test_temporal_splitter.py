@@ -60,7 +60,6 @@ class TestTemporalSplitter:
 
         dataset = Dataset(self.gdf)
         splitter = TemporalSplitter(dataset)
-        assert isinstance(splitter, TemporalSplitter)
         data = splitter.split(dev_size=0.25, test_size=0.25)
         assert TRAJ_ID in data.df.columns
         assert TIMESTAMP in data.df.columns
@@ -118,7 +117,6 @@ class TestTemporalSplitter:
 
         dataset = Dataset(self.gdf)
         splitter = TemporalSplitter(dataset)
-        assert isinstance(splitter, TemporalSplitter)
         data = splitter.split_hr(dev_size=0.25, test_size=0.25)
         assert TRAJ_ID in data.df.columns
         assert TIMESTAMP in data.df.columns
@@ -166,7 +164,6 @@ class TestTemporalSplitter:
 
         dataset = Dataset(self.gdf)
         splitter = TemporalSplitter(dataset)
-        assert isinstance(splitter, TemporalSplitter)
         data = splitter.split_at_timestamp(timestamp=datetime(2018, 1, 2, 3, 0, 0))
         assert TRAJ_ID in data.df.columns
         assert TIMESTAMP in data.df.columns
@@ -224,7 +221,6 @@ class TestTemporalSplitter:
 
         dataset = Dataset(self.gdf)
         splitter = TemporalSplitter(dataset)
-        assert isinstance(splitter, TemporalSplitter)
         data = splitter.split_at_timestamp(
             timestamp=datetime(2018, 1, 2, 2, 0, 0),
             timestamp_2=datetime(2018, 1, 2, 5, 0, 0),

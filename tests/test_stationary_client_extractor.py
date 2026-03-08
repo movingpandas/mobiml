@@ -84,7 +84,6 @@ class TestStationaryClientExtractor:
         aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
 
         extractor = StationaryClientExtractor(aisdk)
-        assert isinstance(extractor, StationaryClientExtractor)
         client_data = extractor.extract(buffered_antennas)
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == 4
@@ -108,7 +107,6 @@ class TestStationaryClientExtractor:
         aisdk = AISDK(self.dataset, min_lon, min_lat, max_lon, max_lat)
 
         extractor = StationaryClientExtractor(aisdk)
-        assert isinstance(extractor, StationaryClientExtractor)
         client_data = extractor.extract(buffered_antennas)
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == 0

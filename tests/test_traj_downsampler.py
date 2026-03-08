@@ -64,7 +64,6 @@ class TestTrajectoryDownsampler:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         assert len(dataset.to_trajs()) == 3
         downsampler = TrajectoryDownsampler(dataset)
-        assert isinstance(downsampler, TrajectoryDownsampler)
         data = downsampler.subsample(min_dt_sec=10)
         assert TRAJ_ID in data.df.columns
         assert MOVER_ID in data.df.columns
@@ -77,7 +76,6 @@ class TestTrajectoryDownsampler:
         assert len(dataset.to_trajs()) == 3
         df = dataset.to_df()
         downsampler = TrajectoryDownsampler(df)
-        assert isinstance(downsampler, TrajectoryDownsampler)
         data = downsampler._subsample_trajectory(traj_df=df, min_dt_sec=10)
         assert TRAJ_ID in data.columns
         assert MOVER_ID in data.columns

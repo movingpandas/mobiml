@@ -87,7 +87,6 @@ class TestMobileClientExtractor:
         antenna_radius_meters = 6000
         expected_pt_count = 2
         extractor = MobileClientExtractor(self.aisdk)
-        assert isinstance(extractor, MobileClientExtractor)
         client_data = extractor.extract(self.clients, antenna_radius_meters)
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == expected_pt_count
@@ -114,7 +113,6 @@ class TestMobileClientExtractor:
         antenna_radius_meters = 3
         expected_pt_count = 1
         extractor = MobileClientExtractor(self.aisdk)
-        assert isinstance(extractor, MobileClientExtractor)
         client_data = extractor.extract(self.clients, antenna_radius_meters)
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == expected_pt_count
@@ -141,7 +139,6 @@ class TestMobileClientExtractor:
         antenna_radius_meters = 3
         expected_pt_count = 0
         extractor = MobileClientExtractor(self.aisdk)
-        assert isinstance(extractor, MobileClientExtractor)
         client_data = extractor.extract(self.clients, antenna_radius_meters)
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == expected_pt_count
@@ -168,7 +165,6 @@ class TestMobileClientExtractor:
         antenna_radius_meters = 3
         expected_pt_count = 0
         extractor = MobileClientExtractor(self.aisdk)
-        assert isinstance(extractor, MobileClientExtractor)
         client_data = extractor.extract(self.clients, antenna_radius_meters)
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == expected_pt_count
@@ -195,7 +191,6 @@ class TestMobileClientExtractor:
         antenna_radius_meters = 3
         expected_pt_count = 0
         extractor = MobileClientExtractor(self.aisdk)
-        assert isinstance(extractor, MobileClientExtractor)
         client_data = extractor.extract(self.clients, antenna_radius_meters)
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == expected_pt_count

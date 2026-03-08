@@ -134,7 +134,6 @@ class TestMoverSplitter:
     def test_split(self):
         trajs = self.gdf
         splitter = MoverSplitter(trajs, mover_id="mover_id", mover_class="ship_type")
-        assert isinstance(splitter, MoverSplitter)
 
         label_col = SHIPTYPE
         features = ["geometry", "traj_id", "mover_id"]
