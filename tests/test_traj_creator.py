@@ -99,7 +99,7 @@ class TestTrajectoryCreator:
         assert len(ais_trips) == 1
 
     def test_input_dataset(self):
-        path = os.path.join(self.test_dir, "data/test.csv")
+        path = os.path.join(self.test_dir, "data", "test.csv")
         data = Dataset(
             path,
             name="test",
@@ -118,7 +118,7 @@ class TestTrajectoryCreator:
         assert len(ais_trips) == 1
 
     def test_input_trajectory_collection(self):
-        path = os.path.join(self.test_dir, "data/test_gulls.csv")
+        path = os.path.join(self.test_dir, "data", "test_gulls.csv")
         data = MovebankGulls(path)
         trajs = data.to_trajs()
         ex = TrajectoryCreator(trajs)
