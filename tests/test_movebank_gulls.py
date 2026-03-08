@@ -17,6 +17,7 @@ class TestMovebankGulls:
         assert TIMESTAMP in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 10
         assert data.df["x"].iloc[0] == pytest.approx(24.58617)
         assert data.df["y"].iloc[0] == pytest.approx(61.24783)
@@ -33,7 +34,4 @@ class TestMovebankGulls:
             "visible",
         }
         for col in extra_cols:
-            if col in data.df.columns:
-                raise Exception("There is an extra column: {col}".format(col=col))
-            else:
-                pass
+            assert col not in data.df.columns

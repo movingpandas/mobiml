@@ -17,6 +17,7 @@ class TestDelhiAirPollution:
         assert TIMESTAMP in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 10
         assert data.df["x"].iloc[0] == pytest.approx(77.228798)
         assert data.df["y"].iloc[0] == pytest.approx(28.579370)

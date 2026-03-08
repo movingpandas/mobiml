@@ -27,6 +27,7 @@ class TestBrestAIS:
         assert DIRECTION in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 10
         assert data.df["x"].iloc[0] == pytest.approx(-4.4657183)
         assert data.df["y"].iloc[0] == pytest.approx(48.38249)
@@ -48,6 +49,7 @@ class TestPreprocessedBrestAIS:
         assert DIRECTION in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 10
         assert data.df["x"].iloc[0] == pytest.approx(-5.33829)
         assert data.df["y"].iloc[0] == pytest.approx(48.2961)

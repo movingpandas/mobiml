@@ -65,6 +65,7 @@ class TestAISDK:
         assert len(data.df.columns) == 5
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 3
 
     def test_data_from_csv(self):
@@ -79,7 +80,8 @@ class TestAISDK:
         assert SHIPTYPE in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
-        assert len(data.df) == 4
+        assert len(trajs) > 0
+        assert len(data.df) == 9
         assert data.df["x"].iloc[0] == pytest.approx(11.644943)
         assert data.df["y"].iloc[0] == pytest.approx(57.602225)
 
@@ -99,6 +101,7 @@ class TestPreprocessedAISDK:
         assert SHIPTYPE in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 309813
         assert data.df.geometry.iloc[0].x == pytest.approx(11.644943)
         assert data.df.geometry.iloc[0].y == pytest.approx(57.602225)

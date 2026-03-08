@@ -27,6 +27,7 @@ class TestPortoTaxis:
         assert ROWNUM in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert len(trajs) > 0
         assert len(data.df) == 332
         x = get_x_from_xy(data.df)
         y = get_y_from_xy(data.df)
