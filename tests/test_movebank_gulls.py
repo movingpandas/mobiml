@@ -1,4 +1,5 @@
 import os
+import pytest
 from movingpandas import TrajectoryCollection
 
 from mobiml.datasets import MovebankGulls, TRAJ_ID, MOVER_ID, TIMESTAMP
@@ -17,6 +18,8 @@ class TestMovebankGulls:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 10
+        assert data.df["x"].iloc[0] == pytest.approx(24.58617)
+        assert data.df["y"].iloc[0] == pytest.approx(61.24783)
 
     def test_drop_extra_cols(self):
         path = os.path.join(self.test_dir, "data/test_gulls.csv")

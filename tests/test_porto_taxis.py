@@ -1,4 +1,5 @@
 import os
+import pytest
 from movingpandas import TrajectoryCollection
 
 from mobiml.datasets import (
@@ -9,6 +10,7 @@ from mobiml.datasets import (
     COORDS,
     ROWNUM,
 )
+from mobiml.datasets.utils import get_x_from_xy, get_y_from_xy
 
 
 class TestPortoTaxis:
@@ -26,3 +28,7 @@ class TestPortoTaxis:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 332
+        x = get_x_from_xy(data.df)
+        y = get_y_from_xy(data.df)
+        assert x.iloc[0] == pytest.approx(-8.618643)
+        assert y.iloc[0] == pytest.approx(41.141412)

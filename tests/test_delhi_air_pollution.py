@@ -1,4 +1,5 @@
 import os
+import pytest
 from movingpandas import TrajectoryCollection
 
 from mobiml.datasets import DelhiAirPollution, TRAJ_ID, MOVER_ID, TIMESTAMP
@@ -17,3 +18,5 @@ class TestDelhiAirPollution:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 10
+        assert data.df["x"].iloc[0] == pytest.approx(77.228798)
+        assert data.df["y"].iloc[0] == pytest.approx(28.579370)

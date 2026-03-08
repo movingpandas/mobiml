@@ -1,4 +1,5 @@
 import os
+import pytest
 import pandas as pd
 from geopandas import GeoDataFrame
 from movingpandas import TrajectoryCollection
@@ -79,6 +80,8 @@ class TestAISDK:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 4
+        assert data.df["x"].iloc[0] == pytest.approx(11.644943)
+        assert data.df["y"].iloc[0] == pytest.approx(57.602225)
 
 
 class TestPreprocessedAISDK:
@@ -97,3 +100,5 @@ class TestPreprocessedAISDK:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 309813
+        assert data.df.geometry.iloc[0].x == pytest.approx(11.644943)
+        assert data.df.geometry.iloc[0].y == pytest.approx(57.602225)

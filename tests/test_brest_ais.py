@@ -1,4 +1,5 @@
 import os
+import pytest
 from movingpandas import TrajectoryCollection
 
 from mobiml.datasets import (
@@ -27,6 +28,8 @@ class TestBrestAIS:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 10
+        assert data.df["x"].iloc[0] == pytest.approx(-4.4657183)
+        assert data.df["y"].iloc[0] == pytest.approx(48.38249)
 
 
 class TestPreprocessedBrestAIS:
@@ -46,3 +49,5 @@ class TestPreprocessedBrestAIS:
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(data.df) == 10
+        assert data.df["x"].iloc[0] == pytest.approx(-5.33829)
+        assert data.df["y"].iloc[0] == pytest.approx(48.2961)

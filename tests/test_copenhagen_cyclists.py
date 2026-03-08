@@ -1,4 +1,5 @@
 import os
+import pytest
 import pandas as pd
 from movingpandas import TrajectoryCollection
 
@@ -32,6 +33,8 @@ class TestCopenhagenCyclists:
         y = get_y_from_xy(data.df)
         assert x.between(0, 640).all(), "x coordinates out of bounds [0, 640]"
         assert y.between(0, 360).all(), "y coordinates out of bounds [0, 360]"
+        assert x.iloc[0] == pytest.approx(483.545)
+        assert y.iloc[0] == pytest.approx(181.87)
 
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)

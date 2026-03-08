@@ -1,4 +1,5 @@
 import os
+import pytest
 import pandas as pd
 from geopandas import GeoDataFrame
 from movingpandas import TrajectoryCollection
@@ -71,6 +72,8 @@ class TestDataset:
         assert MOVER_ID in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert data.df["x"].iloc[0] == pytest.approx(0)
+        assert data.df["y"].iloc[0] == pytest.approx(0)
 
     def test_dataset_from_zipped_csv(self):
         path = os.path.join(self.test_dir, "data/test.zip")
@@ -90,6 +93,8 @@ class TestDataset:
         assert MOVER_ID in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
+        assert data.df["x"].iloc[0] == pytest.approx(0)
+        assert data.df["y"].iloc[0] == pytest.approx(0)
 
     def test_get_bounds(self):
         data = Dataset(self.gdf, name="test", traj_id="tid", mover_id="mid")
