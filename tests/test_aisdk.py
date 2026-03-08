@@ -91,7 +91,7 @@ class TestPreprocessedAISDK:
 
     def test_data_from_feather(self):
         path = os.path.join(
-            self.test_dir, "data/test_ais-extracted-stationary-small.feather"
+            self.test_dir, "data/test_ais-extracted-stationary.feather"
         )
         data = PreprocessedAISDK(path)
         assert isinstance(data, PreprocessedAISDK)
