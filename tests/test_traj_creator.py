@@ -62,7 +62,6 @@ class TestTrajectoryCreator:
 
     def test_input_gdf(self):
         ex = TrajectoryCreator(self.gdf)
-        assert isinstance(ex, TrajectoryCreator)
         ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(minutes=1),
@@ -72,7 +71,6 @@ class TestTrajectoryCreator:
 
     def test_gap_duration(self):
         ex = TrajectoryCreator(self.gdf)
-        assert isinstance(ex, TrajectoryCreator)
         ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=7),
             generalization_tolerance=timedelta(minutes=1),
@@ -82,7 +80,6 @@ class TestTrajectoryCreator:
 
     def test_generalization_tolerance(self):
         ex = TrajectoryCreator(self.gdf)
-        assert isinstance(ex, TrajectoryCreator)
         ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(seconds=1),
@@ -94,7 +91,6 @@ class TestTrajectoryCreator:
         data = self.gdf.drop(columns=SPEED)
         assert SPEED not in data.columns
         ex = TrajectoryCreator(data)
-        assert isinstance(ex, TrajectoryCreator)
         ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(minutes=1),
@@ -103,7 +99,7 @@ class TestTrajectoryCreator:
         assert len(ais_trips) == 1
 
     def test_input_dataset(self):
-        path = os.path.join(self.test_dir, "data/test.csv")
+        path = os.path.join(self.test_dir, "data", "test.csv")
         data = Dataset(
             path,
             name="test",
@@ -113,7 +109,6 @@ class TestTrajectoryCreator:
             crs=31256,
         )
         ex = TrajectoryCreator(data)
-        assert isinstance(ex, TrajectoryCreator)
         ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(minutes=1),
@@ -123,11 +118,10 @@ class TestTrajectoryCreator:
         assert len(ais_trips) == 1
 
     def test_input_trajectory_collection(self):
-        path = os.path.join(self.test_dir, "data/test_gulls.csv")
+        path = os.path.join(self.test_dir, "data", "test_gulls.csv")
         data = MovebankGulls(path)
         trajs = data.to_trajs()
         ex = TrajectoryCreator(trajs)
-        assert isinstance(ex, TrajectoryCreator)
         ais_trips = ex.get_trajs(
             gap_duration=timedelta(hours=7),
             generalization_tolerance=timedelta(minutes=1),

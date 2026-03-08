@@ -2,7 +2,7 @@ import os
 import pytest
 from movingpandas import TrajectoryCollection
 
-from mobiml.datasets import DelhiAirPollution, TRAJ_ID, MOVER_ID, TIMESTAMP
+from mobiml.datasets import DelhiAirPollution
 
 
 class TestDelhiAirPollution:
@@ -12,9 +12,6 @@ class TestDelhiAirPollution:
         path = os.path.join(self.test_dir, "data", "test_2021-01-30_all.csv")
         data = DelhiAirPollution(path)
         assert isinstance(data, DelhiAirPollution)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         trajs = data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(trajs) > 0

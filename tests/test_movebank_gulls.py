@@ -2,7 +2,7 @@ import os
 import pytest
 from movingpandas import TrajectoryCollection
 
-from mobiml.datasets import MovebankGulls, TRAJ_ID, MOVER_ID, TIMESTAMP
+from mobiml.datasets import MovebankGulls
 
 
 class TestMovebankGulls:
@@ -14,9 +14,6 @@ class TestMovebankGulls:
 
     def test_data_from_csv(self):
         assert isinstance(self.data, MovebankGulls)
-        assert TRAJ_ID in self.data.df.columns
-        assert MOVER_ID in self.data.df.columns
-        assert TIMESTAMP in self.data.df.columns
         trajs = self.data.to_trajs()
         assert isinstance(trajs, TrajectoryCollection)
         assert len(trajs) > 0

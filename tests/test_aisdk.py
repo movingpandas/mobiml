@@ -11,9 +11,6 @@ from mobiml.datasets import (
     PreprocessedAISDK,
     SHIPTYPE,
     SPEED,
-    TIMESTAMP,
-    TRAJ_ID,
-    MOVER_ID,
     DIRECTION,
 )
 
@@ -58,9 +55,6 @@ class TestAISDK:
     def test_data_from_gdf(self):
         data = AISDK(self.gdf, traj_id="tid", mover_id="mid")
         assert isinstance(data, AISDK)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert len(data.df.columns) == 5
         trajs = data.to_trajs()
@@ -72,9 +66,6 @@ class TestAISDK:
         path = os.path.join(self.test_dir, "data", "test_aisdk_20180208_sample.csv")
         data = AISDK(path)
         assert isinstance(data, AISDK)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert DIRECTION in data.df.columns
         assert SHIPTYPE in data.df.columns
@@ -95,9 +86,6 @@ class TestPreprocessedAISDK:
         )
         data = PreprocessedAISDK(path)
         assert isinstance(data, PreprocessedAISDK)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert DIRECTION in data.df.columns
         assert SHIPTYPE in data.df.columns

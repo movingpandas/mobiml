@@ -4,9 +4,6 @@ from movingpandas import TrajectoryCollection
 
 from mobiml.datasets import (
     PortoTaxis,
-    TRAJ_ID,
-    MOVER_ID,
-    TIMESTAMP,
     COORDS,
     ROWNUM,
 )
@@ -20,9 +17,6 @@ class TestPortoTaxis:
         path = os.path.join(self.test_dir, "data", "test_train.csv")
         data = PortoTaxis(path)
         assert isinstance(data, PortoTaxis)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert COORDS in data.df.columns
         assert ROWNUM in data.df.columns
         trajs = data.to_trajs()

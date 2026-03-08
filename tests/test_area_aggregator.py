@@ -9,8 +9,6 @@ from mobiml.transforms.area_aggregator import AreaAggregator
 
 
 class TestAreaAggregator:
-    """Tests for AreaAggregator, which aggregates movement point statistics per polygon area."""
-
     def setup_method(self):
         # Two points inside polygon A (speeds 2 and 4, directions 30 and 350)
         # One point inside polygon B (speed 6, direction 270)
@@ -94,36 +92,22 @@ class TestAreaAggregator:
     def test_average_speed_per_area(self):
         dataset = Dataset(self.gdf)
         result = AreaAggregator(dataset).aggregate(self.polygons)
-
-        # Polygon A: two points with speeds 2.0 and 4.0 -> mean = 3.0
         avg_speed_a = result.loc[result["area_name"] == "A", "avg_speed"].values[0]
         assert avg_speed_a == pytest.approx(3.0)
-
-        # Polygon B: one point with speed 6.0 -> mean = 6.0
         avg_speed_b = result.loc[result["area_name"] == "B", "avg_speed"].values[0]
         assert avg_speed_b == pytest.approx(6.0)
 
     def test_average_direction_per_area(self):
         dataset = Dataset(self.gdf)
         result = AreaAggregator(dataset).aggregate(self.polygons)
-
-        # Polygon A: two points with directions 30.0 and 350.0.
-        # Arithmetic mean would be 190.0 (wrong — crosses 0°/360°).
-        # Circular mean: atan2(sin(30°)+sin(350°), cos(30°)+cos(350°)) ≈ 10.0°
         avg_dir_a = result.loc[result["area_name"] == "A", "avg_direction"].values[0]
         assert avg_dir_a == pytest.approx(10.0, abs=0.1)
-
-        # Polygon B: one point with direction 270.0 -> mean = 270.0
         avg_dir_b = result.loc[result["area_name"] == "B", "avg_direction"].values[0]
         assert avg_dir_b == pytest.approx(270.0)
 
     def test_point_density_per_area(self):
         dataset = Dataset(self.gdf)
         result = AreaAggregator(dataset).aggregate(self.polygons)
-
-        # Both polygons are 3x3 = 9 sq units (in CRS units).
-        # Polygon A has 2 points -> density = 2/9
-        # Polygon B has 1 point  -> density = 1/9
         density_a = result.loc[result["area_name"] == "A", "point_density"].values[0]
         density_b = result.loc[result["area_name"] == "B", "point_density"].values[0]
 
@@ -173,9 +157,6 @@ class TestAreaAggregator:
 
     def test_nan_directions_are_ignored_in_circular_mean(self):
         import math
-
-        # Point 1 in polygon A: direction NaN (should be ignored)
-        # Point 2 in polygon A: direction 90.0 -> circular mean of valid = 90.0
         df = pd.DataFrame(
             [
                 {
@@ -271,8 +252,6 @@ class TestAreaAggregatorTemporal:
 
     def test_temporal_result_has_one_row_per_polygon_time_bin(self):
         result = AreaAggregator(Dataset(self.gdf)).aggregate(self.polygons, freq="1D")
-
-        # A appears on day 1 and day 2, B appears on day 1 only -> 3 rows
         assert len(result) == 3
 
     def test_temporal_result_preserves_polygon_attributes(self):
@@ -342,7 +321,6 @@ class TestAreaAggregatorTemporal:
         day1 = datetime(2018, 1, 1)
         day2 = datetime(2018, 1, 2)
 
-        # Each polygon is 3x3 = 9 sq units; each bin has 1 point -> density = 1/9
         a_day1 = result.loc[
             (result["area_name"] == "A") & (result["t"] == day1), "point_density"
         ].values[0]
@@ -358,7 +336,6 @@ class TestAreaAggregatorTemporal:
 
         day2 = datetime(2018, 1, 2)
 
-        # Polygon B has no points on day 2, so that row should not appear
         b_day2 = result.loc[
             (result["area_name"] == "B") & (result["t"] == day2)
         ]
@@ -398,7 +375,7 @@ class TestAreaAggregatorNoCRS:
                 {"area_name": "A", "geometry": polygon_a},
                 {"area_name": "B", "geometry": polygon_b},
             ]
-        )  # no CRS
+        )  
 
     def test_aggregate_without_crs(self):
         result = AreaAggregator(Dataset(self.gdf_no_crs)).aggregate(self.polygons_no_crs)

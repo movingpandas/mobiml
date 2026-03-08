@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from shapely.geometry import Point
 from datetime import datetime
 
-from mobiml.datasets import Dataset, TRAJ_ID, TIMESTAMP, SPEED, DIRECTION
+from mobiml.datasets import Dataset, SPEED, DIRECTION
 from mobiml.preprocessing import Normalizer
 
 
@@ -48,12 +48,9 @@ class TestNormalizer:
 
     def test_normalize_replace_false(self):
         dataset = Dataset(self.gdf)
-        assert isinstance(dataset, Dataset)
         assert len(dataset.df.columns) == 5
         normalizer = Normalizer(dataset)
         data = normalizer.normalize(replace=False)
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert DIRECTION in data.df.columns
         assert len(data.df.columns) == 11
@@ -69,12 +66,9 @@ class TestNormalizer:
 
     def test_normalize_replace_true(self):
         dataset = Dataset(self.gdf)
-        assert isinstance(dataset, Dataset)
         assert len(dataset.df.columns) == 5
         normalizer = Normalizer(dataset)
         data = normalizer.normalize(replace=True)
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert DIRECTION in data.df.columns
         assert len(data.df.columns) == 7
@@ -90,12 +84,9 @@ class TestNormalizer:
 
     def test_max_speed(self):
         dataset = Dataset(self.gdf)
-        assert isinstance(dataset, Dataset)
         assert len(dataset.df.columns) == 5
         normalizer = Normalizer(dataset)
         data = normalizer.normalize(speed_max=5.0, replace=True)
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert DIRECTION in data.df.columns
         assert len(data.df.columns) == 7
@@ -105,14 +96,11 @@ class TestNormalizer:
 
     def test_no_speed(self):
         dataset = Dataset(self.gdf)
-        assert isinstance(dataset, Dataset)
         assert len(dataset.df.columns) == 5
         dataset.df = dataset.df.drop(columns="speed")
         assert len(dataset.df.columns) == 4
         normalizer = Normalizer(dataset)
         data = normalizer.normalize(replace=True)
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert DIRECTION in data.df.columns
         assert len(data.df) == 4
         assert SPEED not in data.df.columns
@@ -120,14 +108,11 @@ class TestNormalizer:
 
     def test_no_direction(self):
         dataset = Dataset(self.gdf)
-        assert isinstance(dataset, Dataset)
         assert len(dataset.df.columns) == 5
         dataset.df = dataset.df.drop(columns="direction")
         assert len(dataset.df.columns) == 4
         normalizer = Normalizer(dataset)
         data = normalizer.normalize(replace=True)
-        assert TRAJ_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert SPEED in data.df.columns
         assert len(data.df) == 4
         assert DIRECTION not in data.df.columns

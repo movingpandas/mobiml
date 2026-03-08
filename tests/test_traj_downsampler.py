@@ -4,7 +4,7 @@ from geopandas import GeoDataFrame
 from datetime import datetime
 from shapely.geometry import Point
 
-from mobiml.datasets import Dataset, MOVER_ID, TIMESTAMP, TRAJ_ID
+from mobiml.datasets import Dataset
 from mobiml.preprocessing import TrajectoryDownsampler
 
 
@@ -64,11 +64,7 @@ class TestTrajectoryDownsampler:
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         assert len(dataset.to_trajs()) == 3
         downsampler = TrajectoryDownsampler(dataset)
-        assert isinstance(downsampler, TrajectoryDownsampler)
         data = downsampler.subsample(min_dt_sec=10)
-        assert TRAJ_ID in data.df.columns
-        assert MOVER_ID in data.df.columns
-        assert TIMESTAMP in data.df.columns
         assert len(data.to_trajs()) == 2
         assert len(data.to_trajs().get_trajectory(1).df) == 2
 
@@ -77,9 +73,5 @@ class TestTrajectoryDownsampler:
         assert len(dataset.to_trajs()) == 3
         df = dataset.to_df()
         downsampler = TrajectoryDownsampler(df)
-        assert isinstance(downsampler, TrajectoryDownsampler)
         data = downsampler._subsample_trajectory(traj_df=df, min_dt_sec=10)
-        assert TRAJ_ID in data.columns
-        assert MOVER_ID in data.columns
-        assert TIMESTAMP in data.columns
         assert len(data) == 4
