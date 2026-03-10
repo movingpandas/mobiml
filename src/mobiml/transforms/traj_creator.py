@@ -23,12 +23,21 @@ class TrajectoryCreator:
                 min_duration=min_duration,
             )
         elif isinstance(data, mpd.TrajectoryCollection):
-            self.tc = data
+            self.tc = self._filter(data, min_length, min_duration)
         elif isinstance(data, Dataset):
-            self.tc = data.to_trajs()
+            self.tc = self._filter(data.to_trajs(), min_length, min_duration)
         else:
             raise TypeError(f"Invalid input data {data}")
         print(f"   Created: {self.tc}")
+
+    @staticmethod
+    def _filter(tc, min_length, min_duration):
+        trajs = [
+            t for t in tc.trajectories
+            if t.get_length() >= min_length
+            and t.get_duration() >= min_duration
+        ]
+        return mpd.TrajectoryCollection(trajs)
 
     def get_trajs(
         self,
