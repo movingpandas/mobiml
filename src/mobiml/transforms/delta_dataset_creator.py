@@ -71,7 +71,7 @@ class DeltaDatasetCreator:
             .join(delta_tau)
             .join(delta_next, lsuffix="_curr", rsuffix="_next")
             .dropna(subset=["dt_curr", "dt_next"])
-            .fillna(method="bfill")
+            .bfill()
         )
 
     def compute_speed_direction_deltas(self, segment):
