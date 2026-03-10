@@ -2,7 +2,6 @@ import os
 
 from mobiml.datasets import PreprocessedBrestAIS
 from mobiml.transforms import DeltaDatasetCreator
-from mobiml.samplers import TemporalSplitter
 
 
 class TestDeltaDatasetCreator:
@@ -15,18 +14,17 @@ class TestDeltaDatasetCreator:
             "test_nautilus_trajectories_preprocessed_100.csv",
         )
         dataset = PreprocessedBrestAIS(path)
-        split_dataset = TemporalSplitter(dataset).split(dev_size=0.25, test_size=0.25)   # TODO: refactor so that DeltaDatasetCreator is not dependent on TemporalSplitter  # noqa E501
-        self.delta_dataset_creator = DeltaDatasetCreator(split_dataset)
+        self.delta_dataset_creator = DeltaDatasetCreator(dataset)
 
     def test_get_delta_dataset(self):
-        delta_dataset = self.delta_dataset_creator.get_delta_dataset("split", njobs=1)
+        delta_dataset = self.delta_dataset_creator.get_delta_dataset(njobs=1)
 
         expected_dt_curr = [259, 80, 91]
         dt_curr = delta_dataset.dt_curr.tolist()
         assert dt_curr[:3] == expected_dt_curr
 
     def test_get_windowed_dataset(self):
-        windowed_dataset = self.delta_dataset_creator.get_windowed_dataset("split")
+        windowed_dataset = self.delta_dataset_creator.get_windowed_dataset()
         assert len(windowed_dataset) == 1
 
         samples_list = windowed_dataset.samples.tolist()
@@ -35,7 +33,7 @@ class TestDeltaDatasetCreator:
         assert samples_list[0][2][2] == 91
 
     def test_windowing(self):
-        delta_dataset = self.delta_dataset_creator.get_delta_dataset("split", njobs=1)
+        delta_dataset = self.delta_dataset_creator.get_delta_dataset(njobs=1)
         samples, labels = self.delta_dataset_creator.traj_windowing(
             delta_dataset, 10, 2, 30
         )
