@@ -23,12 +23,17 @@ class MobileClientExtractor:
         print(f"{datetime.now()} Creating PyMEOS points ...")
         ais = self.data.to_gdf()
         ais["pymeos_pt"] = ais.apply(
-            lambda row: TGeogPointInst(point=row["geometry"], timestamp=row[TIMESTAMP]),
+            lambda row: TGeogPointInst(
+                point=row["geometry"],
+                timestamp=self._to_utc(row[TIMESTAMP]),
+            ),
             axis=1,
         )
 
         print(f"{datetime.now()} Creating client trajectories ...")
-        mpd_tc = clients.to_trajs()
+        clients_utc = clients.copy()
+        clients_utc.df[TIMESTAMP] = clients_utc.df[TIMESTAMP].apply(self._to_utc)
+        mpd_tc = clients_utc.to_trajs()
         client_trajs = self.create_pymeos_trajectories(mpd_tc)
 
         print(f"{datetime.now()} Calculating spatiotemporal intersections ...")
@@ -54,6 +59,13 @@ class MobileClientExtractor:
         dataset.df = self.gdf
         return dataset
 
+    @staticmethod
+    def _to_utc(ts):
+        from datetime import timezone
+        if ts.tzinfo is None:
+            return ts.replace(tzinfo=timezone.utc)
+        return ts.astimezone(timezone.utc)
+
     def create_pymeos_trajectories(self, tc):
         print(f"{datetime.now()} Creating PyMEOS trajectories ...")
         pymeos_traj = {}
@@ -63,7 +75,12 @@ class MobileClientExtractor:
         return pymeos_traj
 
     def extract_wkt_from_traj_vectorized(self, traj):
-        series = traj.df.geometry.to_wkt() + "@" + traj.df.geometry.index.astype(str)
+        idx = traj.df.geometry.index
+        if idx.tz is None:
+            idx = idx.tz_localize("UTC")
+        else:
+            idx = idx.tz_convert("UTC")
+        series = traj.df.geometry.to_wkt() + "@" + idx.astype(str)
         wkt = str(list(series)).replace("'", "")
         return wkt
 
