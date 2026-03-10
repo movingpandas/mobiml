@@ -46,7 +46,8 @@ def applyParallel(df_grouped, fun, n_jobs=-1, **kwargs):
     n_jobs = multiprocessing.cpu_count() if n_jobs == -1 else n_jobs
     print(f"Scaling {fun} to {n_jobs} CPUs")
 
-    df_grouped_names = df_grouped.grouper.names
+    keys = df_grouped.keys
+    df_grouped_names = keys if isinstance(keys, list) else [keys]
 
     def _fun(name, group):
         return (
