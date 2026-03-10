@@ -108,7 +108,7 @@ class TestTrajectoryCreator:
             timestamp="t",
             crs=31256,
         )
-        ex = TrajectoryCreator(data)
+        ex = TrajectoryCreator(data, min_length=0)
         ais_trips = ex.get_trajs(
             gap_duration=timedelta(minutes=15),
             generalization_tolerance=timedelta(minutes=1),
@@ -128,3 +128,92 @@ class TestTrajectoryCreator:
         )
         assert len(ais_trips.to_point_gdf()) == 10
         assert len(ais_trips) == 3
+
+    @staticmethod
+    def _make_two_traj_gdf():
+        """Two trajectories: traj 1 is short (1 m, 1 s), traj 2 is long (1000 m, 1 h)."""
+        return GeoDataFrame(
+            pd.DataFrame(
+                [
+                    {
+                        "geometry": Point(0, 0),
+                        "timestamp": datetime(2018, 1, 1, 12, 0, 0),
+                        "traj_id": 1,
+                    },
+                    {
+                        "geometry": Point(1, 0),
+                        "timestamp": datetime(2018, 1, 1, 12, 0, 1),
+                        "traj_id": 1,
+                    },
+                    {
+                        "geometry": Point(0, 0),
+                        "timestamp": datetime(2018, 1, 1, 12, 0, 0),
+                        "traj_id": 2,
+                    },
+                    {
+                        "geometry": Point(1000, 0),
+                        "timestamp": datetime(2018, 1, 1, 13, 0, 0),
+                        "traj_id": 2,
+                    },
+                ]
+            ),
+            crs=31256,
+        )
+
+    def test_min_length_filters_gdf(self):
+        gdf = self._make_two_traj_gdf()
+        ex = TrajectoryCreator(gdf, min_length=500)
+        trajs = ex.get_trajs(
+            gap_duration=timedelta(hours=2),
+            generalization_tolerance=timedelta(seconds=1),
+        )
+        assert len(trajs) == 1
+
+    def test_min_length_filters_dataset(self):
+        gdf = self._make_two_traj_gdf()
+        dataset = Dataset(gdf)
+        ex = TrajectoryCreator(dataset, min_length=500)
+        trajs = ex.get_trajs(
+            gap_duration=timedelta(hours=2),
+            generalization_tolerance=timedelta(seconds=1),
+        )
+        assert len(trajs) == 1
+
+    def test_min_length_filters_trajectory_collection(self):
+        gdf = self._make_two_traj_gdf()
+        tc = Dataset(gdf).to_trajs()
+        ex = TrajectoryCreator(tc, min_length=500)
+        trajs = ex.get_trajs(
+            gap_duration=timedelta(hours=2),
+            generalization_tolerance=timedelta(seconds=1),
+        )
+        assert len(trajs) == 1
+
+    def test_min_duration_filters_gdf(self):
+        gdf = self._make_two_traj_gdf()
+        ex = TrajectoryCreator(gdf, min_duration=timedelta(minutes=30))
+        trajs = ex.get_trajs(
+            gap_duration=timedelta(hours=2),
+            generalization_tolerance=timedelta(seconds=1),
+        )
+        assert len(trajs) == 1
+
+    def test_min_duration_filters_dataset(self):
+        gdf = self._make_two_traj_gdf()
+        dataset = Dataset(gdf)
+        ex = TrajectoryCreator(dataset, min_duration=timedelta(minutes=30))
+        trajs = ex.get_trajs(
+            gap_duration=timedelta(hours=2),
+            generalization_tolerance=timedelta(seconds=1),
+        )
+        assert len(trajs) == 1
+
+    def test_min_duration_filters_trajectory_collection(self):
+        gdf = self._make_two_traj_gdf()
+        tc = Dataset(gdf).to_trajs()
+        ex = TrajectoryCreator(tc, min_duration=timedelta(minutes=30))
+        trajs = ex.get_trajs(
+            gap_duration=timedelta(hours=2),
+            generalization_tolerance=timedelta(seconds=1),
+        )
+        assert len(trajs) == 1
