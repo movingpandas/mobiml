@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 import geopandas as gpd
 import pandas as pd
@@ -195,6 +195,137 @@ class TestMobileClientExtractor:
         assert isinstance(client_data, AISDK)
         assert len(client_data.df) == expected_pt_count
 
+    def test_daylight_saving_two_matches(self):
+        """DST-transition timestamps (2018-03-25 02:05, 03:00) must produce correct matches."""
+        dst_aisdk = AISDK(
+            gpd.GeoDataFrame(
+                pd.DataFrame(
+                    [
+                        {
+                            "geometry": Point(1, 2),
+                            "# Timestamp": datetime(2018, 3, 25, 1, 55, 0),
+                            "MMSI": 1,
+                            "SOG": 3,
+                        },
+                        {
+                            "geometry": Point(2, 2),
+                            "# Timestamp": datetime(2018, 3, 25, 2, 5, 0),
+                            "MMSI": 1,
+                            "SOG": 2,
+                        },
+                        {
+                            "geometry": Point(3, 3),
+                            "# Timestamp": datetime(2018, 3, 25, 3, 0, 0),
+                            "MMSI": 1,
+                            "SOG": 4,
+                        },
+                        {
+                            "geometry": Point(4, 4),
+                            "# Timestamp": datetime(2018, 3, 25, 3, 10, 0),
+                            "MMSI": 1,
+                            "SOG": 6,
+                        },
+                    ]
+                ),
+                crs=4326,
+            )
+        )
+        clients = AISDK(
+            gpd.GeoDataFrame(
+                pd.DataFrame(
+                    [
+                        {
+                            "geometry": Point(2, 2),
+                            "# Timestamp": datetime(2018, 3, 25, 2, 5, 0),
+                            "MMSI": "99",
+                            "SOG": 1,
+                        },
+                        {
+                            "geometry": Point(3, 3.000001),
+                            "# Timestamp": datetime(2018, 3, 25, 3, 0, 1),
+                            "MMSI": "99",
+                            "SOG": 1,
+                        },
+                    ]
+                ),
+                crs=4326,
+            )
+        )
+        extractor = MobileClientExtractor(dst_aisdk)
+        client_data = extractor.extract(clients, 6000)
+        assert len(client_data.df) == 2
+        timestamps = sorted(client_data.df["timestamp"].tolist())
+        assert timestamps[0] == datetime(2018, 3, 25, 2, 5, 0)
+        assert timestamps[1] == datetime(2018, 3, 25, 3, 0, 0)
+        assert timestamps[0].tzinfo is None
+        assert timestamps[1].tzinfo is None
+
+    def test_daylight_saving_cest_timestamps(self):
+        """CEST-aware timestamps (UTC+2) must produce correct matches."""
+        CEST = timezone(timedelta(hours=2))
+        dst_aisdk = AISDK(
+            gpd.GeoDataFrame(
+                pd.DataFrame(
+                    [
+                        {
+                            "geometry": Point(1, 2),
+                            "# Timestamp": datetime(2018, 3, 25, 3, 55, 0, tzinfo=CEST),
+                            "MMSI": 1,
+                            "SOG": 3,
+                        },
+                        {
+                            "geometry": Point(2, 2),
+                            "# Timestamp": datetime(2018, 3, 25, 4, 5, 0, tzinfo=CEST),
+                            "MMSI": 1,
+                            "SOG": 2,
+                        },
+                        {
+                            "geometry": Point(3, 3),
+                            "# Timestamp": datetime(2018, 3, 25, 5, 0, 0, tzinfo=CEST),
+                            "MMSI": 1,
+                            "SOG": 4,
+                        },
+                        {
+                            "geometry": Point(4, 4),
+                            "# Timestamp": datetime(2018, 3, 25, 5, 10, 0, tzinfo=CEST),
+                            "MMSI": 1,
+                            "SOG": 6,
+                        },
+                    ]
+                ),
+                crs=4326,
+            )
+        )
+        clients = AISDK(
+            gpd.GeoDataFrame(
+                pd.DataFrame(
+                    [
+                        {
+                            "geometry": Point(2, 2),
+                            "# Timestamp": datetime(2018, 3, 25, 4, 5, 0, tzinfo=CEST),
+                            "MMSI": "99",
+                            "SOG": 1,
+                        },
+                        {
+                            "geometry": Point(3, 3.000001),
+                            "# Timestamp": datetime(2018, 3, 25, 5, 0, 1, tzinfo=CEST),
+                            "MMSI": "99",
+                            "SOG": 1,
+                        },
+                    ]
+                ),
+                crs=4326,
+            )
+        )
+        extractor = MobileClientExtractor(dst_aisdk)
+        client_data = extractor.extract(clients, 6000)
+        assert len(client_data.df) == 2
+        timestamps = sorted(client_data.df["timestamp"].tolist())
+        assert timestamps[0] == datetime(2018, 3, 25, 4, 5, 0, tzinfo=CEST)
+        assert timestamps[1] == datetime(2018, 3, 25, 5, 0, 0, tzinfo=CEST)
+        assert timestamps[0].tzinfo == CEST
+        assert timestamps[1].tzinfo == CEST
+
     def test_daylight_saving_data(self):
         tz_unaware_client_data = pd.DataFrame(
 
@@ -217,20 +348,12 @@ class TestMobileClientExtractor:
 
         extractor = MobileClientExtractor(self.aisdk)
 
-        if 'UTC' in tzname:
-            _ = extractor.extract(self.clients, 3)
-        else:
-            with raises(pymeos_errors.MeosInvalidArgValueError):
-                _ = extractor.extract(self.clients, 3)
+        _ = extractor.extract(self.clients, 3)
 
-        # if tz are set, they are currently dropped by movingpandas during trajectory creation
+        # also works when timestamps are already tz-aware
         self.clients.df.timestamp = self.clients.df.timestamp.dt.tz_localize('UTC')
 
-        if 'UTC' in tzname:
-            _ = extractor.extract(self.clients, 3)
-        else:
-            with raises(pymeos_errors.MeosInvalidArgValueError):
-                _ = extractor.extract(self.clients, 3)
+        _ = extractor.extract(self.clients, 3)
 
     def test_pymeos(self):
         """
@@ -252,5 +375,6 @@ class TestMobileClientExtractor:
         else:
             with raises(pymeos_errors.MeosInvalidArgValueError):
                 TGeogPointSeq(string=wkt_unaware, normalize=False)
+
 
 
