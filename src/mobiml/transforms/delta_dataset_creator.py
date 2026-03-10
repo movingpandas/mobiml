@@ -27,8 +27,9 @@ class DeltaDatasetCreator:
 
         Parameters
         ----------
-        col : string
-            Column name for grouping the trajectories
+        col : string, optional
+            Column name for additional grouping (e.g. a train/dev/test split
+            column). When omitted, trajectories are grouped by traj_id only.
         njobs : int
             Number of parallel jobs to run for dataset creation, default 50
 
@@ -40,11 +41,11 @@ class DeltaDatasetCreator:
         Examples
         ----------
         >>> ais = PreprocessedBrestAIS('data/nautilus_trajectories_preprocessed.csv')
-        >>> ais = TemporalSplitter(ais).split()
-        >>> traj_delta = DeltaDatasetCreator(ais).get_delta_dataset('split', njobs=4)
+        >>> traj_delta = DeltaDatasetCreator(ais).get_delta_dataset(njobs=4)
         """
+        group_cols = [TRAJ_ID] if col is None else [TRAJ_ID, col]
         traj_delta = applyParallel(
-            self.data.to_gdf().groupby([TRAJ_ID, col], group_keys=True),
+            self.data.to_gdf().groupby(group_cols, group_keys=True),
             lambda l: self.create_delta_dataset(l),  # noqa E741
             n_jobs=njobs,
         )
@@ -101,14 +102,15 @@ class DeltaDatasetCreator:
 
         traj_delta = self.get_delta_dataset(col=col, njobs=njobs)
 
+        group_cols = [TRAJ_ID] if col is None else [TRAJ_ID, col]
         traj_delta_windows = (
             applyParallel(
-                traj_delta.reset_index().groupby([TRAJ_ID, col]),
+                traj_delta.reset_index().groupby(group_cols),
                 lambda l: self.traj_windowing(l),  # noqa E741
                 n_jobs=njobs,
             )
             .reset_index(level=-1)
-            .pivot(columns=["level_2"])
+            .pivot(columns=["feature"])
             .rename_axis([None, None], axis=1)
             .sort_index(axis=1, ascending=False)
         )
@@ -134,4 +136,7 @@ class DeltaDatasetCreator:
             traj_inputs.append(segment_window[self.input_feats].values)
             traj_labels.append(segment_window.iloc[-1, output_feats_idx].values)
 
-        return Series([traj_inputs, traj_labels], index=["samples", "labels"])
+        return Series(
+            [traj_inputs, traj_labels],
+            index=["samples", "labels"],
+        ).rename_axis("feature")
