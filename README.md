@@ -75,6 +75,16 @@ Usage examples are provided in the `examples` directory, with [instructions](exa
 
 [0] [Graser, A. & Dragaschnig, M. (2025). Learning From Trajectory Data With MobiML. Workshop on Big Mobility Data Analysis (BMDA2025) in conjunction with EDBT/ICDT 2025.](https://ceur-ws.org/Vol-3946/BMDA-6.pdf)
 
+```
+@inproceedings{graser2025learning,
+  title={Learning From Trajectory Data With {MobiML}},
+  author={Graser, Anita and Dragaschnig, Melitta},
+  booktitle={Proceedings of the Workshop on Big Mobility Data Analysis (BMDA2025) in conjunction with EDBT/ICDT},
+  year={2025},
+  url={https://ceur-ws.org/Vol-3946/BMDA-6.pdf}
+}
+```
+
 
 ## Acknowledgements
 
