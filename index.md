@@ -73,4 +73,4 @@ Usage examples are provided as Jupyter notebooks in the [examples directory](htt
 
 ## Acknowledgements
 
-This work was supported in part by the Austrian Federal Ministry for Transport, Innovation and Technology (BMVIT) within the programme ‘AI for Green’ under grant [AI4PT](https://projekte.ffg.at/projekt/5121351) as well as by the Horizon Framework Programme of the European Union under grant agreement No. 101070279 ([MobiSpaces](https://mobispaces.eu)).
+This work was supported in part by the Austrian Federal Ministry for Transport, Innovation and Technology (BMVIT) within the programme ‘AI for Green 2023’ under project No. FO999910218 ([AI4PT](https://projekte.ffg.at/projekt/5121351)) as well as by the Horizon Framework Programme of the European Union under grant agreement No. 101070279 ([MobiSpaces](https://mobispaces.eu)).
