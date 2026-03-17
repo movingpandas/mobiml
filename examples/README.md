@@ -1,6 +1,8 @@
 
 # MobiML Examples
 
+**Note**: As of today (2026-03-17), one of our main dependencies, pymeos, [is not available on Windows](https://github.com/MobilityDB/PyMEOS/issues/1). Therefore we recommend using MobiML on Linux. 
+
 
 ## Environment Setup
 

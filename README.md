@@ -13,7 +13,7 @@ Development of this framework was inspired by https://github.com/wherobots/GeoTo
 
 ## Installation
 
-**Note**: As of today (2025-03-18), one of our main dependencies, pymeos, [is not available on Windows](https://github.com/MobilityDB/PyMEOS/issues/1). Therefore we recommend using MobiML on Linux. 
+**Note**: As of today (2026-03-17), one of our main dependencies, pymeos, [is not available on Windows](https://github.com/MobilityDB/PyMEOS/issues/1). Therefore we recommend using MobiML on Linux. 
 
 ## Development installation 
 
@@ -88,4 +88,4 @@ Usage examples are provided in the `examples` directory, with [instructions](exa
 
 ## Acknowledgements
 
-This work was supported in part by the Austrian Federal Ministry for Transport, Innovation and Technology (BMVIT) within the programme ‘AI for Green’ under grant [AI4PT](https://projekte.ffg.at/projekt/5121351) as well as by the Horizon Framework Programme of the European Union under grant agreement No. 101070279 ([MobiSpaces](https://mobispaces.eu)).
+This work was supported in part by the Austrian Federal Ministry for Transport, Innovation and Technology (BMVIT) within the programme ‘AI for Green 2023’ under project No. FO999910218 ([AI4PT](https://projekte.ffg.at/projekt/5121351)) as well as by the Horizon Framework Programme of the European Union under grant agreement No. 101070279 ([MobiSpaces](https://mobispaces.eu)).
