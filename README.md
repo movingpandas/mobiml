@@ -8,6 +8,8 @@
 
 Development of this framework was inspired by https://github.com/wherobots/GeoTorchAI
 
+For ML model documentation recommendations and corresponding template, see https://github.com/anitagraser/model-card-template
+
 ![mobiml3](https://github.com/user-attachments/assets/aa50836e-5523-4df5-8bd1-3b829106991d)
 
 
