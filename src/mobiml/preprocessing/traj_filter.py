@@ -2,6 +2,7 @@ from mobiml.datasets import Dataset, SPEED
 from tqdm.auto import tqdm
 
 from mobiml.datasets.utils import TRAJ_ID
+from .utils import trajectorycollection_to_df
 
 
 class TrajectoryFilter:
@@ -18,6 +19,24 @@ class TrajectoryFilter:
             )
         ].copy()
         self.data.df = filtered
+        return self.data
+
+    def filter_kalman(self, process_noise_std=0.5, measurement_noise_std=1) -> Dataset:
+        try:
+            from movingpandas import KalmanSmootherCV
+        except ImportError as error:
+            raise ImportError(
+                "Missing optional dependency. To use filter_kalman please install "
+                "Stone Soup (see "
+                "https://stonesoup.readthedocs.io/en/latest/#installation)."
+            ) from error
+
+        trajs = self.data.to_trajs()
+        smoothed = KalmanSmootherCV(trajs).smooth(
+            process_noise_std=process_noise_std,
+            measurement_noise_std=measurement_noise_std,
+        )
+        self.data.df = trajectorycollection_to_df(smoothed)
         return self.data
 
     def filter_speed(self, min_speed=None, max_speed=None) -> Dataset:

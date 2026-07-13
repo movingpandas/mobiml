@@ -19,6 +19,7 @@ dependencies:
   - pymeos
   - pyproj
   - movingpandas
+  - stonesoup
   - pytorch
   - opacus
   - folium
