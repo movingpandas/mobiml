@@ -1,6 +1,6 @@
 [project]
 name = "mobiml"
-version = "0.1.0dev0"
+version = "0.1.0"
 description = "MobiML - a library for machine learning with movement data"
 readme = "README.md"
 authors = [
@@ -23,6 +23,7 @@ dependencies = [
     "pymeos>=1.2.0",
     "rtree>=1.4.0",
     "scikit-learn>=1.6.1",
+    "stonesoup>=1.6",
     "torch>=2.6.0",
     "tqdm>=4.67.1",
 ]
