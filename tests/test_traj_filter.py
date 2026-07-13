@@ -74,6 +74,14 @@ class TestTrajectoryFilter:
         assert SPEED in data.df.columns
         assert len(data.to_trajs()) == 1
 
+    def test_filter_kalman(self):
+        dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
+        filter = TrajectoryFilter(dataset)
+        data = filter.filter_kalman()
+        assert "x" in data.df.columns
+        assert "y" in data.df.columns
+        assert len(data.to_trajs()) == 3
+
     def test_filter_speed(self):
         dataset = Dataset(self.gdf, traj_id="tid", mover_id="mid", timestamp="txx")
         filter = TrajectoryFilter(dataset)
