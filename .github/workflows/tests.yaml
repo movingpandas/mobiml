@@ -16,17 +16,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
       - uses: pre-commit/action@v3.0.1
 
   Test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v6
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.1.0
         with:
-            version: 0.5.27
+          version: "0.11.28"
+          enable-cache: true
       - name: Run the automated tests
         run: uv run pytest -v -r s --color=yes --cov=mobiml --cov-append --cov-report term-missing --cov-report xml
       - uses: codecov/codecov-action@v5
