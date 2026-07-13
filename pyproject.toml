@@ -23,7 +23,6 @@ dependencies = [
     "pymeos>=1.2.0",
     "rtree>=1.4.0",
     "scikit-learn>=1.6.1",
-    "stonesoup>=1.6",
     "torch>=2.6.0",
     "tqdm>=4.67.1",
 ]
@@ -46,6 +45,7 @@ dev = [
     "pre-commit>=4.1.0",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
+    "stonesoup>=1.6",
 ]
 
 [[tool.uv.index]]
