@@ -1,10 +1,15 @@
 # MobiML
 
+<a href="https://codeberg.org/movingpandas/mobiml">
+    <img alt="Get it on Codeberg" src="https://get-it-on.codeberg.org/get-it-on-blue-on-white.png" height="60" align="right">
+</a>
+
 [![Tests](https://github.com/movingpandas/mobiml/actions/workflows/tests.yaml/badge.svg)](https://github.com/movingpandas/mobiml/actions/workflows/tests.yaml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
+[![Issue Tracker](https://img.shields.io/badge/Issue_tracker-Codeberg-blue.svg)](https://codeberg.org/movingpandas/mobiml/issues) 
 
 **Framework for machine learning from movement data**
+
 
 Development of this framework was inspired by https://github.com/wherobots/GeoTorchAI
 
