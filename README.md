@@ -7,6 +7,8 @@
 [![Tests](https://github.com/movingpandas/mobiml/actions/workflows/tests.yaml/badge.svg)](https://github.com/movingpandas/mobiml/actions/workflows/tests.yaml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Issue Tracker](https://img.shields.io/badge/Issue_tracker-Codeberg-blue.svg)](https://codeberg.org/movingpandas/mobiml/issues) 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23334794.svg)](https://doi.org/10.5281/zenodo.23334794)
+
 
 **Framework for machine learning from movement data**
 
